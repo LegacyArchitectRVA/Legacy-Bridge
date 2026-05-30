@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LegacyBridge Social Media Optimizer</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f23;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+    #root { padding: 20px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const colors = {
+      background: '#0f0f23',
+      surface: '#1a1b2e',
+      surfaceHover: '#252848',
+      border: '#2d3154',
+      textPrimary: '#ffffff',
+      textSecondary: '#a0a4c8',
+      textMuted: '#6c7090',
+      accent: '#7c3aed',
+      success: '#10b981',
+      error: '#ef4444'
+    };
+
+    const generationStyles = {
+      genz: { name: 'Gen Z', icon: '👾', transform: (text) => {
+        const slang = ['fr', 'no cap', 'slay', 'rizz', 'gyatt', 'sigma', 'based', 'vibes'];
+        let result = text
+          .replace(/very/g, 'hella').replace(/cool/g, 'fire').replace(/good/g, 'solid')
+          .replace(/bad/g, 'mid').replace(/friend/g, 'bestie')
+          .replace(/\bto\b/g, '2').replace(/\bfor\b/g, '4').replace(/\byou\b/g, 'u');
+        if (Math.random() > 0.5) result += ' ' + ['💀', '🔥', '✨', '😭'][Math.floor(Math.random() * 4)];
+        if (Math.random() > 0.7) result = slang[Math.floor(Math.random() * slang.length)] + ' ' + result;
+        return result;
+      }},
+      millennial: { name: 'Millennial', icon: '🥑', transform: (text) => {
+        const phrases = ['Adulting', 'Can we talk?', 'On fleek', 'Squad goals'];
+        let result = text.replace(/work/g, 'hustle').replace(/tired/g, 'exhausted').replace(/money/g, 'guac');
+        if (Math.random() > 0.8) result = phrases[Math.floor(Math.random() * phrases.length)] + ': ' + result;
+        return result;
+      }},
+      genx: { name: 'Gen X', icon: '🎸', transform: (text) => {
+        const phrases = ['Whatever', 'Not it', 'Back in my day'];
+        let result = text.replace(/amazing/g, 'okay').replace(/wonderful/g, 'fine').replace(/love/g, 'tolerate');
+        if (Math.random() > 0.6) result = phrases[Math.floor(Math.random() * phrases.length)] + '. ' + result;
+        return result;
+      }},
+      boomer: { name: 'Boomer', icon: '👴', transform: (text) => {
+        let result = text
+          .replace(/u\b/g, 'you').replace(/\bur\b/g, 'your').replace(/\b2\b/g, 'to')
+          .replace(/\b4\b/g, 'for').replace(/\br\b/g, 'are').replace(/btw/g, 'by the way')
+          .replace(/thx/g, 'thank you').replace(/pls/g, 'please').replace(/omg/g, 'Oh my goodness').replace(/lol/g, 'That is amusing');
+        if (!result.endsWith('.') && !result.endsWith('!') && !result.endsWith('?')) result += '.';
+        return result.charAt(0).toUpperCase() + result.slice(1);
+      }},
+      corporate: { name: 'Corporate', icon: '💼', transform: (text) => {
+        const buzzwords = ['synergy', 'leverage', 'low-hanging fruit', 'circle back', 'bandwidth', 'pivot'];
+        let result = text.replace(/good/g, 'optimal').replace(/bad/g, 'suboptimal').replace(/do/g, 'action').replace(/use/g, 'utilize');
+        if (Math.random() > 0.5) result = 'Let\'s ' + buzzwords[Math.floor(Math.random() * buzzwords.length)] + ' to ' + result;
+        return result;
+      }},
+      developer: { name: 'Developer', icon: '💻', transform: (text) => {
+        const terms = ['404', 'null', 'undefined', 'recursion', 'segfault'];
+        let result = text.replace(/problem/g, 'bug').replace(/fix/g, 'patch').replace(/works/g, 'compiles').replace(/easy/g, 'trivial');
+        if (Math.random() > 0.6) result = result + ' // TODO: ' + terms[Math.floor(Math.random() * terms.length)];
+        return result;
+      }}
+    };
+
+    const platforms = [
+      { id: 'twitter', name: 'Twitter/X', icon: '🐦', charLimit: 280 },
+      { id: 'facebook', name: 'Facebook', icon: '📘', charLimit: 63206 },
+      { id: 'linkedin', name: 'LinkedIn', icon: '💼', charLimit: 3000 },
+      { id: 'instagram', name: 'Instagram', icon: '📷', charLimit: 2200 },
+      { id: 'tiktok', name: 'TikTok', icon: '🎵', charLimit: 150 },
+      { id: 'reddit', name: 'Reddit', icon: '🔴', charLimit: 40000 },
+      { id: 'threads', name: 'Threads', icon: '🧵', charLimit: 500 },
+      { id: 'discord', name: 'Discord', icon: '💬', charLimit: 2000 },
+      { id: 'slack', name: 'Slack', icon: '📋', charLimit: 4000 }
+    ];
+
+    const formatText = (text, platformId) => {
+      if (!text) return '';
+      const platform = platforms.find(p => p.id === platformId);
+      if (!platform) return text;
+      let formatted = text;
+      if (platformId === 'twitter') {
+        formatted = formatted.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+      } else if (platformId === 'tiktok') {
+        formatted = formatted.trim();
+        if (formatted.length > 150) formatted = formatted.substring(0, 147) + '...';
+        if (!formatted.includes('#') && formatted.length < 150) formatted += ' #viral';
+      } else if (platformId === 'instagram') {
+        formatted = formatted.replace(/\n\n+/g, '\n\n');
+        if (!formatted.includes('#') && formatted.length < 2100) formatted += '\n\n#photo #instagood';
+      } else if (platformId === 'linkedin' || platformId === 'reddit') {
+        formatted = formatted.replace(/\n/g, '\n\n');
+      }
+      if (platform.charLimit && formatted.length > platform.charLimit) {
+        formatted = formatted.substring(0, platform.charLimit - 3) + '...';
+      }
+      return formatted;
+    };
+
+    const copyToClipboard = async (text) => {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    };
+
+    const RenderIcon = ({ icon, size = 20 }) => typeof icon === 'string' ? <span style={{ fontSize: size + 'px' }}>{icon}</span> : icon;
+
+    const App = () => {
+      const [text, setText] = React.useState('');
+      const [selectedPlatform, setSelectedPlatform] = React.useState('twitter');
+      const [selectedGen, setSelectedGen] = React.useState('genz');
+      const [translated, setTranslated] = React.useState('');
+      const [translating, setTranslating] = React.useState(false);
+
+      const platform = platforms.find(p => p.id === selectedPlatform);
+      const formattedText = formatText(text, selectedPlatform);
+
+      const translate = () => {
+        if (!text) return;
+        setTranslating(true);
+        setTimeout(() => {
+          const style = generationStyles[selectedGen];
+          setTranslated(style.transform(text));
+          setTranslating(false);
+        }, 500);
+      };
+
+      const applyTranslation = () => {
+        if (translated) setText(translated);
+      };
+
+      return (
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <h1 style={{ color: colors.accent, marginBottom: '20px' }}>LegacyBridge Social Media Optimizer</h1>
+          
+          <div style={{ background: colors.surface, borderRadius: '12px', padding: '24px', marginBottom: '20px' }}>
+            <h3 style={{ color: colors.textPrimary, marginBottom: '16px' }}>Generational Translator</h3>
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
+              {Object.entries(generationStyles).map(([id, s]) => (
+                <button key={id} onClick={() => setSelectedGen(id)}
+                  style={{
+                    padding: '8px 12px', borderRadius: '6px',
+                    background: selectedGen === id ? colors.accent : colors.surfaceHover,
+                    color: selectedGen === id ? '#fff' : colors.textPrimary,
+                    border: 'none', cursor: 'pointer'
+                  }}>
+                  {s.icon} {s.name}
+                </button>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '16px' }}>
+              <button onClick={translate} disabled={translating || !text}
+                style={{ padding: '8px 16px', background: colors.accent, color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+                {translating ? 'Translating...' : 'Translate'}
+              </button>
+              <button onClick={applyTranslation} disabled={!translated}
+                style={{ padding: '8px 16px', background: colors.success, color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+                Apply
+              </button>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <div>
+                <textarea value={text} onChange={(e) => setText(e.target.value)} 
+                  placeholder="Enter text..."
+                  style={{ width: '100%', minHeight: '150px', background: colors.surfaceHover, color: colors.textPrimary, border: '1px solid ' + colors.border, borderRadius: '8px', padding: '12px', fontSize: '14px' }} />
+              </div>
+              <div style={{ background: colors.surfaceHover, padding: '12px', borderRadius: '8px', minHeight: '150px' }}>
+                {translated || 'Translation appears here...'}
+              </div>
+            </div>
+          </div>
+
+          <div style={{ background: colors.surface, borderRadius: '12px', padding: '24px' }}>
+            <h3 style={{ color: colors.textPrimary, marginBottom: '16px' }}>Platform Formatter</h3>
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
+              {platforms.map(p => (
+                <button key={p.id} onClick={() => setSelectedPlatform(p.id)}
+                  style={{
+                    padding: '8px 12px', borderRadius: '6px',
+                    background: selectedPlatform === p.id ? colors.accent : colors.surfaceHover,
+                    color: selectedPlatform === p.id ? '#fff' : colors.textPrimary,
+                    border: 'none', cursor: 'pointer'
+                  }}>
+                  {p.icon} {p.name}
+                </button>
+              ))}
+            </div>
+            <div style={{ background: colors.surfaceHover, padding: '16px', borderRadius: '8px', whiteSpace: 'pre-wrap' }}>
+              {formattedText || 'Formatted text appears here...'}
+            </div>
+            {formattedText && (
+              <button onClick={() => copyToClipboard(formattedText)}
+                style={{ marginTop: '12px', padding: '8px 16px', background: colors.accent, color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+                Copy to Clipboard
+              </button>
+            )}
+          </div>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
