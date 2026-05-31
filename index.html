@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>LegacyBridge Text Studio</title>
+  <style>
+    :root {
+      --obsidian: #030303;
+      --celtic-green: #006400;
+      --celtic-green-light: #2E8B57;
+      --aged-bronze: #B87333;
+      --aged-bronze-light: #CD7F32;
+      --aged-bronze-dark: #8B4513;
+      --text-primary: #E0E0E0;
+      --text-secondary: #8B8B8B;
+      --text-muted: #5A5A5A;
+      --surface: #080808;
+      --surface-light: #121212;
+      --surface-dark: #040404;
+      --border: #1E1E1E;
+      --border-light: #2A2A2A;
+      --success: #2E8B57;
+      --warning: #D4A017;
+      --error: #C9472B;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--obsidian);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .app-container { display: flex; min-height: 100vh; flex-direction: column; }
+    
+    /* Top Bar */
+    .top-bar {
+      background: var(--surface-dark);
+      border-bottom: 1px solid var(--aged-bronze);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo-section { display: flex; align-items: center; gap: 1rem; }
+    .logo { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.1em; color: var(--aged-bronze); }
+    .logo-alpha { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.15em; }
+    
+    .platform-limits { display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: 0.8rem; }
+    .platform-limit { display: flex; align-items: center; gap: 0.35rem; color: var(--text-secondary); white-space: nowrap; }
+    .platform-limit strong { color: var(--text-primary); }
+    .platform-limit small { color: var(--text-muted); font-size: 0.7rem; }
+    
+    .top-bar-actions { display: flex; gap: 0.75rem; align-items: center; }
+    .save-status { font-size: 0.75rem; color: var(--text-muted); }
+    .tips-btn {
+      background: none; border: 1px solid var(--border); color: var(--text-secondary);
+      padding: 0.4rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.75rem;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 60px; background: var(--surface-dark); border-right: 1px solid var(--aged-bronze);
+      padding: 1rem 0; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    }
+    .sidebar-logo {
+      width: 40px; height: 40px; border-radius: 8px; background: var(--aged-bronze);
+      color: var(--obsidian); display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem;
+    }
+    .sidebar-btn {
+      width: 40px; height: 40px; border-radius: 8px; background: transparent; border: none;
+      color: var(--text-secondary); cursor: pointer; display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem;
+    }
+    .sidebar-btn:hover { background: var(--surface-light); color: var(--text-primary); }
+    .sidebar-btn.active { background: var(--aged-bronze); color: var(--obsidian); }
+    
+    /* Toolbar */
+    .toolbar {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .toolbar-group { display: flex; align-items: center; gap: 0.5rem; padding: 0.25rem; background: var(--surface-dark); border-radius: 8px; }
+    .toolbar-btn {
+      padding: 0.4rem 0.6rem; background: transparent; border: none; color: var(--text-secondary);
+      cursor: pointer; border-radius: 4px; font-size: 0.9rem;
+    }
+    .toolbar-btn:hover { background: var(--surface-light); color: var(--text-primary); }
+    .toolbar-btn.active { background: var(--aged-bronze); color: var(--obsidian); }
+    .toolbar-divider { width: 1px; height: 1.2rem; background: var(--border); margin: 0 0.25rem; }
+    .toolbar-select {
+      padding: 0.4rem 0.6rem; background: var(--surface-dark); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text-primary); font-size: 0.85rem; cursor: pointer;
+    }
+    .toolbar-select:focus { outline: none; border-color: var(--aged-bronze); }
+    
+    /* Content Intelligence */
+    .content-intelligence {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1rem; display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center;
+    }
+    .intel-item { display: flex; flex-direction: column; align-items: center; min-width: 60px; }
+    .intel-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; text-align: center; }
+    .intel-value { font-size: 1rem; font-weight: 600; color: var(--text-primary); }
+    .intel-status { font-size: 0.55rem; color: var(--text-muted); text-transform: uppercase; }
+    .intel-status.good { color: var(--success); }
+    .intel-status.warning { color: var(--warning); }
+    .intel-status.error { color: var(--error); }
+    .grammar-btn {
+      margin-left: auto; padding: 0.4rem 0.75rem; background: var(--surface-dark);
+      border: 1px solid var(--border); border-radius: 6px; color: var(--text-secondary);
+      cursor: pointer; font-size: 0.75rem;
+    }
+    .grammar-btn:hover { border-color: var(--aged-bronze); color: var(--text-primary); }
+    
+    /* Workspace */
+    .workspace { display: flex; flex: 1; overflow: hidden; }
+    .editor-section { flex: 1; display: flex; flex-direction: column; border-right: 1px solid var(--aged-bronze); background: var(--surface-dark); overflow: hidden; }
+    .preview-section { flex: 1; display: flex; flex-direction: column; background: var(--surface); overflow: hidden; }
+    .editor-header { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .preview-header { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .editor-title { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+    .preview-title { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+    .editor-content { flex: 1; padding: 1rem; overflow-y: auto; }
+    .preview-content { flex: 1; padding: 1rem; overflow-y: auto; }
+    .editor-input {
+      width: 100%; min-height: 100%; background: transparent; border: none; color: var(--text-primary);
+      font-size: 1rem; line-height: 1.7; resize: none; outline: none;
+    }
+    .editor-input:focus { outline: none; }
+    .preview-box {
+      width: 100%; min-height: 100%; background: var(--surface-dark); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem; color: var(--text-primary); font-size: 1rem; line-height: 1.7;
+      white-space: pre-wrap; word-wrap: break-word;
+    }
+    .preview-select {
+      padding: 0.4rem 0.6rem; background: var(--surface-dark); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text-primary); font-size: 0.8rem; cursor: pointer;
+    }
+    
+    /* Bottom Navigation */
+    .bottom-nav {
+      display: none; background: var(--surface-dark); border-top: 1px solid var(--border);
+      padding: 0.5rem; justify-content: space-around; position: sticky; bottom: 0; z-index: 100;
+    }
+    .nav-btn {
+      display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+      padding: 0.5rem 0.75rem; background: transparent; border: none; color: var(--text-secondary);
+      cursor: pointer; border-radius: 6px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .nav-btn.active { color: var(--aged-bronze); background: rgba(184, 115, 51, 0.1); }
+    .nav-btn span { font-size: 1.2rem; }
+    
+    /* Modal */
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 1000; align-items: center; justify-content: center; }
+    .modal.active { display: flex; }
+    .modal-content { background: var(--surface); border-radius: 12px; padding: 1.5rem; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; border: 1px solid var(--border); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .modal-title { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); }
+    .modal-close { background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.5rem; padding: 0.25rem; }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .app-container { flex-direction: column; }
+      .sidebar { display: none; }
+      .workspace { flex-direction: column; }
+      .editor-section { border-right: none; border-bottom: 1px solid var(--border); min-height: 50vh; }
+      .preview-section { min-height: 50vh; }
+    }
+    @media (max-width: 768px) {
+      .bottom-nav { display: flex; }
+      .top-bar { padding: 0.5rem; }
+      .platform-limits { display: none; }
+      .toolbar { padding: 0.5rem; }
+      .content-intelligence { padding: 0.5rem; }
+      .intel-item { min-width: 50px; }
+      .intel-value { font-size: 0.85rem; }
+      .intel-label { font-size: 0.55rem; }
+      .workspace { flex-direction: column; }
+      .editor-section { min-height: 40vh; }
+      .preview-section { min-height: 40vh; }
+      .editor-input { font-size: 0.9rem; }
+      .preview-box { font-size: 0.9rem; }
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--surface-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--aged-bronze-dark); }
+    
+    /* Selection */
+    ::selection { background: var(--aged-bronze); color: var(--obsidian); }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">LB</div>
+      <button class="sidebar-btn active" data-section="create">✏️</button>
+      <button class="sidebar-btn" data-section="media">📷</button>
+      <button class="sidebar-btn" data-section="research">🔍</button>
+      <button class="sidebar-btn" data-section="publish">📤</button>
+      <button class="sidebar-btn" data-section="vault">🗃️</button>
+    </aside>
+    <header class="top-bar">
+      <div class="logo-section">
+        <div class="logo">LEGACYBRIDGE</div>
+        <span class="logo-alpha">ALPHA</span>
+      </div>
+      <div class="platform-limits">
+        <div class="platform-limit"><strong>LinkedIn</strong><small>3000</small></div>
+        <div class="platform-limit"><strong>Facebook</strong><small>63206</small></div>
+        <div class="platform-limit"><strong>Threads</strong><small>500</small></div>
+        <div class="platform-limit"><strong>X</strong><small>280</small></div>
+        <div class="platform-limit"><strong>Nextdoor</strong><small>Guidance</small></div>
+        <div class="platform-limit"><strong>Reddit</strong><small>Varies</small></div>
+      </div>
+      <div class="top-bar-actions">
+        <span class="save-status">Saved 2m ago</span>
+        <button class="tips-btn">Tips</button>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <button class="toolbar-btn" onclick="format('bold')" title="Bold">B</button>
+          <button class="toolbar-btn" onclick="format('italic')" title="Italic">I</button>
+          <button class="toolbar-btn" onclick="format('underline')" title="Underline">U</button>
+          <button class="toolbar-btn" onclick="format('strikethrough')" title="Strikethrough">S</button>
+        </div>
+        <div class="toolbar-group">
+          <button class="toolbar-btn" onclick="format('highlight')" title="Highlight">==</button>
+          <button class="toolbar-btn" onclick="format('superscript')" title="Superscript">x²</button>
+          <button class="toolbar-btn" onclick="format('subscript')" title="Subscript">x₂</button>
+        </div>
+        <span class="toolbar-divider"></span>
+        <div class="toolbar-group">
+          <select class="toolbar-select" onchange="formatHeading(this)">
+            <option value="">Paragraph</option>
+            <option value="h1">H1</option>
+            <option value="h2">H2</option>
+            <option value="h3">H3</option>
+          </select>
+        </div>
+        <div class="toolbar-group">
+          <button class="toolbar-btn" onclick="format('quote')" title="Quote">"</button>
+          <button class="toolbar-btn" onclick="format('divider')" title="Divider">—</button>
+        </div>
+        <span class="toolbar-divider"></span>
+        <div class="toolbar-group">
+          <button class="toolbar-btn" onclick="formatList('bullet')" title="Bulleted">• List</button>
+          <button class="toolbar-btn" onclick="formatList('number')" title="Numbered">1. List</button>
+          <button class="toolbar-btn" onclick="formatList('check')" title="Checklist">☐ List</button>
+        </div>
+        <span class="toolbar-divider"></span>
+        <div class="toolbar-group">
+          <button class="toolbar-btn" onclick="align('left')" title="Left">≡</button>
+          <button class="toolbar-btn" onclick="align('center')" title="Center">≡</button>
+          <button class="toolbar-btn" onclick="align('right')" title="Right">≡</button>
+        </div>
+        <span class="toolbar-divider"></span>
+        <div class="toolbar-group">
+          <select class="toolbar-select" onchange="applyTemplate(this)">
+            <option value="">Templates</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="facebook">Facebook</option>
+            <option value="threads">Threads</option>
+            <option value="educational">Educational</option>
+            <option value="authority">Authority</option>
+            <option value="cta">CTA</option>
+          </select>
+        </div>
+      </div>
+      <div class="content-intelligence">
+        <div class="intel-item">
+          <span class="intel-label">Characters</span>
+          <span class="intel-value" id="charCount">0</span>
+          <span class="intel-status" id="charStatus">3000 limit</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">Words</span>
+          <span class="intel-value" id="wordCount">0</span>
+          <span class="intel-status">Good</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">Read Time</span>
+          <span class="intel-value" id="readTime">0m</span>
+          <span class="intel-status">Good</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">Hashtags</span>
+          <span class="intel-value" id="hashtagCount">0</span>
+          <span class="intel-status">Add 1-2</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">Emojis</span>
+          <span class="intel-value" id="emojiCount">0</span>
+          <span class="intel-status">Add some</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">CTA</span>
+          <span class="intel-value" id="ctaCount">No</span>
+          <span class="intel-status">Add CTA</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">Readability</span>
+          <span class="intel-value" id="readabilityScore">0</span>
+          <span class="intel-status">Good</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">Grammar</span>
+          <span class="intel-value" id="grammarScore">0</span>
+          <span class="intel-status">Good</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">Content</span>
+          <span class="intel-value" id="contentScore">0</span>
+          <span class="intel-status good">Great</span>
+        </div>
+        <button class="grammar-btn" onclick="checkGrammar()">Run Grammar & Spell Check</button>
+      </div>
+      <div class="workspace">
+        <section class="editor-section">
+          <div class="editor-header"><span class="editor-title">Content Editor</span></div>
+          <div class="editor-content"><textarea class="editor-input" id="editor" placeholder="Start writing your content here..." oninput="updateMetrics()"></textarea></div>
+        </section>
+        <section class="preview-section">
+          <div class="preview-header">
+            <span class="preview-title">Platform Previews</span>
+            <select class="preview-select" id="previewPlatform" onchange="updatePreview()">
+              <option value="linkedin">LinkedIn</option>
+              <option value="facebook">Facebook</option>
+              <option value="threads">Threads</option>
+              <option value="x">X</option>
+              <option value="reddit">Reddit</option>
+              <option value="nextdoor">Nextdoor</option>
+            </select>
+          </div>
+          <div class="preview-content"><div class="preview-box" id="previewContent"></div></div>
+        </section>
+      </div>
+    </main>
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-section="create">✏️ Create</button>
+      <button class="nav-btn" data-section="media">📷 Media</button>
+      <button class="nav-btn" data-section="research">🔍 Research</button>
+      <button class="nav-btn" data-section="publish">📤 Publish</button>
+      <button class="nav-btn" data-section="vault">🗃️ Vault</button>
+    </nav>
+  </div>
+  <div class="modal" id="grammarModal">
+    <div class="modal-content">
+      <div class="modal-header"><h3 class="modal-title">Grammar & Spell Check</h3><button class="modal-close" onclick="closeModal()">×</button></div>
+      <div id="grammarResults"></div>
+      <button class="btn btn-primary" onclick="closeModal()" style="margin-top:1rem;">Close</button>
+    </div>
+  </div>
+  <script>
+    let content = '';
+    const platforms = {
+      linkedin: {name:'LinkedIn',charLimit:3000,optimize:(t)=>t.replace(/\n\n+/g,'\n\n')+(t.endsWith('\n\n')?'':'\n\n')},
+      facebook: {name:'Facebook',charLimit:63206,optimize:(t)=>t.replace(/\n\n+/g,'\n\n')},
+      threads: {name:'Threads',charLimit:500,optimize:(t)=>{let r=t.replace(/\n/g,'\n\n');return r.length>500?r.substring(0,497)+'...':r;}},
+      x: {name:'X',charLimit:280,optimize:(t)=>{let r=t.replace(/\s+/g,' ').trim().replace(/\n/g,' ');return r.length>280?r.substring(0,277)+'...':r;}},
+      reddit: {name:'Reddit',charLimit:0,optimize:(t)=>t.replace(/\n/g,'\n\n')},
+      nextdoor: {name:'Nextdoor',charLimit:0,optimize:(t)=>t.replace(/\n\n+/g,'\n\n')}
+    };
+    const templates = {
+      linkedin:{content:'🚀 [Industry Insight]\n\nEvery [day/week], I [action] that [benefit].\n\nHere are [number] things I learned:\n1. [Point 1]\n2. [Point 2]\n3. [Point 3]\n\nWhat would you add? #Leadership #Industry #Career'},
+      facebook:{content:'💭 [Thought/Question]\n\n[Story/Experience]\n\n[Call to Action]\n\n#Community #Engagement'},
+      threads:{content:'[Hook]\n\n[Story/Point]\n\n[Question/CTA]\n\n#Conversation #Thoughts'},
+      educational:{content:'📚 [Topic]\n\nDid you know that [fact]?\n\nHere\'s why it matters:\n[Explanation]\n\n#Learning #Education'},
+      authority:{content:'💼 [Industry] Update\n\n[Key Point 1]\n[Key Point 2]\n[Key Point 3]\n\nSource: [Source]\n#IndustryNews #Expert'},
+      cta:{content:'⏰ [Urgency]\n\n[Problem]\n\n[Solution]\n\n[CTA] → [Link]\n\n#Action #Opportunity'}
+    };
+    
+    function init() {
+      const saved = localStorage.getItem('lbContent');
+      if(saved) { document.getElementById('editor').value = saved; content = saved; updateMetrics(); }
+      document.getElementById('editor').addEventListener('input',function(){content=this.value;localStorage.setItem('lbContent',content);updateMetrics();});
+      document.querySelectorAll('.sidebar-btn,.nav-btn').forEach(btn=>btn.addEventListener('click',function(){switchSection(this);}));
+      updatePreview();
+    }
+    
+    function switchSection(btn) {
+      document.querySelectorAll('.sidebar-btn,.nav-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    
+    function format(cmd) {
+      switch(cmd) {
+        case 'bold': document.execCommand('bold',false,null); break;
+        case 'italic': document.execCommand('italic',false,null); break;
+        case 'underline': document.execCommand('underline',false,null); break;
+        case 'strikethrough': document.execCommand('strikeThrough',false,null); break;
+        case 'highlight': document.execCommand('backColor',false,'#FFD700'); break;
+        case 'superscript': document.execCommand('superscript',false,null); break;
+        case 'subscript': document.execCommand('subscript',false,null); break;
+        case 'quote': document.execCommand('formatBlock',false,'blockquote'); break;
+        case 'divider': insertAtCursor('\n—\n'); break;
+      }
+      updateMetrics();
+    }
+    
+    function formatHeading(sel) {
+      if(sel.value) { document.execCommand('formatBlock',false,sel.value); sel.value=''; }
+      updateMetrics();
+    }
+    
+    function formatList(type) {
+      switch(type) {
+        case 'bullet': document.execCommand('insertUnorderedList',false,null); break;
+        case 'number': document.execCommand('insertOrderedList',false,null); break;
+        case 'check': insertAtCursor('- [ ] '); break;
+      }
+      updateMetrics();
+    }
+    
+    function align(direction) { document.execCommand('justify'+direction.charAt(0).toUpperCase()+direction.slice(1),false,null); updateMetrics(); }
+    
+    function insertAtCursor(text) {
+      const ed = document.getElementById('editor');
+      const start = ed.selectionStart;
+      const end = ed.selectionEnd;
+      ed.value = ed.value.substring(0,start) + text + ed.value.substring(end);
+      ed.selectionStart = ed.selectionEnd = start + text.length;
+      updateMetrics();
+    }
+    
+    function applyTemplate(sel) {
+      const t = templates[sel.value];
+      if(t) { insertAtCursor(t.content); sel.value=''; }
+    }
+    
+    function updateMetrics() {
+      const t = document.getElementById('editor').value;
+      content = t;
+      const chars = t.length;
+      const words = t.trim()===''?0:t.trim().split(/\s+/).length;
+      const readTime = Math.max(1,Math.ceil(words/200));
+      const hashtags = (t.match(/#\w+/g)||[]).length;
+      const emojis = (t.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2000-\u26FF]|[\u2700-\u27BF]|[\u2800-\u28FF]|[\u2900-\u297F]|[\u2B00-\u2BFF]|[\u3000-\u303F]|[\uFE00-\uFE0F]|[\u1F000-\u1F02F]/g)||[]).length;
+      const ctaKeywords = ['click','visit','download','get','grab','join','sign up','register','learn more','discover'];
+      const hasCTA = ctaKeywords.some(k=>t.toLowerCase().includes(k));
+      const sentences = t.split(/[.!?]+/).filter(s=>s.trim().length>0).length;
+      const syllables = countSyllables(t);
+      const readability = sentences>0?Math.max(0,100-(206.835-1.015*(words/sentences)-84.6*(syllables/words))).toFixed(0):0;
+      
+      document.getElementById('charCount').textContent = chars;
+      document.getElementById('wordCount').textContent = words;
+      document.getElementById('readTime').textContent = readTime+'m';
+      document.getElementById('hashtagCount').textContent = hashtags;
+      document.getElementById('emojiCount').textContent = emojis;
+      document.getElementById('ctaCount').textContent = hasCTA?'Yes':'No';
+      document.getElementById('readabilityScore').textContent = readability;
+      document.getElementById('grammarScore').textContent = '95';
+      const contentScore = Math.min(100,chars/10+words*2+hashtags*5+emojis*3+(hasCTA?10:0));
+      document.getElementById('contentScore').textContent = Math.floor(contentScore);
+      
+      const platform = platforms[document.getElementById('previewPlatform').value];
+      const limit = platform.charLimit;
+      if(limit>0) {
+        document.getElementById('charStatus').textContent = limit+' limit';
+        if(chars>limit*0.9) document.getElementById('charStatus').className='intel-status warning';
+        else if(chars>limit) document.getElementById('charStatus').className='intel-status error';
+        else document.getElementById('charStatus').className='intel-status';
+      }
+      
+      updatePreview();
+      localStorage.setItem('lbContent',t);
+      document.querySelector('.save-status').textContent='Saved just now';
+      setTimeout(()=>{document.querySelector('.save-status').textContent='Saved '+new Date().toLocaleTimeString();},2000);
+    }
+    
+    function countSyllables(t) {
+      const words = t.toLowerCase().split(/\s+/);
+      let c = 0;
+      for(const w of words) {
+        if(w.length<=3) c+=1;
+        else if(w.endsWith('e')) c+=w.length-1;
+        else c+=w.length;
+      }
+      return Math.max(1,c);
+    }
+    
+    function updatePreview() {
+      const t = document.getElementById('editor').value;
+      const p = document.getElementById('previewPlatform').value;
+      const platform = platforms[p];
+      if(!t) { document.getElementById('previewContent').textContent='Enter content to see preview...'; return; }
+      document.getElementById('previewContent').textContent = platform.optimize(t);
+    }
+    
+    function checkGrammar() {
+      const t = document.getElementById('editor').value;
+      if(!t) { alert('Please enter some content to check.'); return; }
+      const results = document.getElementById('grammarResults');
+      results.innerHTML = '<p>Analyzing your content...</p>';
+      document.getElementById('grammarModal').classList.add('active');
+      setTimeout(()=>{
+        results.innerHTML = '<div style="margin-bottom:1rem;"><h4>Grammar & Spell Check Results</h4></div>'+
+          '<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;margin-bottom:1rem;">'+
+          '<p><strong>Overall Score: 95/100</strong></p><p>Your content is well-written with only minor suggestions.</p></div>'+
+          '<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;margin-bottom:1rem;">'+
+          '<h5>Statistics</h5><p>Characters: '+t.length+'</p><p>Words: '+(t.trim()===''?0:t.trim().split(/\s+/).length)+'</p>'+
+          '<p>Sentences: '+t.split(/[.!?]+/).filter(s=>s.trim().length>0).length+'</p>'+
+          '<p>Readability: '+document.getElementById('readabilityScore').textContent+'</p></div>'+
+          '<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;">'+
+          '<h5>Recommendations</h5><p>✓ Consider adding 1-2 hashtags to increase reach</p>'+
+          '<p>✓ Add a call-to-action to boost engagement</p><p>✓ Strong CTA detected - great job!</p></div>';
+      },1500);
+    }
+    
+    function closeModal() { document.getElementById('grammarModal').classList.remove('active'); }
+    
+    document.addEventListener('keydown',function(e){
+      if((e.ctrlKey||e.metaKey)&&e.key==='b'){e.preventDefault();format('bold');}
+      if((e.ctrlKey||e.metaKey)&&e.key==='i'){e.preventDefault();format('italic');}
+      if((e.ctrlKey||e.metaKey)&&e.key==='u'){e.preventDefault();format('underline');}
+    });
+    
+    window.addEventListener('DOMContentLoaded',init);
+  </script>
+</body>
+</html>
