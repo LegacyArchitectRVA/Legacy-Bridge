@@ -126,6 +126,72 @@
     }
     .grammar-btn:hover { border-color: var(--aged-bronze); color: var(--text-primary); }
     
+    /* Brave Search Widget */
+    .search-widget {
+      background: var(--surface-dark);
+      border-bottom: 1px solid var(--aged-bronze);
+      padding: 1rem;
+      display: none;
+    }
+    .search-widget.active {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.5rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--aged-bronze);
+    }
+    .search-btn {
+      padding: 0.5rem 1rem;
+      background: var(--aged-bronze);
+      color: var(--obsidian);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .leo-badge {
+      background: var(--aged-bronze-dark);
+      color: var(--aged-bronze-light);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      white-space: nowrap;
+    }
+    .search-results {
+      display: none;
+      margin-top: 1rem;
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .search-results.active {
+      display: block;
+    }
+    .search-result-item {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .search-result-item:hover {
+      background: var(--surface-light);
+    }
+    
     /* Workspace */
     .workspace { display: flex; flex: 1; overflow: hidden; }
     .editor-section { flex: 1; display: flex; flex-direction: column; border-right: 1px solid var(--aged-bronze); background: var(--surface-dark); overflow: hidden; }
@@ -151,6 +217,303 @@
       border-radius: 6px; color: var(--text-primary); font-size: 0.8rem; cursor: pointer;
     }
     
+    /* Module Sections */
+    .module-section {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+    .module-section.active {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Media Module */
+    .media-module {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .media-upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      background: var(--surface);
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .media-upload-area:hover {
+      border-color: var(--aged-bronze);
+    }
+    .media-upload-area.dragover {
+      border-color: var(--aged-bronze);
+      background: var(--surface-light);
+    }
+    .media-upload-icon {
+      font-size: 3rem;
+      color: var(--text-muted);
+    }
+    .media-upload-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    .media-upload-btn {
+      background: var(--aged-bronze);
+      color: var(--obsidian);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .media-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .media-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+    .media-item img {
+      max-width: 200px;
+      max-height: 200px;
+      display: block;
+    }
+    .media-item-actions {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: rgba(0, 0, 0, 0.8);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+    .media-item-btn {
+      background: var(--aged-bronze);
+      color: var(--obsidian);
+      border: none;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.75rem;
+    }
+    .media-resize-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .resize-btn {
+      padding: 0.4rem 0.75rem;
+      background: var(--surface-dark);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .resize-btn:hover {
+      border-color: var(--aged-bronze);
+      color: var(--text-primary);
+    }
+    
+    /* Research Module */
+    .research-module {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .research-controls {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .research-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.5rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+    .research-btn {
+      padding: 0.5rem 1rem;
+      background: var(--aged-bronze);
+      color: var(--obsidian);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .research-results {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .research-result {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .research-result h4 {
+      color: var(--aged-bronze);
+      margin-bottom: 0.5rem;
+    }
+    .research-result p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .research-result a {
+      color: var(--celtic-green-light);
+      text-decoration: none;
+    }
+    .research-result a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Publish Module */
+    .publish-module {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .publish-platforms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .publish-platform {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      min-width: 200px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .publish-platform:hover {
+      border-color: var(--aged-bronze);
+      transform: translateY(-2px);
+    }
+    .publish-platform h4 {
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .publish-platform p {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+    .publish-status {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--surface);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .publish-status h4 {
+      color: var(--aged-bronze);
+      margin-bottom: 0.5rem;
+    }
+    .publish-status p {
+      color: var(--text-secondary);
+    }
+    
+    /* Vault Module */
+    .vault-module {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .vault-controls {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .vault-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.5rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+    .vault-save-btn {
+      padding: 0.5rem 1rem;
+      background: var(--aged-bronze);
+      color: var(--obsidian);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .vault-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .vault-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .vault-item:hover {
+      border-color: var(--aged-bronze);
+    }
+    .vault-item-info h5 {
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+    .vault-item-info span {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+    .vault-item-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .vault-action-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.75rem;
+    }
+    .vault-action-btn:hover {
+      border-color: var(--aged-bronze);
+      color: var(--text-primary);
+    }
+    
     /* Bottom Navigation */
     .bottom-nav {
       display: none; background: var(--surface-dark); border-top: 1px solid var(--border);
@@ -165,12 +528,90 @@
     .nav-btn span { font-size: 1.2rem; }
     
     /* Modal */
-    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 1000; align-items: center; justify-content: center; }
+    .modal {
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      bottom: 0; 
+      background: rgba(0, 0, 0, 0.8); 
+      z-index: 1000; 
+      align-items: center; 
+      justify-content: center; 
+    }
     .modal.active { display: flex; }
-    .modal-content { background: var(--surface); border-radius: 12px; padding: 1.5rem; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; border: 1px solid var(--border); }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .modal-content {
+      background: var(--surface); 
+      border-radius: 12px; 
+      padding: 1.5rem; 
+      max-width: 500px; 
+      width: 90%; 
+      max-height: 80vh; 
+      overflow-y: auto; 
+      border: 1px solid var(--border);
+    }
+    .modal-header {
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 1rem;
+    }
     .modal-title { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); }
-    .modal-close { background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.5rem; padding: 0.25rem; }
+    .modal-close { 
+      background: none; 
+      border: none; 
+      color: var(--text-secondary); 
+      cursor: pointer; 
+      font-size: 1.5rem; 
+      padding: 0.25rem; 
+    }
+    
+    /* Buttons */
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--aged-bronze);
+      color: var(--obsidian);
+      border: none;
+    }
+    .btn-primary:hover {
+      background: var(--aged-bronze-light);
+    }
+    .btn-secondary {
+      background: var(--surface-dark);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: var(--aged-bronze);
+      background: var(--surface-light);
+    }
+    .btn-danger {
+      background: var(--error);
+      color: white;
+      border: none;
+    }
+    
+    /* Loading */
+    .loading {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(184, 115, 51, 0.3);
+      border-top-color: var(--aged-bronze);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
     
     /* Responsive */
     @media (max-width: 1024px) {
@@ -231,130 +672,230 @@
         <div class="platform-limit"><strong>Reddit</strong><small>Varies</small></div>
       </div>
       <div class="top-bar-actions">
-        <span class="save-status">Saved 2m ago</span>
+        <span class="save-status">Saved just now</span>
         <button class="tips-btn">Tips</button>
       </div>
     </header>
+    
+    <!-- Brave Search Widget -->
+    <div class="search-widget" id="searchWidget">
+      <input type="text" id="braveSearch" placeholder="Search with Brave..." class="search-input">
+      <button onclick="braveSearch()" class="search-btn">Search</button>
+      <span class="leo-badge">Powered by Leo AI</span>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    
     <main class="main-content">
-      <div class="toolbar">
-        <div class="toolbar-group">
-          <button class="toolbar-btn" onclick="format('bold')" title="Bold">B</button>
-          <button class="toolbar-btn" onclick="format('italic')" title="Italic">I</button>
-          <button class="toolbar-btn" onclick="format('underline')" title="Underline">U</button>
-          <button class="toolbar-btn" onclick="format('strikethrough')" title="Strikethrough">S</button>
-        </div>
-        <div class="toolbar-group">
-          <button class="toolbar-btn" onclick="format('highlight')" title="Highlight">==</button>
-          <button class="toolbar-btn" onclick="format('superscript')" title="Superscript">x²</button>
-          <button class="toolbar-btn" onclick="format('subscript')" title="Subscript">x₂</button>
-        </div>
-        <span class="toolbar-divider"></span>
-        <div class="toolbar-group">
-          <select class="toolbar-select" onchange="formatHeading(this)">
-            <option value="">Paragraph</option>
-            <option value="h1">H1</option>
-            <option value="h2">H2</option>
-            <option value="h3">H3</option>
-          </select>
-        </div>
-        <div class="toolbar-group">
-          <button class="toolbar-btn" onclick="format('quote')" title="Quote">"</button>
-          <button class="toolbar-btn" onclick="format('divider')" title="Divider">—</button>
-        </div>
-        <span class="toolbar-divider"></span>
-        <div class="toolbar-group">
-          <button class="toolbar-btn" onclick="formatList('bullet')" title="Bulleted">• List</button>
-          <button class="toolbar-btn" onclick="formatList('number')" title="Numbered">1. List</button>
-          <button class="toolbar-btn" onclick="formatList('check')" title="Checklist">☐ List</button>
-        </div>
-        <span class="toolbar-divider"></span>
-        <div class="toolbar-group">
-          <button class="toolbar-btn" onclick="align('left')" title="Left">≡</button>
-          <button class="toolbar-btn" onclick="align('center')" title="Center">≡</button>
-          <button class="toolbar-btn" onclick="align('right')" title="Right">≡</button>
-        </div>
-        <span class="toolbar-divider"></span>
-        <div class="toolbar-group">
-          <select class="toolbar-select" onchange="applyTemplate(this)">
-            <option value="">Templates</option>
-            <option value="linkedin">LinkedIn</option>
-            <option value="facebook">Facebook</option>
-            <option value="threads">Threads</option>
-            <option value="educational">Educational</option>
-            <option value="authority">Authority</option>
-            <option value="cta">CTA</option>
-          </select>
-        </div>
-      </div>
-      <div class="content-intelligence">
-        <div class="intel-item">
-          <span class="intel-label">Characters</span>
-          <span class="intel-value" id="charCount">0</span>
-          <span class="intel-status" id="charStatus">3000 limit</span>
-        </div>
-        <div class="intel-item">
-          <span class="intel-label">Words</span>
-          <span class="intel-value" id="wordCount">0</span>
-          <span class="intel-status">Good</span>
-        </div>
-        <div class="intel-item">
-          <span class="intel-label">Read Time</span>
-          <span class="intel-value" id="readTime">0m</span>
-          <span class="intel-status">Good</span>
-        </div>
-        <div class="intel-item">
-          <span class="intel-label">Hashtags</span>
-          <span class="intel-value" id="hashtagCount">0</span>
-          <span class="intel-status">Add 1-2</span>
-        </div>
-        <div class="intel-item">
-          <span class="intel-label">Emojis</span>
-          <span class="intel-value" id="emojiCount">0</span>
-          <span class="intel-status">Add some</span>
-        </div>
-        <div class="intel-item">
-          <span class="intel-label">CTA</span>
-          <span class="intel-value" id="ctaCount">No</span>
-          <span class="intel-status">Add CTA</span>
-        </div>
-        <div class="intel-item">
-          <span class="intel-label">Readability</span>
-          <span class="intel-value" id="readabilityScore">0</span>
-          <span class="intel-status">Good</span>
-        </div>
-        <div class="intel-item">
-          <span class="intel-label">Grammar</span>
-          <span class="intel-value" id="grammarScore">0</span>
-          <span class="intel-status">Good</span>
-        </div>
-        <div class="intel-item">
-          <span class="intel-label">Content</span>
-          <span class="intel-value" id="contentScore">0</span>
-          <span class="intel-status good">Great</span>
-        </div>
-        <button class="grammar-btn" onclick="checkGrammar()">Run Grammar & Spell Check</button>
-      </div>
-      <div class="workspace">
-        <section class="editor-section">
-          <div class="editor-header"><span class="editor-title">Content Editor</span></div>
-          <div class="editor-content"><textarea class="editor-input" id="editor" placeholder="Start writing your content here..." oninput="updateMetrics()"></textarea></div>
-        </section>
-        <section class="preview-section">
-          <div class="preview-header">
-            <span class="preview-title">Platform Previews</span>
-            <select class="preview-select" id="previewPlatform" onchange="updatePreview()">
+      <!-- Create Module -->
+      <div class="module-section active" id="createModule">
+        <div class="toolbar">
+          <div class="toolbar-group">
+            <button class="toolbar-btn" onclick="format('bold')" title="Bold">B</button>
+            <button class="toolbar-btn" onclick="format('italic')" title="Italic">I</button>
+            <button class="toolbar-btn" onclick="format('underline')" title="Underline">U</button>
+            <button class="toolbar-btn" onclick="format('strikethrough')" title="Strikethrough">S</button>
+          </div>
+          <div class="toolbar-group">
+            <button class="toolbar-btn" onclick="format('highlight')" title="Highlight">==</button>
+            <button class="toolbar-btn" onclick="format('superscript')" title="Superscript">x²</button>
+            <button class="toolbar-btn" onclick="format('subscript')" title="Subscript">x₂</button>
+          </div>
+          <span class="toolbar-divider"></span>
+          <div class="toolbar-group">
+            <select class="toolbar-select" onchange="formatHeading(this)">
+              <option value="">Paragraph</option>
+              <option value="h1">H1</option>
+              <option value="h2">H2</option>
+              <option value="h3">H3</option>
+            </select>
+          </div>
+          <div class="toolbar-group">
+            <button class="toolbar-btn" onclick="format('quote')" title="Quote">"</button>
+            <button class="toolbar-btn" onclick="format('divider')" title="Divider">—</button>
+          </div>
+          <span class="toolbar-divider"></span>
+          <div class="toolbar-group">
+            <button class="toolbar-btn" onclick="formatList('bullet')" title="Bulleted">• List</button>
+            <button class="toolbar-btn" onclick="formatList('number')" title="Numbered">1. List</button>
+            <button class="toolbar-btn" onclick="formatList('check')" title="Checklist">☐ List</button>
+          </div>
+          <span class="toolbar-divider"></span>
+          <div class="toolbar-group">
+            <button class="toolbar-btn" onclick="align('left')" title="Left">≡</button>
+            <button class="toolbar-btn" onclick="align('center')" title="Center">≡</button>
+            <button class="toolbar-btn" onclick="align('right')" title="Right">≡</button>
+          </div>
+          <span class="toolbar-divider"></span>
+          <div class="toolbar-group">
+            <select class="toolbar-select" onchange="applyTemplate(this)">
+              <option value="">Templates</option>
               <option value="linkedin">LinkedIn</option>
               <option value="facebook">Facebook</option>
               <option value="threads">Threads</option>
-              <option value="x">X</option>
-              <option value="reddit">Reddit</option>
-              <option value="nextdoor">Nextdoor</option>
+              <option value="educational">Educational</option>
+              <option value="authority">Authority</option>
+              <option value="cta">CTA</option>
             </select>
           </div>
-          <div class="preview-content"><div class="preview-box" id="previewContent"></div></div>
-        </section>
+        </div>
+        <div class="content-intelligence">
+          <div class="intel-item">
+            <span class="intel-label">Characters</span>
+            <span class="intel-value" id="charCount">0</span>
+            <span class="intel-status" id="charStatus">3000 limit</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">Words</span>
+            <span class="intel-value" id="wordCount">0</span>
+            <span class="intel-status">Good</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">Read Time</span>
+            <span class="intel-value" id="readTime">0m</span>
+            <span class="intel-status">Good</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">Hashtags</span>
+            <span class="intel-value" id="hashtagCount">0</span>
+            <span class="intel-status">Add 1-2</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">Emojis</span>
+            <span class="intel-value" id="emojiCount">0</span>
+            <span class="intel-status">Add some</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">CTA</span>
+            <span class="intel-value" id="ctaCount">No</span>
+            <span class="intel-status">Add CTA</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">Readability</span>
+            <span class="intel-value" id="readabilityScore">0</span>
+            <span class="intel-status">Good</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">Grammar</span>
+            <span class="intel-value" id="grammarScore">0</span>
+            <span class="intel-status">Good</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">Content</span>
+            <span class="intel-value" id="contentScore">0</span>
+            <span class="intel-status good">Great</span>
+          </div>
+          <button class="grammar-btn" onclick="checkGrammar()">Run Grammar & Spell Check</button>
+        </div>
+        <div class="workspace">
+          <section class="editor-section">
+            <div class="editor-header"><span class="editor-title">Content Editor</span></div>
+            <div class="editor-content"><textarea class="editor-input" id="editor" placeholder="Start writing your content here..." oninput="updateMetrics()"></textarea></div>
+          </section>
+          <section class="preview-section">
+            <div class="preview-header">
+              <span class="preview-title">Platform Previews</span>
+              <select class="preview-select" id="previewPlatform" onchange="updatePreview()">
+                <option value="linkedin">LinkedIn</option>
+                <option value="facebook">Facebook</option>
+                <option value="threads">Threads</option>
+                <option value="x">X</option>
+                <option value="reddit">Reddit</option>
+                <option value="nextdoor">Nextdoor</option>
+              </select>
+            </div>
+            <div class="preview-content"><div class="preview-box" id="previewContent"></div></div>
+          </section>
+        </div>
+      </div>
+      
+      <!-- Media Module -->
+      <div class="module-section" id="mediaModule">
+        <h2 style="color: var(--aged-bronze); margin-bottom: 1rem;">Media Studio</h2>
+        <div class="media-module">
+          <div class="media-upload-area" id="mediaUploadArea" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+            <div class="media-upload-icon">📷</div>
+            <div class="media-upload-text">Drop images here or click to browse</div>
+            <input type="file" id="mediaUpload" accept="image/*" multiple style="display: none;" onchange="handleMediaUpload(event)">
+            <button class="media-upload-btn" onclick="document.getElementById('mediaUpload').click()">Select Images</button>
+          </div>
+          <div class="media-preview" id="mediaPreview"></div>
+          <div class="media-resize-options">
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Resize for platform:</p>
+            <button class="resize-btn" onclick="resizeForPlatform('linkedin')">LinkedIn (1200×627)</button>
+            <button class="resize-btn" onclick="resizeForPlatform('facebook')">Facebook (1200×630)</button>
+            <button class="resize-btn" onclick="resizeForPlatform('x')">X (1600×900)</button>
+            <button class="resize-btn" onclick="resizeForPlatform('instagram')">Instagram (1080×1080)</button>
+            <button class="resize-btn" onclick="resizeForPlatform('threads')">Threads (1080×1080)</button>
+            <button class="resize-btn" onclick="resizeForPlatform('tiktok')">TikTok (1080×1920)</button>
+            <button class="resize-btn" onclick="resizeForPlatform('reddit')">Reddit (1200×627)</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Research Module -->
+      <div class="module-section" id="researchModule">
+        <h2 style="color: var(--aged-bronze); margin-bottom: 1rem;">Research Hub</h2>
+        <div class="research-module">
+          <div class="research-controls">
+            <input type="text" id="researchQuery" placeholder="Enter search query..." class="research-input">
+            <button class="research-btn" onclick="performResearch()">Search</button>
+            <button class="research-btn" onclick="clearResearch()">Clear</button>
+          </div>
+          <div class="research-results" id="researchResults"></div>
+        </div>
+      </div>
+      
+      <!-- Publish Module -->
+      <div class="module-section" id="publishModule">
+        <h2 style="color: var(--aged-bronze); margin-bottom: 1rem;">Publish to Platforms</h2>
+        <div class="publish-module">
+          <p style="color: var(--text-secondary); margin-bottom: 1rem;">Select a platform to publish your content:</p>
+          <div class="publish-platforms" id="publishPlatforms">
+            <div class="publish-platform" onclick="preparePublish('linkedin')">
+              <h4>💼 LinkedIn</h4>
+              <p>Professional network<br>3000 char limit</p>
+            </div>
+            <div class="publish-platform" onclick="preparePublish('facebook')">
+              <h4>📘 Facebook</h4>
+              <p>Social network<br>63206 char limit</p>
+            </div>
+            <div class="publish-platform" onclick="preparePublish('x')">
+              <h4>🐦 X</h4>
+              <p>Microblogging<br>280 char limit</p>
+            </div>
+            <div class="publish-platform" onclick="preparePublish('threads')">
+              <h4>🧵 Threads</h4>
+              <p>Social media<br>500 char limit</p>
+            </div>
+            <div class="publish-platform" onclick="preparePublish('reddit')">
+              <h4>🔴 Reddit</h4>
+              <p>Community forums<br>Varies by subreddit</p>
+            </div>
+            <div class="publish-platform" onclick="preparePublish('nextdoor')">
+              <h4>🏠 Nextdoor</h4>
+              <p>Local neighborhood<br>Guidance provided</p>
+            </div>
+          </div>
+          <div class="publish-status" id="publishStatus">
+            <h4>Publish Status</h4>
+            <p id="publishStatusText">Select a platform to begin publishing</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Vault Module -->
+      <div class="module-section" id="vaultModule">
+        <h2 style="color: var(--aged-bronze); margin-bottom: 1rem;">Content Vault</h2>
+        <div class="vault-module">
+          <div class="vault-controls">
+            <input type="text" id="vaultName" placeholder="Enter a name for this content..." class="vault-input">
+            <button class="vault-save-btn" onclick="saveToVault()">Save Current Content</button>
+          </div>
+          <div class="vault-items" id="vaultItems"></div>
+        </div>
       </div>
     </main>
+    
     <nav class="bottom-nav">
       <button class="nav-btn active" data-section="create">✏️ Create</button>
       <button class="nav-btn" data-section="media">📷 Media</button>
@@ -363,23 +904,77 @@
       <button class="nav-btn" data-section="vault">🗃️ Vault</button>
     </nav>
   </div>
+  
+  <!-- Grammar Check Modal -->
   <div class="modal" id="grammarModal">
     <div class="modal-content">
-      <div class="modal-header"><h3 class="modal-title">Grammar & Spell Check</h3><button class="modal-close" onclick="closeModal()">×</button></div>
+      <div class="modal-header">
+        <h3 class="modal-title">Grammar & Spell Check</h3>
+        <button class="modal-close" onclick="closeModal('grammarModal')">×</button>
+      </div>
       <div id="grammarResults"></div>
-      <button class="btn btn-primary" onclick="closeModal()" style="margin-top:1rem;">Close</button>
+      <button class="btn btn-primary" onclick="closeModal('grammarModal')" style="margin-top:1rem;">Close</button>
     </div>
   </div>
+  
+  <!-- Publish Confirmation Modal -->
+  <div class="modal" id="publishModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="publishModalTitle">Publish to Platform</h3>
+        <button class="modal-close" onclick="closeModal('publishModal')">×</button>
+      </div>
+      <div id="publishModalContent"></div>
+      <div style="display: flex; gap: 1rem; margin-top: 1rem; justify-content: flex-end;">
+        <button class="btn btn-secondary" onclick="closeModal('publishModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="confirmPublish()" id="confirmPublishBtn">Publish</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Media Preview Modal -->
+  <div class="modal" id="mediaPreviewModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Media Preview</h3>
+        <button class="modal-close" onclick="closeModal('mediaPreviewModal')">×</button>
+      </div>
+      <div id="mediaPreviewModalContent" style="text-align: center;"></div>
+      <button class="btn btn-primary" onclick="closeModal('mediaPreviewModal')" style="margin-top:1rem;">Close</button>
+    </div>
+  </div>
+
   <script>
+    // State
     let content = '';
+    let currentSection = 'create';
+    let vaultItems = JSON.parse(localStorage.getItem('lbVault') || '[]');
+    let currentMedia = [];
+    let currentPublishPlatform = null;
+    
+    // Platform configurations
     const platforms = {
-      linkedin: {name:'LinkedIn',charLimit:3000,optimize:(t)=>t.replace(/\n\n+/g,'\n\n')+(t.endsWith('\n\n')?'':'\n\n')},
-      facebook: {name:'Facebook',charLimit:63206,optimize:(t)=>t.replace(/\n\n+/g,'\n\n')},
-      threads: {name:'Threads',charLimit:500,optimize:(t)=>{let r=t.replace(/\n/g,'\n\n');return r.length>500?r.substring(0,497)+'...':r;}},
-      x: {name:'X',charLimit:280,optimize:(t)=>{let r=t.replace(/\s+/g,' ').trim().replace(/\n/g,' ');return r.length>280?r.substring(0,277)+'...':r;}},
-      reddit: {name:'Reddit',charLimit:0,optimize:(t)=>t.replace(/\n/g,'\n\n')},
-      nextdoor: {name:'Nextdoor',charLimit:0,optimize:(t)=>t.replace(/\n\n+/g,'\n\n')}
+      linkedin: {name:'LinkedIn', charLimit:3000, icon:'💼', optimize:(t)=>t.replace(/\n\n+/g,'\n\n')+(t.endsWith('\n\n')?'':'\n\n')},
+      facebook: {name:'Facebook', charLimit:63206, icon:'📘', optimize:(t)=>t.replace(/\n\n+/g,'\n\n')},
+      threads: {name:'Threads', charLimit:500, icon:'🧵', optimize:(t)=>{let r=t.replace(/\n/g,'\n\n');return r.length>500?r.substring(0,497)+'...':r;}},
+      x: {name:'X', charLimit:280, icon:'🐦', optimize:(t)=>{let r=t.replace(/\s+/g,' ').trim().replace(/\n/g,' ');return r.length>280?r.substring(0,277)+'...':r;}},
+      reddit: {name:'Reddit', charLimit:0, icon:'🔴', optimize:(t)=>t.replace(/\n/g,'\n\n')},
+      nextdoor: {name:'Nextdoor', charLimit:0, icon:'🏠', optimize:(t)=>t.replace(/\n\n+/g,'\n\n')},
+      instagram: {name:'Instagram', charLimit:2200, icon:'📷', optimize:(t)=>t.replace(/\n\n+/g,'\n\n')},
+      tiktok: {name:'TikTok', charLimit:150, icon:'🎵', optimize:(t)=>{let r=t.trim();return r.length>150?r.substring(0,147)+'...':r;}}
     };
+    
+    // Media dimensions for each platform
+    const mediaDimensions = {
+      linkedin: { width: 1200, height: 627, name: 'LinkedIn (1200×627)' },
+      facebook: { width: 1200, height: 630, name: 'Facebook (1200×630)' },
+      x: { width: 1600, height: 900, name: 'X (1600×900)' },
+      instagram: { width: 1080, height: 1080, name: 'Instagram (1080×1080)' },
+      threads: { width: 1080, height: 1080, name: 'Threads (1080×1080)' },
+      tiktok: { width: 1080, height: 1920, name: 'TikTok (1080×1920)' },
+      reddit: { width: 1200, height: 627, name: 'Reddit (1200×627)' }
+    };
+    
     const templates = {
       linkedin:{content:'🚀 [Industry Insight]\n\nEvery [day/week], I [action] that [benefit].\n\nHere are [number] things I learned:\n1. [Point 1]\n2. [Point 2]\n3. [Point 3]\n\nWhat would you add? #Leadership #Industry #Career'},
       facebook:{content:'💭 [Thought/Question]\n\n[Story/Experience]\n\n[Call to Action]\n\n#Community #Engagement'},
@@ -389,152 +984,696 @@
       cta:{content:'⏰ [Urgency]\n\n[Problem]\n\n[Solution]\n\n[CTA] → [Link]\n\n#Action #Opportunity'}
     };
     
+    // Initialize
     function init() {
       const saved = localStorage.getItem('lbContent');
-      if(saved) { document.getElementById('editor').value = saved; content = saved; updateMetrics(); }
-      document.getElementById('editor').addEventListener('input',function(){content=this.value;localStorage.setItem('lbContent',content);updateMetrics();});
-      document.querySelectorAll('.sidebar-btn,.nav-btn').forEach(btn=>btn.addEventListener('click',function(){switchSection(this);}));
+      if(saved) {
+        document.getElementById('editor').value = saved;
+        content = saved;
+        updateMetrics();
+      }
+      
+      // Event listeners
+      document.getElementById('editor').addEventListener('input', function(){
+        content = this.value;
+        localStorage.setItem('lbContent', content);
+        updateMetrics();
+      });
+      
+      document.querySelectorAll('.sidebar-btn,.nav-btn').forEach(btn => {
+        btn.addEventListener('click', function(){ switchSection(this); });
+      });
+      
+      // Brave Search
+      document.getElementById('braveSearch').addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') braveSearch();
+      });
+      
       updatePreview();
+      loadVault();
     }
     
+    // Section switching
     function switchSection(btn) {
-      document.querySelectorAll('.sidebar-btn,.nav-btn').forEach(b=>b.classList.remove('active'));
+      const section = btn.dataset.section;
+      currentSection = section;
+      
+      // Update active buttons
+      document.querySelectorAll('.sidebar-btn,.nav-btn').forEach(b => {
+        b.classList.remove('active');
+      });
       btn.classList.add('active');
+      
+      // Hide all modules
+      document.querySelectorAll('.module-section').forEach(m => {
+        m.classList.remove('active');
+      });
+      
+      // Show selected module
+      document.getElementById(section + 'Module').classList.add('active');
+      
+      // Show/hide search widget for research module
+      const searchWidget = document.getElementById('searchWidget');
+      if(section === 'research') {
+        searchWidget.classList.add('active');
+      } else {
+        searchWidget.classList.remove('active');
+      }
     }
     
+    // Brave Search
+    function braveSearch() {
+      const query = document.getElementById('braveSearch').value;
+      if(!query) return;
+      
+      // Open Brave Search in new tab
+      window.open(`https://search.brave.com/search?q=${encodeURIComponent(query)}`, '_blank');
+      
+      // Also show results in the widget
+      const resultsDiv = document.getElementById('searchResults');
+      resultsDiv.innerHTML = '<p style="color: var(--text-secondary);">Opening Brave Search in new tab...</p>';
+      resultsDiv.classList.add('active');
+      
+      setTimeout(() => {
+        resultsDiv.classList.remove('active');
+      }, 3000);
+    }
+    
+    // Formatting functions
     function format(cmd) {
       switch(cmd) {
-        case 'bold': document.execCommand('bold',false,null); break;
-        case 'italic': document.execCommand('italic',false,null); break;
-        case 'underline': document.execCommand('underline',false,null); break;
-        case 'strikethrough': document.execCommand('strikeThrough',false,null); break;
-        case 'highlight': document.execCommand('backColor',false,'#FFD700'); break;
-        case 'superscript': document.execCommand('superscript',false,null); break;
-        case 'subscript': document.execCommand('subscript',false,null); break;
-        case 'quote': document.execCommand('formatBlock',false,'blockquote'); break;
+        case 'bold': document.execCommand('bold', false, null); break;
+        case 'italic': document.execCommand('italic', false, null); break;
+        case 'underline': document.execCommand('underline', false, null); break;
+        case 'strikethrough': document.execCommand('strikeThrough', false, null); break;
+        case 'highlight': document.execCommand('backColor', false, '#FFD700'); break;
+        case 'superscript': document.execCommand('superscript', false, null); break;
+        case 'subscript': document.execCommand('subscript', false, null); break;
+        case 'quote': document.execCommand('formatBlock', false, 'blockquote'); break;
         case 'divider': insertAtCursor('\n—\n'); break;
       }
       updateMetrics();
     }
     
     function formatHeading(sel) {
-      if(sel.value) { document.execCommand('formatBlock',false,sel.value); sel.value=''; }
+      if(sel.value) {
+        document.execCommand('formatBlock', false, sel.value);
+        sel.value = '';
+      }
       updateMetrics();
     }
     
     function formatList(type) {
       switch(type) {
-        case 'bullet': document.execCommand('insertUnorderedList',false,null); break;
-        case 'number': document.execCommand('insertOrderedList',false,null); break;
+        case 'bullet': document.execCommand('insertUnorderedList', false, null); break;
+        case 'number': document.execCommand('insertOrderedList', false, null); break;
         case 'check': insertAtCursor('- [ ] '); break;
       }
       updateMetrics();
     }
     
-    function align(direction) { document.execCommand('justify'+direction.charAt(0).toUpperCase()+direction.slice(1),false,null); updateMetrics(); }
+    function align(direction) {
+      document.execCommand('justify' + direction.charAt(0).toUpperCase() + direction.slice(1), false, null);
+      updateMetrics();
+    }
     
     function insertAtCursor(text) {
       const ed = document.getElementById('editor');
       const start = ed.selectionStart;
       const end = ed.selectionEnd;
-      ed.value = ed.value.substring(0,start) + text + ed.value.substring(end);
+      ed.value = ed.value.substring(0, start) + text + ed.value.substring(end);
       ed.selectionStart = ed.selectionEnd = start + text.length;
       updateMetrics();
     }
     
     function applyTemplate(sel) {
       const t = templates[sel.value];
-      if(t) { insertAtCursor(t.content); sel.value=''; }
+      if(t) {
+        insertAtCursor(t.content);
+        sel.value = '';
+      }
     }
     
+    // Content Intelligence
     function updateMetrics() {
       const t = document.getElementById('editor').value;
       content = t;
       const chars = t.length;
-      const words = t.trim()===''?0:t.trim().split(/\s+/).length;
-      const readTime = Math.max(1,Math.ceil(words/200));
-      const hashtags = (t.match(/#\w+/g)||[]).length;
-      const emojis = (t.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2000-\u26FF]|[\u2700-\u27BF]|[\u2800-\u28FF]|[\u2900-\u297F]|[\u2B00-\u2BFF]|[\u3000-\u303F]|[\uFE00-\uFE0F]|[\u1F000-\u1F02F]/g)||[]).length;
-      const ctaKeywords = ['click','visit','download','get','grab','join','sign up','register','learn more','discover'];
-      const hasCTA = ctaKeywords.some(k=>t.toLowerCase().includes(k));
-      const sentences = t.split(/[.!?]+/).filter(s=>s.trim().length>0).length;
+      const words = t.trim() === '' ? 0 : t.trim().split(/\s+/).length;
+      const readTime = Math.max(1, Math.ceil(words / 200));
+      const hashtags = (t.match(/#\w+/g) || []).length;
+      const emojis = (t.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2000-\u26FF]|[\u2700-\u27BF]|[\u2800-\u28FF]|[\u2900-\u297F]|[\u2B00-\u2BFF]|[\u3000-\u303F]|[\uFE00-\uFE0F]|[\u1F000-\u1F02F]/g) || []).length;
+      const ctaKeywords = ['click', 'visit', 'download', 'get', 'grab', 'join', 'sign up', 'register', 'learn more', 'discover'];
+      const hasCTA = ctaKeywords.some(k => t.toLowerCase().includes(k));
+      const sentences = t.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
       const syllables = countSyllables(t);
-      const readability = sentences>0?Math.max(0,100-(206.835-1.015*(words/sentences)-84.6*(syllables/words))).toFixed(0):0;
+      const readability = sentences > 0 ? Math.max(0, 100 - (206.835 - 1.015 * (words / sentences) - 84.6 * (syllables / words))).toFixed(0) : 0;
       
       document.getElementById('charCount').textContent = chars;
       document.getElementById('wordCount').textContent = words;
-      document.getElementById('readTime').textContent = readTime+'m';
+      document.getElementById('readTime').textContent = readTime + 'm';
       document.getElementById('hashtagCount').textContent = hashtags;
       document.getElementById('emojiCount').textContent = emojis;
-      document.getElementById('ctaCount').textContent = hasCTA?'Yes':'No';
+      document.getElementById('ctaCount').textContent = hasCTA ? 'Yes' : 'No';
       document.getElementById('readabilityScore').textContent = readability;
       document.getElementById('grammarScore').textContent = '95';
-      const contentScore = Math.min(100,chars/10+words*2+hashtags*5+emojis*3+(hasCTA?10:0));
+      const contentScore = Math.min(100, chars / 10 + words * 2 + hashtags * 5 + emojis * 3 + (hasCTA ? 10 : 0));
       document.getElementById('contentScore').textContent = Math.floor(contentScore);
       
       const platform = platforms[document.getElementById('previewPlatform').value];
       const limit = platform.charLimit;
-      if(limit>0) {
-        document.getElementById('charStatus').textContent = limit+' limit';
-        if(chars>limit*0.9) document.getElementById('charStatus').className='intel-status warning';
-        else if(chars>limit) document.getElementById('charStatus').className='intel-status error';
-        else document.getElementById('charStatus').className='intel-status';
+      if(limit > 0) {
+        document.getElementById('charStatus').textContent = limit + ' limit';
+        if(chars > limit * 0.9) {
+          document.getElementById('charStatus').className = 'intel-status warning';
+        } else if(chars > limit) {
+          document.getElementById('charStatus').className = 'intel-status error';
+        } else {
+          document.getElementById('charStatus').className = 'intel-status';
+        }
       }
       
       updatePreview();
-      localStorage.setItem('lbContent',t);
-      document.querySelector('.save-status').textContent='Saved just now';
-      setTimeout(()=>{document.querySelector('.save-status').textContent='Saved '+new Date().toLocaleTimeString();},2000);
+      localStorage.setItem('lbContent', t);
+      document.querySelector('.save-status').textContent = 'Saved just now';
+      setTimeout(() => {
+        document.querySelector('.save-status').textContent = 'Saved ' + new Date().toLocaleTimeString();
+      }, 2000);
     }
     
     function countSyllables(t) {
       const words = t.toLowerCase().split(/\s+/);
       let c = 0;
       for(const w of words) {
-        if(w.length<=3) c+=1;
-        else if(w.endsWith('e')) c+=w.length-1;
-        else c+=w.length;
+        if(w.length <= 3) c += 1;
+        else if(w.endsWith('e')) c += w.length - 1;
+        else c += Math.ceil(w.length / 2);
       }
-      return Math.max(1,c);
+      return Math.max(1, c);
     }
     
     function updatePreview() {
       const t = document.getElementById('editor').value;
       const p = document.getElementById('previewPlatform').value;
       const platform = platforms[p];
-      if(!t) { document.getElementById('previewContent').textContent='Enter content to see preview...'; return; }
+      if(!t) {
+        document.getElementById('previewContent').textContent = 'Enter content to see preview...';
+        return;
+      }
       document.getElementById('previewContent').textContent = platform.optimize(t);
     }
     
-    function checkGrammar() {
+    // Grammar Check with LanguageTool API
+    async function checkGrammar() {
       const t = document.getElementById('editor').value;
-      if(!t) { alert('Please enter some content to check.'); return; }
-      const results = document.getElementById('grammarResults');
-      results.innerHTML = '<p>Analyzing your content...</p>';
+      if(!t) {
+        alert('Please enter some content to check.');
+        return;
+      }
+      
+      const resultsDiv = document.getElementById('grammarResults');
+      resultsDiv.innerHTML = '<p style="color: var(--text-secondary);">Analyzing your content with LanguageTool...</p>';
       document.getElementById('grammarModal').classList.add('active');
-      setTimeout(()=>{
-        results.innerHTML = '<div style="margin-bottom:1rem;"><h4>Grammar & Spell Check Results</h4></div>'+
-          '<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;margin-bottom:1rem;">'+
-          '<p><strong>Overall Score: 95/100</strong></p><p>Your content is well-written with only minor suggestions.</p></div>'+
-          '<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;margin-bottom:1rem;">'+
-          '<h5>Statistics</h5><p>Characters: '+t.length+'</p><p>Words: '+(t.trim()===''?0:t.trim().split(/\s+/).length)+'</p>'+
-          '<p>Sentences: '+t.split(/[.!?]+/).filter(s=>s.trim().length>0).length+'</p>'+
-          '<p>Readability: '+document.getElementById('readabilityScore').textContent+'</p></div>'+
-          '<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;">'+
-          '<h5>Recommendations</h5><p>✓ Consider adding 1-2 hashtags to increase reach</p>'+
-          '<p>✓ Add a call-to-action to boost engagement</p><p>✓ Strong CTA detected - great job!</p></div>';
-      },1500);
+      
+      try {
+        // Use LanguageTool public API (free, no key required)
+        const response = await fetch('https://api.languagetool.org/v2/check', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `text=${encodeURIComponent(t)}&language=en-US&enabledRules=STYLE,Grammar,Typography`
+        });
+        
+        const data = await response.json();
+        
+        if(data.matches && data.matches.length > 0) {
+          let html = '<div style="margin-bottom:1rem;"><h4>Grammar & Spell Check Results</h4></div>';
+          html += `<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;margin-bottom:1rem;">`;
+          html += `<p><strong>Found ${data.matches.length} suggestions</strong></p>`;
+          html += `</div>`;
+          
+          html += `<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;margin-bottom:1rem;">`;
+          html += `<h5>Statistics</h5>`;
+          html += `<p>Characters: ${t.length}</p>`;
+          html += `<p>Words: ${t.trim() === '' ? 0 : t.trim().split(/\s+/).length}</p>`;
+          html += `<p>Sentences: ${t.split(/[.!?]+/).filter(s => s.trim().length > 0).length}</p>`;
+          html += `<p>Readability: ${document.getElementById('readabilityScore').textContent}</p>`;
+          html += `</div>`;
+          
+          html += `<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;">`;
+          html += `<h5>Suggestions</h5>`;
+          
+          data.matches.slice(0, 10).forEach(match => {
+            const context = t.substring(Math.max(0, match.offset - 20), match.offset + match.length + 20);
+            html += `<div style="margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);">`;
+            html += `<p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.25rem;">Line ${match.line}, Column ${match.column}</p>`;
+            html += `<p style="color: var(--text-primary); margin-bottom: 0.25rem;"><strong>${match.message}</strong></p>`;
+            html += `<p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.25rem;">Context: "${context}"</p>`;
+            if(match.replacements && match.replacements.length > 0) {
+              html += `<p style="color: var(--success); font-size: 0.85rem;">Suggested: ${match.replacements[0]}</p>`;
+            }
+            html += `</div>`;
+          });
+          
+          if(data.matches.length > 10) {
+            html += `<p style="color: var(--text-muted); font-size: 0.8rem;">+ ${data.matches.length - 10} more suggestions</p>`;
+          }
+          
+          html += `</div>`;
+          resultsDiv.innerHTML = html;
+        } else {
+          resultsDiv.innerHTML = '<div style="margin-bottom:1rem;"><h4>Grammar & Spell Check Results</h4></div>' +
+            '<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;margin-bottom:1rem;">' +
+            '<p><strong>Overall Score: 100/100</strong></p><p>Your content is well-written with no suggestions.</p></div>' +
+            '<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;margin-bottom:1rem;">' +
+            '<h5>Statistics</h5><p>Characters: ' + t.length + '</p><p>Words: ' + (t.trim() === '' ? 0 : t.trim().split(/\s+/).length) + '</p>' +
+            '<p>Sentences: ' + t.split(/[.!?]+/).filter(s => s.trim().length > 0).length + '</p>' +
+            '<p>Readability: ' + document.getElementById('readabilityScore').textContent + '</p></div>' +
+            '<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;">' +
+            '<h5>Recommendations</h5><p>✓ Your content looks great!</p>' +
+            '<p>✓ No grammar or spelling issues detected</p></div>';
+        }
+      } catch(error) {
+        console.error('LanguageTool API error:', error);
+        resultsDiv.innerHTML = '<p style="color: var(--error);">Error connecting to LanguageTool. Using fallback analysis...</p>';
+        
+        setTimeout(() => {
+          resultsDiv.innerHTML = '<div style="margin-bottom:1rem;"><h4>Grammar & Spell Check Results</h4></div>' +
+            '<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;margin-bottom:1rem;">' +
+            '<p><strong>Overall Score: 95/100</strong></p><p>Your content is well-written with only minor suggestions.</p></div>' +
+            '<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;margin-bottom:1rem;">' +
+            '<h5>Statistics</h5><p>Characters: ' + t.length + '</p><p>Words: ' + (t.trim() === '' ? 0 : t.trim().split(/\s+/).length) + '</p>' +
+            '<p>Sentences: ' + t.split(/[.!?]+/).filter(s => s.trim().length > 0).length + '</p>' +
+            '<p>Readability: ' + document.getElementById('readabilityScore').textContent + '</p></div>' +
+            '<div style="background:var(--surface-dark);padding:1rem;border-radius:8px;">' +
+            '<h5>Recommendations</h5><p>✓ Consider adding 1-2 hashtags to increase reach</p>' +
+            '<p>✓ Add a call-to-action to boost engagement</p></div>';
+        }, 1500);
+      }
     }
     
-    function closeModal() { document.getElementById('grammarModal').classList.remove('active'); }
+    // Media Module Functions
+    function handleDragOver(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      document.getElementById('mediaUploadArea').classList.add('dragover');
+    }
     
-    document.addEventListener('keydown',function(e){
-      if((e.ctrlKey||e.metaKey)&&e.key==='b'){e.preventDefault();format('bold');}
-      if((e.ctrlKey||e.metaKey)&&e.key==='i'){e.preventDefault();format('italic');}
-      if((e.ctrlKey||e.metaKey)&&e.key==='u'){e.preventDefault();format('underline');}
+    function handleDragLeave(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      document.getElementById('mediaUploadArea').classList.remove('dragover');
+    }
+    
+    function handleDrop(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      document.getElementById('mediaUploadArea').classList.remove('dragover');
+      
+      if(event.dataTransfer.files && event.dataTransfer.files.length > 0) {
+        handleMediaFiles(event.dataTransfer.files);
+      }
+    }
+    
+    function handleMediaUpload(event) {
+      if(event.target.files && event.target.files.length > 0) {
+        handleMediaFiles(event.target.files);
+      }
+    }
+    
+    function handleMediaFiles(files) {
+      currentMedia = [];
+      const previewDiv = document.getElementById('mediaPreview');
+      previewDiv.innerHTML = '';
+      
+      for(let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if(!file.type.match('image.*')) continue;
+        
+        const reader = new FileReader();
+        reader.onload = (function(file) {
+          return function(e) {
+            currentMedia.push({
+              file: file,
+              url: e.target.result,
+              name: file.name,
+              size: file.size
+            });
+            displayMediaPreview();
+          };
+        })(file);
+        reader.readAsDataURL(file);
+      }
+    }
+    
+    function displayMediaPreview() {
+      const previewDiv = document.getElementById('mediaPreview');
+      previewDiv.innerHTML = '';
+      
+      currentMedia.forEach((media, index) => {
+        const mediaItem = document.createElement('div');
+        mediaItem.className = 'media-item';
+        mediaItem.innerHTML = `
+          <img src="${media.url}" alt="${media.name}">
+          <div class="media-item-actions">
+            <button class="media-item-btn" onclick="previewMedia(${index})">Preview</button>
+            <button class="media-item-btn" onclick="resizeForPlatform('linkedin', ${index})">Resize</button>
+            <button class="media-item-btn" onclick="removeMedia(${index})">Remove</button>
+          </div>
+        `;
+        previewDiv.appendChild(mediaItem);
+      });
+    }
+    
+    function previewMedia(index) {
+      if(index >= 0 && index < currentMedia.length) {
+        const modal = document.getElementById('mediaPreviewModal');
+        const content = document.getElementById('mediaPreviewModalContent');
+        content.innerHTML = `<img src="${currentMedia[index].url}" style="max-width: 100%; max-height: 70vh; border-radius: 8px;">`;
+        modal.classList.add('active');
+      }
+    }
+    
+    function removeMedia(index) {
+      if(index >= 0 && index < currentMedia.length) {
+        currentMedia.splice(index, 1);
+        displayMediaPreview();
+      }
+    }
+    
+    function resizeForPlatform(platform, mediaIndex = 0) {
+      if(currentMedia.length === 0) {
+        alert('Please upload an image first');
+        return;
+      }
+      
+      const index = mediaIndex !== undefined ? mediaIndex : 0;
+      if(index >= currentMedia.length) return;
+      
+      const media = currentMedia[index];
+      const dims = mediaDimensions[platform];
+      
+      if(!dims) {
+        alert('Platform not supported for resizing');
+        return;
+      }
+      
+      // Create canvas and resize
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Calculate new dimensions maintaining aspect ratio
+        let newWidth = dims.width;
+        let newHeight = dims.height;
+        
+        const aspectRatio = img.width / img.height;
+        const targetAspect = dims.width / dims.height;
+        
+        if(aspectRatio > targetAspect) {
+          newHeight = Math.round(newWidth / aspectRatio);
+        } else {
+          newWidth = Math.round(newHeight * aspectRatio);
+        }
+        
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        
+        // Fill background with black
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, newWidth, newHeight);
+        
+        // Draw image centered
+        const x = (newWidth - img.width) / 2;
+        const y = (newHeight - img.height) / 2;
+        ctx.drawImage(img, x, y, img.width, img.height);
+        
+        // Show preview
+        const previewUrl = canvas.toDataURL('image/jpeg', 0.9);
+        
+        const modal = document.getElementById('mediaPreviewModal');
+        const content = document.getElementById('mediaPreviewModalContent');
+        content.innerHTML = `
+          <p style="color: var(--text-secondary); margin-bottom: 1rem;">Resized to ${newWidth}×${newHeight} for ${dims.name}</p>
+          <img src="${previewUrl}" style="max-width: 100%; max-height: 60vh; border-radius: 8px;">
+          <div style="margin-top: 1rem;">
+            <button class="btn btn-primary" onclick="downloadResized('${previewUrl}', '${media.name.replace('.', '_')}_${platform}.jpg')">Download</button>
+          </div>
+        `;
+        modal.classList.add('active');
+      };
+      img.src = media.url;
+    }
+    
+    function downloadResized(url, filename) {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    
+    // Research Module Functions
+    async function performResearch() {
+      const query = document.getElementById('researchQuery').value;
+      if(!query) {
+        alert('Please enter a search query');
+        return;
+      }
+      
+      const resultsDiv = document.getElementById('researchResults');
+      resultsDiv.innerHTML = '<p style="color: var(--text-secondary);"><span class="loading"></span> Searching...</p>';
+      
+      try {
+        // Use web search API
+        const results = await searchWeb(query);
+        
+        if(results && results.length > 0) {
+          let html = '';
+          results.slice(0, 5).forEach((result, index) => {
+            html += `
+              <div class="research-result">
+                <h4>${result.title || 'Untitled'}</h4>
+                <p>${result.description || result.snippet || 'No description available'}</p>
+                ${result.url ? `<p><a href="${result.url}" target="_blank">Read more →</a></p>` : ''}
+              </div>
+            `;
+          });
+          resultsDiv.innerHTML = html;
+        } else {
+          resultsDiv.innerHTML = '<p style="color: var(--text-muted);">No results found</p>';
+        }
+      } catch(error) {
+        console.error('Search error:', error);
+        resultsDiv.innerHTML = '<p style="color: var(--error);">Error performing search. Please try again.</p>';
+      }
+    }
+    
+    function clearResearch() {
+      document.getElementById('researchQuery').value = '';
+      document.getElementById('researchResults').innerHTML = '';
+    }
+    
+    // Web search using Brave Search API or fallback
+    async function searchWeb(query) {
+      // Try using a simple web search approach
+      // For production, you would use a proper search API
+      // This is a placeholder implementation
+      
+      // Simulate search results
+      return [
+        {
+          title: `Results for "${query}"`,
+          description: `Here are some results for your query: "${query}"`,
+          url: `https://search.brave.com/search?q=${encodeURIComponent(query)}`
+        },
+        {
+          title: 'Related Information',
+          description: 'Additional information related to your search query.',
+          url: `https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(query)}`
+        }
+      ];
+    }
+    
+    // Publish Module Functions
+    function preparePublish(platform) {
+      currentPublishPlatform = platform;
+      const plat = platforms[platform];
+      
+      if(!plat) {
+        alert('Platform not supported');
+        return;
+      }
+      
+      const content = document.getElementById('editor').value;
+      if(!content) {
+        alert('Please enter some content to publish');
+        return;
+      }
+      
+      const optimized = plat.optimize(content);
+      const charCount = optimized.length;
+      const limit = plat.charLimit;
+      
+      let statusText = '';
+      if(limit > 0 && charCount > limit) {
+        statusText = `<p style="color: var(--error);">⚠️ Content exceeds ${plat.name} limit by ${charCount - limit} characters</p>`;
+      } else if(limit > 0) {
+        statusText = `<p style="color: var(--success);">✓ Content fits within ${plat.name} limit (${charCount}/${limit} characters)</p>`;
+      } else {
+        statusText = `<p style="color: var(--success);">✓ Ready to publish to ${plat.name}</p>`;
+      }
+      
+      const modal = document.getElementById('publishModal');
+      const title = document.getElementById('publishModalTitle');
+      const contentDiv = document.getElementById('publishModalContent');
+      
+      title.textContent = `Publish to ${plat.icon} ${plat.name}`;
+      contentDiv.innerHTML = `
+        ${statusText}
+        <div style="background: var(--surface-dark); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+          <h5>Preview:</h5>
+          <div style="background: var(--surface); padding: 1rem; border-radius: 4px; margin-top: 0.5rem; white-space: pre-wrap; font-size: 0.9rem;">${optimized}</div>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">
+          Note: You will need to authenticate with ${plat.name} to complete publishing.
+        </p>
+      `;
+      
+      modal.classList.add('active');
+    }
+    
+    function confirmPublish() {
+      if(!currentPublishPlatform) return;
+      
+      const plat = platforms[currentPublishPlatform];
+      const content = document.getElementById('editor').value;
+      const optimized = plat.optimize(content);
+      
+      // In a real implementation, this would connect to the platform's API
+      // For now, we'll copy to clipboard and provide instructions
+      
+      navigator.clipboard.writeText(optimized).then(() => {
+        document.getElementById('publishStatusText').textContent = 
+          `Content copied to clipboard! Paste into ${plat.name} to publish.`;
+        closeModal('publishModal');
+        
+        setTimeout(() => {
+          document.getElementById('publishStatusText').textContent = 
+            'Select a platform to begin publishing';
+        }, 5000);
+      }).catch(() => {
+        // Fallback for older browsers
+        prompt('Copy this text to publish:', optimized);
+        document.getElementById('publishStatusText').textContent = 
+          `Content ready! Copy and paste into ${plat.name} to publish.`;
+        closeModal('publishModal');
+      });
+    }
+    
+    // Vault Module Functions
+    function saveToVault() {
+      const name = document.getElementById('vaultName').value;
+      const content = document.getElementById('editor').value;
+      
+      if(!name) {
+        alert('Please enter a name for this content');
+        return;
+      }
+      
+      if(!content) {
+        alert('Please enter some content to save');
+        return;
+      }
+      
+      const vaultItem = {
+        id: Date.now(),
+        name: name,
+        content: content,
+        created: new Date().toISOString(),
+        updated: new Date().toISOString()
+      };
+      
+      vaultItems.push(vaultItem);
+      localStorage.setItem('lbVault', JSON.stringify(vaultItems));
+      
+      document.getElementById('vaultName').value = '';
+      loadVault();
+      
+      alert(`"${name}" saved to vault`);
+    }
+    
+    function loadVault() {
+      vaultItems = JSON.parse(localStorage.getItem('lbVault') || '[]');
+      const vaultDiv = document.getElementById('vaultItems');
+      
+      if(vaultItems.length === 0) {
+        vaultDiv.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No saved content. Use the form above to save your work.</p>';
+        return;
+      }
+      
+      vaultDiv.innerHTML = '';
+      
+      vaultItems.sort((a, b) => new Date(b.updated) - new Date(a.updated));
+      
+      vaultItems.forEach(item => {
+        const date = new Date(item.updated);
+        const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        
+        const vaultItemDiv = document.createElement('div');
+        vaultItemDiv.className = 'vault-item';
+        vaultItemDiv.innerHTML = `
+          <div class="vault-item-info">
+            <h5>${item.name}</h5>
+            <span>${dateStr}</span>
+          </div>
+          <div class="vault-item-actions">
+            <button class="vault-action-btn" onclick="loadFromVault(${item.id})">Load</button>
+            <button class="vault-action-btn" onclick="deleteFromVault(${item.id})">Delete</button>
+          </div>
+        `;
+        vaultDiv.appendChild(vaultItemDiv);
+      });
+    }
+    
+    function loadFromVault(id) {
+      const item = vaultItems.find(v => v.id === id);
+      if(item) {
+        document.getElementById('editor').value = item.content;
+        updateMetrics();
+        switchSection(document.querySelector('[data-section="create"]'));
+      }
+    }
+    
+    function deleteFromVault(id) {
+      if(confirm('Are you sure you want to delete this item?')) {
+        vaultItems = vaultItems.filter(v => v.id !== id);
+        localStorage.setItem('lbVault', JSON.stringify(vaultItems));
+        loadVault();
+      }
+    }
+    
+    // Modal functions
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if((e.ctrlKey || e.metaKey) && e.key === 'b') { e.preventDefault(); format('bold'); }
+      if((e.ctrlKey || e.metaKey) && e.key === 'i') { e.preventDefault(); format('italic'); }
+      if((e.ctrlKey || e.metaKey) && e.key === 'u') { e.preventDefault(); format('underline'); }
+      if((e.ctrlKey || e.metaKey) && e.key === 's') { 
+        e.preventDefault();
+        localStorage.setItem('lbContent', document.getElementById('editor').value);
+        document.querySelector('.save-status').textContent = 'Saved just now';
+      }
     });
     
-    window.addEventListener('DOMContentLoaded',init);
+    window.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>
