@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LegacyBridge Social Media Optimizer</title>
+  <style>
+    :root {
+      --black: #000000;
+      --copper: #B87333;
+      --copper-light: #CD7F32;
+      --copper-dark: #9E5A1E;
+      --celtic-green: #006400;
+      --celtic-green-light: #2E8B57;
+      --text-primary: #FFFFFF;
+      --text-secondary: #B0B0B0;
+      --surface: #0a0a0a;
+      --surface-light: #141414;
+      --border: #2a2a2a;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--black);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--copper);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      color: var(--copper);
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+    
+    .card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .card-title {
+      font-size: 1.3rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    
+    .card-description {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+    
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .btn-primary {
+      background: var(--celtic-green);
+      color: var(--text-primary);
+    }
+    
+    .btn-primary:hover {
+      background: var(--celtic-green-light);
+    }
+    
+    .btn-secondary {
+      background: var(--surface-light);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--border);
+      color: var(--text-primary);
+    }
+    
+    .btn-copper {
+      background: var(--copper);
+      color: var(--black);
+    }
+    
+    .btn-copper:hover {
+      background: var(--copper-light);
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    
+    .btn-icon {
+      padding: 0.5rem 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .btn-active {
+      border: 2px solid var(--copper) !important;
+    }
+    
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      background: var(--surface-light);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 1rem;
+      font-family: inherit;
+      resize: vertical;
+      margin-bottom: 1rem;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: var(--copper);
+    }
+    
+    .output-box {
+      width: 100%;
+      min-height: 150px;
+      background: var(--surface-light);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 1rem;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    
+    @media (max-width: 900px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.75rem;
+    }
+    
+    .platform-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.75rem;
+      background: var(--surface-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-secondary);
+    }
+    
+    .platform-btn:hover {
+      background: var(--border);
+      color: var(--text-primary);
+      border-color: var(--copper);
+    }
+    
+    .platform-btn.active {
+      background: var(--celtic-green);
+      color: var(--text-primary);
+      border-color: var(--celtic-green);
+    }
+    
+    .platform-icon {
+      width: 24px;
+      height: 24px;
+    }
+    
+    .platform-name {
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .platform-limit {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+    }
+    
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 1.5rem 0;
+    }
+    
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--surface-light);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    
+    .feature-item.active {
+      background: var(--celtic-green);
+      color: var(--text-primary);
+    }
+    
+    .media-preview {
+      background: var(--surface-light);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-secondary);
+      margin: 1rem 0;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .media-preview img {
+      max-width: 100%;
+      max-height: 180px;
+      border-radius: 4px;
+    }
+    
+    .dimension-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .dimension-btn {
+      padding: 0.5rem;
+      background: var(--surface-light);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+    
+    .dimension-btn:hover {
+      border-color: var(--copper);
+      color: var(--text-primary);
+    }
+    
+    .dimension-btn.active {
+      background: var(--celtic-green);
+      border-color: var(--celtic-green);
+      color: var(--text-primary);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .stat {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    
+    .stat-value {
+      font-size: 1.1rem;
+      color: var(--copper);
+      font-weight: 600;
+    }
+    
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: var(--surface);
+      color: var(--text-primary);
+      text-align: center;
+      border-radius: 6px;
+      padding: 0.5rem;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -100px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.8rem;
+      border: 1px solid var(--border);
+    }
+    
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    /* SVG Icons */
+    .icon-twitter { fill: #1DA1F2; }
+    .icon-facebook { fill: #1877F2; }
+    .icon-linkedin { fill: #0A66C2; }
+    .icon-instagram { 
+      background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+      border-radius: 4px;
+    }
+    .icon-tiktok { fill: #FF0050; }
+    .icon-reddit { fill: #FF4500; }
+    .icon-threads { fill: var(--text-primary); }
+    .icon-discord { fill: #5865F2; }
+    .icon-slack { fill: #4A154B; }
+    
+    /* Loading spinner */
+    .spinner {
+      border: 2px solid var(--border);
+      border-top: 2px solid var(--copper);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>LegacyBridge Social Media Optimizer</h1>
+      <p class="subtitle">Professional content adaptation for every platform and audience</p>
+    </header>
+    
+    <!-- Generational Translator Card -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">Generational Translator</h2>
+          <p class="card-description">Adapt your message for different age groups</p>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="translateText()">
+            <span id="translateIcon">🔄</span> Translate
+          </button>
+          <button class="btn btn-secondary" onclick="applyTranslation()" id="applyBtn" disabled>Apply</button>
+          <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+        </div>
+      </div>
+      
+      <div class="btn-group" style="margin-bottom: 1.5rem;">
+        <button class="btn btn-secondary btn-icon gen-btn" data-gen="genz" onclick="selectGen(this)">
+          <span>👾</span> Gen Z
+        </button>
+        <button class="btn btn-secondary btn-icon gen-btn" data-gen="millennial" onclick="selectGen(this)">
+          <span>🥑</span> Millennial
+        </button>
+        <button class="btn btn-secondary btn-icon gen-btn" data-gen="genx" onclick="selectGen(this)">
+          <span>🎸</span> Gen X
+        </button>
+        <button class="btn btn-secondary btn-icon gen-btn" data-gen="boomer" onclick="selectGen(this)">
+          <span>👴</span> Boomer
+        </button>
+        <button class="btn btn-secondary btn-icon gen-btn" data-gen="corporate" onclick="selectGen(this)">
+          <span>💼</span> Corporate
+        </button>
+        <button class="btn btn-secondary btn-icon gen-btn" data-gen="developer" onclick="selectGen(this)">
+          <span>💻</span> Developer
+        </button>
+      </div>
+      
+      <div class="grid-2">
+        <div>
+          <textarea id="originalText" placeholder="Enter your content here..."></textarea>
+          <div style="display: flex; justify-content: space-between; color: var(--text-secondary); font-size: 0.85rem;">
+            <span id="charCount">0 characters</span>
+            <span id="wordCount">0 words</span>
+          </div>
+        </div>
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <span id="genIcon">👾</span>
+            <span id="genName">Gen Z</span>
+          </div>
+          <div id="translatedOutput" class="output-box"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Platform Formatter Card -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">Platform Formatter</h2>
+          <p class="card-description">Optimize content for each social platform</p>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="formatForPlatform()">Format</button>
+          <button class="btn btn-secondary" onclick="copyFormatted()">Copy</button>
+        </div>
+      </div>
+      
+      <div class="platform-grid" id="platformGrid">
+        <button class="platform-btn" data-plat="twitter" onclick="selectPlatform(this)">
+          <svg class="platform-icon icon-twitter" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.223.085 4.934 4.934 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+          <span class="platform-name">Twitter</span>
+          <span class="platform-limit">280 chars</span>
+        </button>
+        <button class="platform-btn" data-plat="facebook" onclick="selectPlatform(this)">
+          <svg class="platform-icon icon-facebook" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          <span class="platform-name">Facebook</span>
+          <span class="platform-limit">63,206 chars</span>
+        </button>
+        <button class="platform-btn" data-plat="linkedin" onclick="selectPlatform(this)">
+          <svg class="platform-icon icon-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          <span class="platform-name">LinkedIn</span>
+          <span class="platform-limit">3,000 chars</span>
+        </button>
+        <button class="platform-btn" data-plat="instagram" onclick="selectPlatform(this)">
+          <svg class="platform-icon icon-instagram" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          <span class="platform-name">Instagram</span>
+          <span class="platform-limit">2,200 chars</span>
+        </button>
+        <button class="platform-btn" data-plat="tiktok" onclick="selectPlatform(this)">
+          <svg class="platform-icon icon-tiktok" viewBox="0 0 24 24"><path d="M9 12V8.5a4.5 4.5 0 0 1 9 0V12"/><path d="M9 12a4.5 4.5 0 0 0 9 0"/><path d="M9 12V15.5a4.5 4.5 0 0 1 9 0V12"/><path d="M12 8.5V12"/></svg>
+          <span class="platform-name">TikTok</span>
+          <span class="platform-limit">150 chars</span>
+        </button>
+        <button class="platform-btn" data-plat="reddit" onclick="selectPlatform(this)">
+          <svg class="platform-icon icon-reddit" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 22 12A10 10 0 0 0 12 2z"/><path d="M12 8.5a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1-7 0v-1A3.5 3.5 0 0 1 12 8.5z"/><line x1="12" y1="8.5" x2="12" y2="15.5"/><line x1="8.5" y1="12" x2="15.5" y2="12"/></svg>
+          <span class="platform-name">Reddit</span>
+          <span class="platform-limit">40,000 chars</span>
+        </button>
+        <button class="platform-btn" data-plat="threads" onclick="selectPlatform(this)">
+          <svg class="platform-icon icon-threads" viewBox="0 0 24 24"><path d="M12 2v20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span class="platform-name">Threads</span>
+          <span class="platform-limit">500 chars</span>
+        </button>
+        <button class="platform-btn" data-plat="discord" onclick="selectPlatform(this)">
+          <svg class="platform-icon icon-discord" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.086 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.086 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          <span class="platform-name">Discord</span>
+          <span class="platform-limit">2,000 chars</span>
+        </button>
+        <button class="platform-btn" data-plat="slack" onclick="selectPlatform(this)">
+          <svg class="platform-icon icon-slack" viewBox="0 0 24 24"><path d="M5.042 15.162a2.52 2.52 0 0 1-2.52-2.502A2.52 2.52 0 0 1 5.042 10.14h2.52v2.52h-2.52zm2.52 0h9.916v-2.52H7.562zm10.084 0h2.52a2.52 2.52 0 0 1 2.52 2.502 2.52 2.52 0 0 1-2.52 2.52h-2.52v-2.52zm-10.084 2.52h2.52v2.52H7.562v-2.52zm10.084 0h2.52a2.52 2.52 0 0 1 2.52 2.502 2.52 2.52 0 0 1-2.52 2.52h-2.52v-2.52zm-10.084 2.52h2.52v2.52H7.562v-2.52zm10.084 0h2.52a2.52 2.52 0 0 1 2.52 2.502 2.52 2.52 0 0 1-2.52 2.52h-2.52v-2.52z"/></svg>
+          <span class="platform-name">Slack</span>
+          <span class="platform-limit">4,000 chars</span>
+        </button>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <div class="feature-list" id="formatOptions">
+        <button class="feature-item" data-format="hashtags" onclick="toggleFormat(this)">
+          <span>#</span> Add Hashtags
+        </button>
+        <button class="feature-item" data-format="mentions" onclick="toggleFormat(this)">
+          <span>@</span> Add Mentions
+        </button>
+        <button class="feature-item" data-format="emojis" onclick="toggleFormat(this)">
+          <span>😀</span> Add Emojis
+        </button>
+        <button class="feature-item" data-format="linebreaks" onclick="toggleFormat(this)">
+          <span>↩</span> Add Line Breaks
+        </button>
+        <button class="feature-item" data-format="capitalize" onclick="toggleFormat(this)">
+          <span>Aa</span> Capitalize
+        </button>
+      </div>
+      
+      <div class="grid-2" style="margin-top: 1.5rem;">
+        <div>
+          <textarea id="platformInput" placeholder="Enter text to format..."></textarea>
+          <div style="display: flex; justify-content: space-between; color: var(--text-secondary); font-size: 0.85rem;">
+            <span id="platformCharCount">0 characters</span>
+            <span id="platformLimitDisplay">Limit: 280</span>
+          </div>
+        </div>
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <svg class="platform-icon icon-twitter" viewBox="0 0 24 24" style="width: 20px; height: 20px;"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.223.085 4.934 4.934 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+          <span id="platformName">Twitter</span>
+          </div>
+          <div id="formattedOutput" class="output-box"></div>
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-label">Characters</span>
+              <span class="stat-value" id="formattedCharCount">0</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Words</span>
+              <span class="stat-value" id="formattedWordCount">0</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Remaining</span>
+              <span class="stat-value" id="remainingChars">280</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Media Resizer Card -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">Media Resizer</h2>
+          <p class="card-description">Resize images for optimal social media display</p>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="document.getElementById('mediaUpload').click()">
+            <span>📁</span> Upload Image
+          </button>
+          <button class="btn btn-secondary" onclick="downloadResized()" id="downloadBtn" disabled>Download</button>
+        </div>
+      </div>
+      
+      <input type="file" id="mediaUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+      
+      <div class="media-preview" id="mediaPreview">
+        <span>📷</span>
+        <p>Upload an image to resize it for social media</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">Supports JPG, PNG, WebP</p>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <h3 style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 1rem;">Select Platform Dimensions</h3>
+      <div class="dimension-grid" id="dimensionGrid">
+        <button class="dimension-btn" data-width="1200" data-height="675" data-platform="facebook" onclick="selectDimension(this)">
+          <span>Facebook</span>
+          <small>1200×675</small>
+        </button>
+        <button class="dimension-btn" data-width="1080" data-height="1080" data-platform="instagram" onclick="selectDimension(this)">
+          <span>Instagram</span>
+          <small>1080×1080</small>
+        </button>
+        <button class="dimension-btn" data-width="1080" data-height="1350" data-platform="instagram" onclick="selectDimension(this)">
+          <span>Instagram Story</span>
+          <small>1080×1350</small>
+        </button>
+        <button class="dimension-btn" data-width="1200" data-height="628" data-platform="twitter" onclick="selectDimension(this)">
+          <span>Twitter</span>
+          <small>1200×628</small>
+        </button>
+        <button class="dimension-btn" data-width="1080" data-height="1920" data-platform="tiktok" onclick="selectDimension(this)">
+          <span>TikTok</span>
+          <small>1080×1920</small>
+        </button>
+        <button class="dimension-btn" data-width="1200" data-height="1200" data-platform="linkedin" onclick="selectDimension(this)">
+          <span>LinkedIn</span>
+          <small>1200×1200</small>
+        </button>
+        <button class="dimension-btn" data-width="1200" data-height="630" data-platform="linkedin" onclick="selectDimension(this)">
+          <span>LinkedIn Banner</span>
+          <small>1200×630</small>
+        </button>
+        <button class="dimension-btn" data-width="1024" data-height="512" data-platform="discord" onclick="selectDimension(this)">
+          <span>Discord</span>
+          <small>1024×512</small>
+        </button>
+        <button class="dimension-btn" data-width="1920" data-height="1080" data-platform="youtube" onclick="selectDimension(this)">
+          <span>YouTube</span>
+          <small>1920×1080</small>
+        </button>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <div class="grid-2" style="margin-top: 1rem;">
+        <div>
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">Custom Width</label>
+          <input type="number" id="customWidth" placeholder="Width" style="width: 100%; padding: 0.75rem; background: var(--surface-light); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary);">
+        </div>
+        <div>
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">Custom Height</label>
+          <input type="number" id="customHeight" placeholder="Height" style="width: 100%; padding: 0.75rem; background: var(--surface-light); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary);">
+        </div>
+      </div>
+      
+      <div style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center;">
+        <span style="color: var(--text-secondary); font-size: 0.85rem;">Quality:</span>
+        <select id="qualitySelect" style="padding: 0.5rem; background: var(--surface-light); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary);">
+          <option value="0.92">High (92%)</option>
+          <option value="0.85">Medium (85%)</option>
+          <option value="0.75">Low (75%)</option>
+        </select>
+        <span style="color: var(--text-secondary); font-size: 0.85rem;">Format:</span>
+        <select id="formatSelect" style="padding: 0.5rem; background: var(--surface-light); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary);">
+          <option value="jpeg">JPEG</option>
+          <option value="png">PNG</option>
+          <option value="webp">WebP</option>
+        </select>
+      </div>
+      
+      <div id="resizedInfo" style="margin-top: 1rem; padding: 1rem; background: var(--surface-light); border-radius: 8px; display: none;">
+        <p style="color: var(--text-primary); margin-bottom: 0.5rem;">Resized Image Ready</p>
+        <p style="color: var(--text-secondary); font-size: 0.85rem;">
+          <span id="resizedDimensions"></span> |
+          <span id="resizedSize"></span> |
+          <span id="resizedFormat"></span>
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // ==================== STATE ====================
+    let selectedGen = 'genz';
+    let selectedPlatform = 'twitter';
+    let translatedText = '';
+    let activeFormats = new Set();
+    let currentImage = null;
+    let resizedImageData = null;
+    
+    // Platform data
+    const platforms = {
+      twitter: {
+        name: 'Twitter/X',
+        charLimit: 280,
+        icon: '🐦',
+        color: '#1DA1F2'
+      },
+      facebook: {
+        name: 'Facebook',
+        charLimit: 63206,
+        icon: '📘',
+        color: '#1877F2'
+      },
+      linkedin: {
+        name: 'LinkedIn',
+        charLimit: 3000,
+        icon: '💼',
+        color: '#0A66C2'
+      },
+      instagram: {
+        name: 'Instagram',
+        charLimit: 2200,
+        icon: '📷',
+        color: 'linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D)'
+      },
+      tiktok: {
+        name: 'TikTok',
+        charLimit: 150,
+        icon: '🎵',
+        color: '#FF0050'
+      },
+      reddit: {
+        name: 'Reddit',
+        charLimit: 40000,
+        icon: '🔴',
+        color: '#FF4500'
+      },
+      threads: {
+        name: 'Threads',
+        charLimit: 500,
+        icon: '🧵',
+        color: '#FFFFFF'
+      },
+      discord: {
+        name: 'Discord',
+        charLimit: 2000,
+        icon: '💬',
+        color: '#5865F2'
+      },
+      slack: {
+        name: 'Slack',
+        charLimit: 4000,
+        icon: '📋',
+        color: '#4A154B'
+      }
+    };
+    
+    // Generation styles
+    const generationStyles = {
+      genz: {
+        name: 'Gen Z',
+        icon: '👾',
+        transform: (text) => {
+          const slang = ['fr', 'no cap', 'slay', 'rizz', 'gyatt', 'sigma', 'based', 'vibes', 'drip', 'bussin'];
+          let result = text
+            .replace(/very/g, 'hella')
+            .replace(/cool/g, 'fire')
+            .replace(/good/g, 'solid')
+            .replace(/bad/g, 'mid')
+            .replace(/friend/g, 'bestie')
+            .replace(/amazing/g, 'insane')
+            .replace(/great/g, 'goated')
+            .replace(/\bto\b/g, '2')
+            .replace(/\bfor\b/g, '4')
+            .replace(/\byou\b/g, 'u')
+            .replace(/\bare\b/g, 'r')
+            .replace(/\bthat\b/g, 'dat');
+          
+          if (Math.random() > 0.5) {
+            result += ' ' + ['💀', '🔥', '✨', '😭', '🚀', '👀'][Math.floor(Math.random() * 6)];
+          }
+          if (Math.random() > 0.7) {
+            result = slang[Math.floor(Math.random() * slang.length)] + ' ' + result;
+          }
+          return result;
+        }
+      },
+      millennial: {
+        name: 'Millennial',
+        icon: '🥑',
+        transform: (text) => {
+          const phrases = ['Adulting', 'Can we talk?', 'On fleek', 'Squad goals', 'GOAT', 'TBH'];
+          let result = text
+            .replace(/work/g, 'hustle')
+            .replace(/tired/g, 'exhausted')
+            .replace(/money/g, 'guac')
+            .replace(/expensive/g, 'bougie')
+            .replace(/cool/g, 'lit')
+            .replace(/problem/g, 'struggle')
+            .replace(/good/g, 'dope');
+          
+          if (Math.random() > 0.8) {
+            result = phrases[Math.floor(Math.random() * phrases.length)] + ': ' + result;
+          }
+          return result;
+        }
+      },
+      genx: {
+        name: 'Gen X',
+        icon: '🎸',
+        transform: (text) => {
+          const phrases = ['Whatever', 'Not it', 'Back in my day', 'Kids these days', 'Been there, done that'];
+          let result = text
+            .replace(/amazing/g, 'okay')
+            .replace(/wonderful/g, 'fine')
+            .replace(/love/g, 'tolerate')
+            .replace(/excited/g, 'meh')
+            .replace(/important/g, 'whatever')
+            .replace(/new/g, 'same old');
+          
+          if (Math.random() > 0.6) {
+            result = phrases[Math.floor(Math.random() * phrases.length)] + '. ' + result;
+          }
+          return result;
+        }
+      },
+      boomer: {
+        name: 'Boomer',
+        icon: '👴',
+        transform: (text) => {
+          let result = text
+            .replace(/u\b/g, 'you')
+            .replace(/\bur\b/g, 'your')
+            .replace(/\b2\b/g, 'to')
+            .replace(/\b4\b/g, 'for')
+            .replace(/\br\b/g, 'are')
+            .replace(/btw/g, 'by the way')
+            .replace(/thx/g, 'thank you')
+            .replace(/pls/g, 'please')
+            .replace(/omg/g, 'Oh my goodness')
+            .replace(/lol/g, 'That is amusing')
+            .replace(/idk/g, 'I do not know')
+            .replace(/smh/g, 'shaking my head')
+            .replace(/fomo/g, 'fear of missing out');
+          
+          if (!result.endsWith('.') && !result.endsWith('!') && !result.endsWith('?')) {
+            result += '.';
+          }
+          return result.charAt(0).toUpperCase() + result.slice(1);
+        }
+      },
+      corporate: {
+        name: 'Corporate',
+        icon: '💼',
+        transform: (text) => {
+          const buzzwords = ['synergy', 'leverage', 'low-hanging fruit', 'circle back', 'bandwidth', 'pivot', 'paradigm shift', 'stakeholders', 'deliverables', 'actionable'];
+          let result = text
+            .replace(/good/g, 'optimal')
+            .replace(/bad/g, 'suboptimal')
+            .replace(/do/g, 'action')
+            .replace(/use/g, 'utilize')
+            .replace(/make/g, 'create')
+            .replace(/try/g, 'attempt')
+            .replace(/help/g, 'assist')
+            .replace(/start/g, 'initiate');
+          
+          if (Math.random() > 0.5) {
+            result = "Let's " + buzzwords[Math.floor(Math.random() * buzzwords.length)] + ' to ' + result;
+          }
+          if (Math.random() > 0.8) {
+            result = result + ' moving forward.';
+          }
+          return result;
+        }
+      },
+      developer: {
+        name: 'Developer',
+        icon: '💻',
+        transform: (text) => {
+          const terms = ['404', 'null', 'undefined', 'recursion', 'segfault', 'TDD', 'refactor', 'merge conflict', 'stack overflow'];
+          let result = text
+            .replace(/problem/g, 'bug')
+            .replace(/fix/g, 'patch')
+            .replace(/works/g, 'compiles')
+            .replace(/easy/g, 'trivial')
+            .replace(/hard/g, 'NP-hard')
+            .replace(/test/g, 'unit test')
+            .replace(/code/g, 'implementation')
+            .replace(/write/g, 'implement');
+          
+          if (Math.random() > 0.6) {
+            result = result + ' // TODO: ' + terms[Math.floor(Math.random() * terms.length)];
+          }
+          if (Math.random() > 0.7) {
+            result = result + ' // ' + ['fixme', 'hack', 'temp'][Math.floor(Math.random() * 3)];
+          }
+          return result;
+        }
+      }
+    };
+    
+    // Format options
+    const formatOptions = {
+      hashtags: {
+        name: 'Add Hashtags',
+        apply: (text, platform) => {
+          const hashtags = {
+            twitter: ['#SocialMedia', '#Marketing', '#Business'],
+            facebook: ['#Community', '#Engagement', '#Update'],
+            linkedin: ['#Professional', '#Career', '#Leadership'],
+            instagram: ['#InstaGood', '#PhotoOfTheDay', '#Beautiful'],
+            tiktok: ['#Viral', '#FYP', '#Trending'],
+            reddit: ['#AMA', '#Discussion', '#News'],
+            threads: ['#Conversation', '#Thoughts', '#Ideas'],
+            discord: ['#Gaming', '#Community', '#Support'],
+            slack: ['#Team', '#Work', '#Collaboration']
+          };
+          const platformHashtags = hashtags[platform] || ['#Social'];
+          return text + ' ' + platformHashtags[Math.floor(Math.random() * platformHashtags.length)];
+        }
+      },
+      mentions: {
+        name: 'Add Mentions',
+        apply: (text) => {
+          const mentions = ['@team', '@everyone', '@here', '@support'];
+          return text + ' ' + mentions[Math.floor(Math.random() * mentions.length)];
+        }
+      },
+      emojis: {
+        name: 'Add Emojis',
+        apply: (text) => {
+          const emojis = ['🚀', '🔥', '✨', '💡', '🎉', '👍', '🙌', '🤝', '📈', '🎯'];
+          return text + ' ' + emojis[Math.floor(Math.random() * emojis.length)];
+        }
+      },
+      linebreaks: {
+        name: 'Add Line Breaks',
+        apply: (text) => {
+          return text.replace(/\n/g, '\n\n');
+        }
+      },
+      capitalize: {
+        name: 'Capitalize',
+        apply: (text) => {
+          return text.charAt(0).toUpperCase() + text.slice(1);
+        }
+      }
+    };
+    
+    // Platform dimensions
+    const platformDimensions = {
+      twitter: { width: 1200, height: 628 },
+      facebook: { width: 1200, height: 675 },
+      linkedin: { width: 1200, height: 1200 },
+      instagram: { width: 1080, height: 1080 },
+      tiktok: { width: 1080, height: 1920 },
+      reddit: { width: 1200, height: 628 },
+      threads: { width: 1080, height: 1350 },
+      discord: { width: 1024, height: 512 },
+      slack: { width: 800, height: 400 }
+    };
+    
+    // ==================== INITIALIZATION ====================
+    function init() {
+      // Initialize generation buttons
+      document.querySelectorAll('.gen-btn').forEach(btn => {
+        if (btn.dataset.gen === selectedGen) {
+          btn.classList.add('btn-active');
+        }
+      });
+      
+      // Initialize platform buttons
+      document.querySelectorAll('.platform-btn').forEach(btn => {
+        if (btn.dataset.plat === selectedPlatform) {
+          btn.classList.add('active');
+        }
+      });
+      
+      // Update platform display
+      updatePlatformDisplay();
+      
+      // Set up event listeners
+      document.getElementById('originalText').addEventListener('input', updateCharCount);
+      document.getElementById('platformInput').addEventListener('input', updatePlatformCharCount);
+      
+      // Load saved image if exists
+      const savedImage = localStorage.getItem('legacyBridgeImage');
+      if (savedImage) {
+        currentImage = savedImage;
+        updateMediaPreview();
+      }
+    }
+    
+    // ==================== GENERATIONAL TRANSLATOR ====================
+    function selectGen(btn) {
+      selectedGen = btn.dataset.gen;
+      document.querySelectorAll('.gen-btn').forEach(b => b.classList.remove('btn-active'));
+      btn.classList.add('btn-active');
+      
+      const style = generationStyles[selectedGen];
+      document.getElementById('genIcon').textContent = style.icon;
+      document.getElementById('genName').textContent = style.name;
+    }
+    
+    function translateText() {
+      const text = document.getElementById('originalText').value;
+      if (!text) return;
+      
+      const btn = document.getElementById('translateBtn');
+      const icon = document.getElementById('translateIcon');
+      const originalIcon = icon.textContent;
+      
+      btn.disabled = true;
+      icon.textContent = '⏳';
+      
+      setTimeout(() => {
+        const style = generationStyles[selectedGen];
+        translatedText = style.transform(text);
+        document.getElementById('translatedOutput').textContent = translatedText;
+        document.getElementById('applyBtn').disabled = false;
+        btn.disabled = false;
+        icon.textContent = originalIcon;
+      }, 300);
+    }
+    
+    function applyTranslation() {
+      if (translatedText) {
+        document.getElementById('originalText').value = translatedText;
+        document.getElementById('platformInput').value = translatedText;
+        updateCharCount();
+        updatePlatformCharCount();
+        formatForPlatform();
+      }
+    }
+    
+    function clearAll() {
+      document.getElementById('originalText').value = '';
+      document.getElementById('translatedOutput').textContent = '';
+      document.getElementById('platformInput').value = '';
+      document.getElementById('formattedOutput').textContent = '';
+      translatedText = '';
+      document.getElementById('applyBtn').disabled = true;
+      updateCharCount();
+      updatePlatformCharCount();
+    }
+    
+    // ==================== PLATFORM FORMATTER ====================
+    function selectPlatform(btn) {
+      selectedPlatform = btn.dataset.plat;
+      document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updatePlatformDisplay();
+      formatForPlatform();
+    }
+    
+    function updatePlatformDisplay() {
+      const platform = platforms[selectedPlatform];
+      const icon = document.querySelector('.card-header .platform-icon');
+      const name = document.getElementById('platformName');
+      
+      if (icon) icon.innerHTML = platform.icon;
+      if (name) name.textContent = platform.name;
+      
+      document.getElementById('platformLimitDisplay').textContent = 'Limit: ' + platform.charLimit;
+      document.getElementById('remainingChars').textContent = platform.charLimit;
+    }
+    
+    function toggleFormat(btn) {
+      const format = btn.dataset.format;
+      btn.classList.toggle('active');
+      
+      if (activeFormats.has(format)) {
+        activeFormats.delete(format);
+      } else {
+        activeFormats.add(format);
+      }
+      
+      formatForPlatform();
+    }
+    
+    function formatForPlatform() {
+      const text = document.getElementById('platformInput').value;
+      if (!text) {
+        document.getElementById('formattedOutput').textContent = '';
+        updatePlatformStats();
+        return;
+      }
+      
+      const platform = platforms[selectedPlatform];
+      let result = text;
+      
+      // Apply generation translation if text matches original
+      if (text === document.getElementById('originalText').value && translatedText) {
+        result = translatedText;
+      }
+      
+      // Apply format options
+      activeFormats.forEach(format => {
+        result = formatOptions[format].apply(result, selectedPlatform);
+      });
+      
+      // Format for platform
+      switch(selectedPlatform) {
+        case 'twitter':
+          result = result.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+          break;
+        case 'tiktok':
+          result = result.trim();
+          if (result.length > platform.charLimit) {
+            result = result.substring(0, platform.charLimit - 3) + '...';
+          }
+          if (!result.includes('#') && result.length < platform.charLimit) {
+            result += ' #viral';
+          }
+          break;
+        case 'instagram':
+          result = result.replace(/\n\n+/g, '\n\n');
+          if (!result.includes('#') && result.length < platform.charLimit - 20) {
+            result += '\n\n#photo #instagood';
+          }
+          break;
+        case 'linkedin':
+        case 'reddit':
+          result = result.replace(/\n/g, '\n\n');
+          break;
+        default:
+          result = result.replace(/\n\n+/g, '\n\n');
+      }
+      
+      // Enforce character limit
+      if (result.length > platform.charLimit) {
+        result = result.substring(0, platform.charLimit - 3) + '...';
+      }
+      
+      document.getElementById('formattedOutput').textContent = result;
+      updatePlatformStats();
+    }
+    
+    function updatePlatformStats() {
+      const text = document.getElementById('formattedOutput').textContent;
+      const platform = platforms[selectedPlatform];
+      
+      document.getElementById('formattedCharCount').textContent = text.length;
+      document.getElementById('formattedWordCount').textContent = text.trim() === '' ? '0' : text.trim().split(/\s+/).length;
+      document.getElementById('remainingChars').textContent = Math.max(0, platform.charLimit - text.length);
+      
+      // Change remaining color if over limit
+      const remainingEl = document.getElementById('remainingChars');
+      if (text.length > platform.charLimit) {
+        remainingEl.style.color = '#ff4444';
+      } else {
+        remainingEl.style.color = 'var(--copper)';
+      }
+    }
+    
+    function copyFormatted() {
+      const text = document.getElementById('formattedOutput').textContent;
+      if (!text) return;
+      
+      navigator.clipboard.writeText(text).then(() => {
+        // Show brief notification
+        const originalText = document.getElementById('copyBtn').textContent;
+        document.getElementById('copyBtn').textContent = '✓ Copied!';
+        setTimeout(() => {
+          document.getElementById('copyBtn').textContent = originalText;
+        }, 2000);
+      });
+    }
+    
+    function updateCharCount() {
+      const text = document.getElementById('originalText').value;
+      document.getElementById('charCount').textContent = text.length + ' characters';
+      document.getElementById('wordCount').textContent = text.trim() === '' ? '0' : text.trim().split(/\s+/).length + ' words';
+    }
+    
+    function updatePlatformCharCount() {
+      const text = document.getElementById('platformInput').value;
+      document.getElementById('platformCharCount').textContent = text.length + ' characters';
+      formatForPlatform();
+    }
+    
+    // ==================== MEDIA RESIZER ====================
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        currentImage = e.target.result;
+        localStorage.setItem('legacyBridgeImage', currentImage);
+        updateMediaPreview();
+        
+        // Select default dimension
+        selectDimension(document.querySelector('.dimension-btn[data-platform="' + selectedPlatform + '"]') || document.querySelector('.dimension-btn'));
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    function updateMediaPreview() {
+      const preview = document.getElementById('mediaPreview');
+      if (currentImage) {
+        preview.innerHTML = '<img src="' + currentImage + '" alt="Preview">';
+        document.getElementById('downloadBtn').disabled = false;
+      } else {
+        preview.innerHTML = '<span>📷</span><p>Upload an image to resize it for social media</p><p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">Supports JPG, PNG, WebP</p>';
+        document.getElementById('downloadBtn').disabled = true;
+      }
+    }
+    
+    function selectDimension(btn) {
+      document.querySelectorAll('.dimension-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      if (currentImage) {
+        resizeImage(btn.dataset.width, btn.dataset.height);
+      }
+    }
+    
+    function resizeImage(width, height) {
+      if (!currentImage) return;
+      
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Calculate dimensions maintaining aspect ratio
+        const aspectRatio = img.width / img.height;
+        let targetWidth = parseInt(width);
+        let targetHeight = parseInt(height);
+        
+        if (targetWidth / targetHeight > aspectRatio) {
+          targetWidth = targetHeight * aspectRatio;
+        } else {
+          targetHeight = targetWidth / aspectRatio;
+        }
+        
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+        
+        // Fill with background color
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw image centered
+        const x = (targetWidth - img.width) / 2;
+        const y = (targetHeight - img.height) / 2;
+        ctx.drawImage(img, x, y, img.width, img.height);
+        
+        // Get quality and format
+        const quality = parseFloat(document.getElementById('qualitySelect').value);
+        const format = document.getElementById('formatSelect').value;
+        
+        // Convert to selected format
+        let dataUrl;
+        if (format === 'png') {
+          dataUrl = canvas.toDataURL('image/png');
+        } else if (format === 'webp') {
+          dataUrl = canvas.toDataURL('image/webp', quality);
+        } else {
+          dataUrl = canvas.toDataURL('image/jpeg', quality);
+        }
+        
+        resizedImageData = dataUrl;
+        
+        // Update info display
+        const info = document.getElementById('resizedInfo');
+        info.style.display = 'block';
+        document.getElementById('resizedDimensions').textContent = targetWidth + '×' + targetHeight;
+        
+        // Calculate file size
+        const size = (dataUrl.length * 3 / 4 - (dataUrl.split(',')[0].length + 1)) / 1024;
+        document.getElementById('resizedSize').textContent = size.toFixed(1) + ' KB';
+        document.getElementById('resizedFormat').textContent = format.toUpperCase();
+        
+        document.getElementById('downloadBtn').disabled = false;
+      };
+      img.src = currentImage;
+    }
+    
+    function downloadResized() {
+      if (!resizedImageData) return;
+      
+      const link = document.createElement('a');
+      link.href = resizedImageData;
+      link.download = 'legacybridge-resized.' + document.getElementById('formatSelect').value;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    
+    // ==================== UTILITY ====================
+    function countWords(text) {
+      return text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+    }
+    
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
