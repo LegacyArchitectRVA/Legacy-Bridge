@@ -2,1105 +2,1942 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LegacyBridge Text Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --obsidian: #030303;
-      --celtic-green: #006400;
-      --celtic-green-light: #2E8B57;
-      --celtic-green-glow: rgba(0, 100, 0, 0.3);
-      --aged-bronze: #B87333;
-      --aged-bronze-light: #CD7F32;
-      --aged-bronze-dark: #8B4513;
-      --aged-bronze-glow: rgba(184, 115, 51, 0.3);
-      --text-primary: #E0E0E0;
-      --text-secondary: #8B8B8B;
-      --text-muted: #5A5A5A;
-      --surface: #080808;
-      --surface-light: #121212;
-      --surface-dark: #040404;
-      --surface-card: #0a0a0a;
-      --surface-card-hover: #141414;
+      --bg: #030303;
+      --bg-light: #080808;
+      --bg-dark: #040404;
+      --bg-card: #0a0a0a;
+      --text: #E0E0E0;
+      --text-muted: #8B8B8B;
+      --text-faint: #5A5A5A;
+      --bronze: #B87333;
+      --bronze-light: #CD7F32;
+      --bronze-dark: #8B4513;
+      --green: #006400;
+      --green-light: #2E8B57;
+      --green-glow: rgba(0, 100, 0, 0.3);
+      --bronze-glow: rgba(184, 115, 51, 0.3);
       --border: #1E1E1E;
-      --border-light: #2A2A2A;
-      --border-celtic: #006400;
       --success: #2E8B57;
-      --success-glow: rgba(46, 139, 87, 0.3);
       --warning: #D4A017;
-      --warning-glow: rgba(212, 160, 23, 0.3);
       --error: #C9472B;
-      --error-glow: rgba(201, 71, 43, 0.3);
-      --mistral-color: #7B68EE;
-      --grok-color: #FF6B35;
-      --gemini-color: #4285F4;
-      --chatgpt-color: #10A37F;
-      --claude-color: #F7931E;
+      --radius: 8px;
+      --radius-sm: 4px;
       --spacing-xs: 0.25rem;
       --spacing-sm: 0.5rem;
       --spacing-md: 1rem;
       --spacing-lg: 1.5rem;
       --spacing-xl: 2rem;
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --radius-lg: 12px;
-      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.5);
-      --shadow-glow-celtic: 0 0 12px var(--celtic-green-glow);
-      --shadow-glow-bronze: 0 0 12px var(--aged-bronze-glow);
+      --sidebar-w: 70px;
+      --topbar-h: 56px;
+      --bottom-h: 56px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--obsidian);
-      color: var(--text-primary);
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      overflow: hidden;
     }
 
-    .app-container {
+    .app {
       display: flex;
       min-height: 100vh;
-      flex-direction: column;
     }
 
-    .top-bar {
-      background: var(--surface-dark);
-      border-bottom: 1px solid var(--aged-bronze);
-      padding: var(--spacing-md) var(--spacing-lg);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: var(--spacing-md);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: var(--shadow-md);
-    }
-
-    .logo-section { display: flex; align-items: center; gap: var(--spacing-md); }
-    .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.15em; color: var(--aged-bronze); text-shadow: var(--shadow-glow-bronze); }
-    .logo-alpha { font-size: 0.75rem; color: var(--celtic-green-light); letter-spacing: 0.15em; text-transform: uppercase; }
-    .platform-limits { display: flex; gap: var(--spacing-lg); flex-wrap: wrap; font-size: 0.85rem; }
-    .platform-limit { display: flex; align-items: center; gap: var(--spacing-xs); color: var(--text-secondary); white-space: nowrap; padding: var(--spacing-xs) var(--spacing-sm); background: rgba(0, 100, 0, 0.1); border-radius: var(--radius-sm); border: 1px solid var(--celtic-green); }
-    .platform-limit strong { color: var(--celtic-green-light); }
-    .platform-limit small { color: var(--text-muted); font-size: 0.7rem; }
-    .top-bar-actions { display: flex; gap: var(--spacing-md); align-items: center; }
-    .save-status { font-size: 0.8rem; color: var(--success); padding: var(--spacing-xs) var(--spacing-sm); background: rgba(46, 139, 87, 0.1); border-radius: var(--radius-sm); }
-    .tips-btn { background: transparent; border: 1px solid var(--aged-bronze); color: var(--aged-bronze-light); padding: var(--spacing-xs) var(--spacing-md); border-radius: var(--radius-md); cursor: pointer; font-size: 0.8rem; transition: all 0.2s ease; }
-    .tips-btn:hover { background: var(--aged-bronze-glow); box-shadow: var(--shadow-glow-bronze); }
-
+    /* Sidebar */
     .sidebar {
-      width: 70px;
-      background: var(--surface-dark);
-      border-right: 1px solid var(--aged-bronze);
+      width: var(--sidebar-w);
+      background: var(--bg-dark);
+      border-right: 1px solid var(--bronze);
       padding: var(--spacing-lg) 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: var(--spacing-sm);
-      box-shadow: var(--shadow-sm);
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+      overflow-y: auto;
     }
+
     .sidebar-logo {
-      width: 48px; height: 48px;
-      border-radius: var(--radius-md);
-      background: linear-gradient(135deg, var(--aged-bronze-dark), var(--aged-bronze-light));
-      color: var(--obsidian);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 1.25rem;
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--bronze-dark), var(--bronze-light));
+      color: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.25rem;
       margin-bottom: var(--spacing-lg);
-      box-shadow: var(--shadow-glow-bronze);
+      box-shadow: 0 0 12px var(--bronze-glow);
     }
+
     .sidebar-btn {
-      width: 48px; height: 48px;
-      border-radius: var(--radius-md);
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius);
       background: transparent;
       border: 1px solid transparent;
-      color: var(--text-secondary);
+      color: var(--text-muted);
       cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
-      transition: all 0.2s ease;
-      position: relative; overflow: hidden;
-    }
-    .sidebar-btn::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: var(--celtic-green-glow); opacity: 0; transition: opacity 0.2s ease; border-radius: var(--radius-md);
-    }
-    .sidebar-btn:hover { background: var(--surface-light); color: var(--text-primary); border-color: var(--aged-bronze); }
-    .sidebar-btn.active { background: linear-gradient(135deg, var(--aged-bronze-dark), var(--aged-bronze-light)); color: var(--obsidian); border-color: var(--aged-bronze); box-shadow: var(--shadow-glow-bronze); }
-    .sidebar-btn.active::before { opacity: 0.2; }
-
-    .search-widget {
-      background: var(--surface-dark);
-      border-bottom: 1px solid var(--border);
-      padding: var(--spacing-md) var(--spacing-lg);
-      display: none;
-    }
-    .search-widget.active { display: flex; align-items: center; gap: var(--spacing-md); }
-    .search-input { flex: 1; padding: var(--spacing-sm) var(--spacing-md); background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius-md); color: var(--text-primary); font-size: 1rem; }
-    .search-input:focus { outline: none; border-color: var(--aged-bronze); }
-    .search-btn { padding: var(--spacing-sm) var(--spacing-lg); background: linear-gradient(135deg, var(--aged-bronze-dark), var(--aged-bronze-light)); color: var(--obsidian); border: none; border-radius: var(--radius-md); cursor: pointer; font-weight: 700; transition: all 0.2s ease; }
-    .search-btn:hover { box-shadow: var(--shadow-glow-bronze); }
-
-    .main-content {
       display: flex;
-      flex-direction: column;
-      flex: 1;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      transition: all 0.2s;
+      position: relative;
       overflow: hidden;
     }
 
+    .sidebar-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--green-glow);
+      opacity: 0;
+      transition: opacity 0.2s;
+      border-radius: var(--radius);
+    }
+
+    .sidebar-btn:hover {
+      background: var(--bg-light);
+      color: var(--text);
+      border-color: var(--bronze);
+    }
+
+    .sidebar-btn.active {
+      background: linear-gradient(135deg, var(--bronze-dark), var(--bronze-light));
+      color: var(--bg);
+      border-color: var(--bronze);
+      box-shadow: 0 0 12px var(--bronze-glow);
+    }
+
+    .sidebar-btn.active::before { opacity: 0.2; }
+
+    /* Main Area */
+    .main {
+      margin-left: var(--sidebar-w);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Top Bar */
+    .topbar {
+      height: var(--topbar-h);
+      background: var(--bg-dark);
+      border-bottom: 1px solid var(--bronze);
+      padding: 0 var(--spacing-lg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-section { display: flex; align-items: center; gap: var(--spacing-md); }
+    .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.15em; color: var(--bronze); text-shadow: 0 0 12px var(--bronze-glow); }
+    .logo-alpha { font-size: 0.75rem; color: var(--green-light); letter-spacing: 0.15em; text-transform: uppercase; }
+
+    .limits {
+      display: flex;
+      gap: var(--spacing-lg);
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+    }
+
+    .limit {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      color: var(--text-muted);
+      padding: var(--spacing-xs) var(--spacing-sm);
+      background: rgba(0, 100, 0, 0.1);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--green);
+    }
+
+    .limit strong { color: var(--green-light); }
+    .limit small { color: var(--text-faint); font-size: 0.7rem; }
+
+    .actions { display: flex; gap: var(--spacing-md); align-items: center; }
+    .save-status { font-size: 0.8rem; color: var(--success); padding: var(--spacing-xs) var(--spacing-sm); background: rgba(46, 139, 87, 0.1); border-radius: var(--radius-sm); }
+    .tips-btn {
+      background: transparent;
+      border: 1px solid var(--bronze);
+      color: var(--bronze-light);
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+    }
+    .tips-btn:hover { background: var(--bronze-glow); box-shadow: 0 0 12px var(--bronze-glow); }
+
+    /* Content */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    /* Score Card */
     .score-card {
-      background: linear-gradient(135deg, var(--surface-card) 0%, var(--surface-dark) 100%);
-      border: 2px solid var(--celtic-green);
-      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--bg-card), var(--bg-dark));
+      border: 2px solid var(--green);
+      border-radius: var(--radius);
       padding: var(--spacing-lg);
       margin: var(--spacing-md) var(--spacing-lg);
-      box-shadow: var(--shadow-md), var(--shadow-glow-celtic);
-      display: flex; align-items: center; gap: var(--spacing-xl); flex-wrap: wrap;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 0 12px var(--green-glow);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xl);
+      flex-wrap: wrap;
     }
-    .score-primary { display: flex; flex-direction: column; align-items: center; min-width: 180px; }
-    .score-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: var(--spacing-xs); }
-    .score-value { font-size: 4rem; font-weight: 800; color: var(--celtic-green-light); text-shadow: var(--shadow-glow-celtic); line-height: 1; }
-    .score-status { font-size: 1rem; color: var(--success); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-    .score-metrics { display: flex; gap: var(--spacing-lg); flex: 1; min-width: 300px; }
-    .score-metric { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-sm); background: rgba(0, 100, 0, 0.05); border-radius: var(--radius-md); border: 1px solid rgba(0, 100, 0, 0.2); }
-    .score-metric-icon { font-size: 1.2rem; }
-    .score-metric-value { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
-    .score-metric-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-    .score-checkmarks { display: flex; gap: var(--spacing-md); flex-wrap: wrap; width: 100%; justify-content: center; margin-top: var(--spacing-md); }
-    .score-checkmark { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-md); background: rgba(46, 139, 87, 0.1); border-radius: var(--radius-sm); border: 1px solid var(--success); font-size: 0.85rem; color: var(--success); }
 
-    .toolbar {
-      background: var(--surface);
-      border-bottom: 2px solid var(--aged-bronze);
-      padding: var(--spacing-md) var(--spacing-lg);
-      display: flex; align-items: center; gap: var(--spacing-lg); flex-wrap: wrap;
-      box-shadow: var(--shadow-sm);
+    .score-primary { display: flex; flex-direction: column; align-items: center; min-width: 180px; }
+    .score-label { font-size: 0.75rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: var(--spacing-xs); }
+    .score-value { font-size: 4rem; font-weight: 800; color: var(--green-light); text-shadow: 0 0 12px var(--green-glow); line-height: 1; }
+    .score-status { font-size: 1rem; color: var(--success); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .score-metrics { display: flex; gap: var(--spacing-lg); flex: 1; min-width: 300px; flex-wrap: wrap; }
+    .metric {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-sm);
+      background: rgba(0,100,0,0.05);
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,100,0,0.2);
     }
-    .toolbar-section {
-      display: flex; align-items: center; gap: var(--spacing-sm);
+    .metric-value { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .metric-label { font-size: 0.75rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .score-checks {
+      display: flex;
+      gap: var(--spacing-md);
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: center;
+      margin-top: var(--spacing-md);
+    }
+    .check {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      padding: var(--spacing-xs) var(--spacing-md);
+      background: rgba(46,139,87,0.1);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--success);
+      font-size: 0.85rem;
+      color: var(--success);
+    }
+
+    /* Toolbar */
+    .toolbar {
+      background: var(--bg-light);
+      border-bottom: 2px solid var(--bronze);
+      padding: var(--spacing-md) var(--spacing-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-lg);
+      flex-wrap: wrap;
+    }
+
+    .tool-section {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
       padding: var(--spacing-sm) var(--spacing-md);
-      background: var(--surface-dark);
-      border-radius: var(--radius-md);
+      background: var(--bg-dark);
+      border-radius: var(--radius);
       position: relative;
     }
-    .toolbar-section::after {
-      content: ''; position: absolute; right: -1px; top: 50%; transform: translateY(-50%);
-      width: 2px; height: 60%;
-      background: linear-gradient(to bottom, var(--aged-bronze-light), var(--aged-bronze-dark));
+
+    .tool-section::after {
+      content: '';
+      position: absolute;
+      right: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2px;
+      height: 60%;
+      background: linear-gradient(to bottom, var(--bronze-light), var(--bronze-dark));
       border-radius: 1px;
     }
-    .toolbar-section:last-child::after { display: none; }
-    .toolbar-section-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-right: var(--spacing-sm); white-space: nowrap; }
-    .toolbar-btn {
-      padding: var(--spacing-sm) var(--spacing-md);
+
+    .tool-section:last-child::after { display: none; }
+    .tool-label { font-size: 0.65rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em; margin-right: var(--spacing-sm); white-space: nowrap; }
+
+    .tool-btn {
       background: transparent;
       border: 1px solid transparent;
-      color: var(--text-secondary);
+      color: var(--text-muted);
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: var(--radius-sm);
       cursor: pointer;
-      border-radius: var(--radius-sm);
-      font-size: 1rem;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      min-width: 32px;
-      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      white-space: nowrap;
     }
-    .toolbar-btn:hover { background: rgba(184, 115, 51, 0.15); color: var(--aged-bronze-light); border-color: var(--aged-bronze); }
-    .toolbar-btn.active { background: var(--aged-bronze); color: var(--obsidian); border-color: var(--aged-bronze-light); }
-    .toolbar-select {
-      padding: var(--spacing-sm) var(--spacing-md);
-      background: var(--surface-dark);
+    .tool-btn:hover { background: rgba(184,115,51,0.15); color: var(--bronze-light); border-color: var(--bronze); }
+
+    .tool-select {
+      background: transparent;
       border: 1px solid var(--border);
+      color: var(--text);
+      padding: var(--spacing-xs) var(--spacing-sm);
       border-radius: var(--radius-sm);
-      color: var(--text-primary);
       font-size: 0.9rem;
       cursor: pointer;
       min-width: 100px;
-      transition: all 0.2s ease;
     }
-    .toolbar-select:hover, .toolbar-select:focus { border-color: var(--aged-bronze); background: rgba(184, 115, 51, 0.05); }
+    .tool-select:hover, .tool-select:focus { border-color: var(--bronze); background: rgba(184,115,51,0.05); }
 
-    .workspace-container {
+    /* Workspace */
+    .workspace {
       display: flex;
       flex: 1;
       min-height: 400px;
       overflow: hidden;
-      border-bottom: 2px solid var(--aged-bronze);
+      border-bottom: 2px solid var(--bronze);
+      margin: 0 var(--spacing-lg) var(--spacing-md);
     }
-    .editor-section {
+
+    .editor-sec {
       flex: 2;
       display: flex;
       flex-direction: column;
-      background: var(--surface-dark);
-      overflow: hidden;
-      border-right: 2px solid var(--aged-bronze);
-      box-shadow: inset 0 0 20px rgba(184, 115, 51, 0.1);
+      border-right: 1px solid var(--border);
+      min-width: 300px;
     }
-    .editor-header {
-      padding: var(--spacing-md) var(--spacing-lg);
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      background: rgba(184, 115, 51, 0.05);
-    }
-    .editor-title { font-size: 0.9rem; color: var(--aged-bronze-light); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
-    .editor-content { flex: 1; padding: var(--spacing-lg); overflow-y: auto; }
-    .editor-input {
-      width: 100%; min-height: 100%;
-      background: transparent;
-      border: none;
-      color: var(--text-primary);
-      font-size: 1.1rem; line-height: 1.8;
-      resize: none; outline: none;
-    }
-    .editor-input:focus { outline: none; }
-    .editor-input::selection { background: var(--aged-bronze); color: var(--obsidian); }
 
-    .preview-section {
+    .editor-header {
+      padding: var(--spacing-md);
+      background: var(--bg-dark);
+      border-bottom: 1px solid var(--border);
+    }
+    .editor-title { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .editor-content {
+      flex: 1;
+      padding: var(--spacing-md);
+      overflow-y: auto;
+      background: var(--bg-light);
+    }
+
+    .editor-input {
+      width: 100%;
+      min-height: 300px;
+      max-height: 100%;
+      padding: var(--spacing-md);
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 1rem;
+      line-height: 1.6;
+      resize: none;
+      font-family: inherit;
+      outline: none;
+    }
+    .editor-input:focus { border-color: var(--bronze); }
+    .editor-input::placeholder { color: var(--text-faint); }
+
+    .preview-sec {
       flex: 1;
       display: flex;
       flex-direction: column;
-      background: var(--surface);
-      overflow: hidden;
+      min-width: 250px;
+      background: var(--bg-dark);
     }
+
     .preview-header {
-      padding: var(--spacing-md) var(--spacing-lg);
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      background: rgba(0, 100, 0, 0.05);
-      border-bottom-color: var(--celtic-green);
-    }
-    .preview-title { font-size: 0.9rem; color: var(--celtic-green-light); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
-    .platform-engine { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-xs) var(--spacing-sm); background: rgba(184, 115, 51, 0.1); border-radius: var(--radius-sm); border: 1px solid var(--aged-bronze); }
-    .platform-engine-icon { color: var(--aged-bronze-light); font-size: 1rem; }
-    .platform-engine-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-    .preview-content { flex: 1; padding: var(--spacing-md); overflow-y: auto; }
-    .preview-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); }
-    .platform-preview {
-      background: var(--surface-card);
-      border: 2px solid var(--border);
-      border-radius: var(--radius-md);
       padding: var(--spacing-md);
-      transition: all 0.2s ease;
+      background: var(--bg-light);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .platform-preview:hover { border-color: var(--celtic-green); box-shadow: var(--shadow-md), var(--shadow-glow-celtic); }
-    .platform-preview-header { display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-sm); padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--border); }
-    .platform-preview-icon { font-size: 1.2rem; }
-    .platform-preview-name { font-size: 0.85rem; color: var(--text-primary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-    .platform-preview-charcount { font-size: 0.7rem; color: var(--text-muted); margin-left: auto; }
-    .platform-preview-content { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; max-height: 200px; overflow-y: auto; }
+    .preview-title { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
 
-    .module-sections-container { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
-    .module-section { display: none; flex: 1; overflow-y: auto; padding: var(--spacing-lg); background: var(--surface-dark); }
-    .module-section.active { display: flex; flex-direction: column; }
-    .module-header { margin-bottom: var(--spacing-lg); padding-bottom: var(--spacing-md); border-bottom: 2px solid var(--aged-bronze); }
-    .module-title { font-size: 1.5rem; color: var(--aged-bronze-light); font-weight: 700; text-shadow: var(--shadow-glow-bronze); }
-    .module-subtitle { color: var(--text-secondary); margin-top: var(--spacing-xs); font-size: 0.95rem; }
+    .transform-btn {
+      background: linear-gradient(135deg, var(--bronze-dark), var(--bronze-light));
+      color: var(--bg);
+      border: none;
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .transform-btn:hover { box-shadow: 0 0 12px var(--bronze-glow); }
 
-    .ai-providers-selector { display: flex; gap: var(--spacing-sm); flex-wrap: wrap; }
-    .ai-provider-btn { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-md) var(--spacing-lg); background: var(--surface-card); border: 2px solid var(--border); border-radius: var(--radius-md); color: var(--text-secondary); cursor: pointer; font-size: 1rem; transition: all 0.2s ease; }
-    .ai-provider-btn:hover { border-color: var(--aged-bronze); color: var(--text-primary); background: rgba(184, 115, 51, 0.1); }
-    .ai-provider-btn.active { background: linear-gradient(135deg, var(--aged-bronze-dark), var(--aged-bronze-light)); color: var(--obsidian); border-color: var(--aged-bronze); box-shadow: var(--shadow-glow-bronze); }
-    .ai-query-container { display: flex; gap: var(--spacing-md); flex-wrap: wrap; }
-    .ai-query-input { flex: 1; min-width: 300px; padding: var(--spacing-md) var(--spacing-lg); background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius-md); color: var(--text-primary); font-size: 1rem; transition: all 0.2s ease; }
-    .ai-query-input:focus { outline: none; border-color: var(--aged-bronze); background: rgba(184, 115, 51, 0.05); }
-    .ai-send-btn { padding: var(--spacing-md) var(--spacing-xl); background: linear-gradient(135deg, var(--aged-bronze-dark), var(--aged-bronze-light)); color: var(--obsidian); border: none; border-radius: var(--radius-md); cursor: pointer; font-weight: 700; font-size: 1rem; white-space: nowrap; transition: all 0.2s ease; }
-    .ai-send-btn:hover { box-shadow: var(--shadow-glow-bronze); transform: translateY(-1px); }
-    .ai-send-btn.secondary { background: var(--surface-card); color: var(--text-primary); border: 2px solid var(--border); }
-    .ai-send-btn.secondary:hover { border-color: var(--aged-bronze); background: rgba(184, 115, 51, 0.1); }
-    .ai-results-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: var(--spacing-md); margin-top: var(--spacing-md); }
-    .ai-result-card { background: var(--surface-card); border: 2px solid var(--border); border-radius: var(--radius-md); padding: var(--spacing-md); display: flex; flex-direction: column; gap: var(--spacing-sm); transition: all 0.2s ease; }
-    .ai-result-card:hover { border-color: var(--aged-bronze); box-shadow: var(--shadow-md); }
-    .ai-result-header { display: flex; align-items: center; gap: var(--spacing-sm); padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--border); }
-    .ai-result-icon { font-size: 1.3rem; }
-    .ai-result-name { font-weight: 700; color: var(--text-primary); font-size: 1.1rem; }
-    .ai-result-status { font-size: 0.8rem; color: var(--text-muted); margin-left: auto; }
-    .ai-result-status.loading { color: var(--aged-bronze-light); }
-    .ai-result-content { flex: 1; padding: var(--spacing-sm) 0; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; word-wrap: break-word; max-height: 300px; overflow-y: auto; }
-    .ai-result-content.empty { color: var(--text-muted); font-style: italic; }
-    .ai-result-meta { display: flex; gap: var(--spacing-md); font-size: 0.8rem; color: var(--text-muted); padding-top: var(--spacing-sm); border-top: 1px solid var(--border); }
+    .preview-content {
+      flex: 1;
+      padding: var(--spacing-md);
+      overflow-y: auto;
+    }
 
-    .media-upload-area { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--spacing-md); padding: var(--spacing-xl); background: var(--surface-card); border: 3px dashed var(--border); border-radius: var(--radius-lg); cursor: pointer; transition: all 0.2s ease; }
-    .media-upload-area:hover { border-color: var(--aged-bronze); background: rgba(184, 115, 51, 0.05); }
-    .media-upload-area.dragover { border-color: var(--celtic-green-light); background: rgba(0, 100, 0, 0.1); }
-    .media-upload-icon { font-size: 3rem; color: var(--aged-bronze); }
-    .media-upload-text { font-size: 1.1rem; color: var(--text-secondary); }
-    .media-upload-btn { padding: var(--spacing-md) var(--spacing-xl); background: linear-gradient(135deg, var(--aged-bronze-dark), var(--aged-bronze-light)); color: var(--obsidian); border: none; border-radius: var(--radius-md); cursor: pointer; font-weight: 700; font-size: 1rem; transition: all 0.2s ease; }
-    .media-upload-btn:hover { box-shadow: var(--shadow-glow-bronze); }
-    .media-preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--spacing-md); }
-    .media-preview-item { position: relative; aspect-ratio: 1; background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
-    .media-preview-item img { width: 100%; height: 100%; object-fit: cover; }
-    .media-resize-options { display: flex; gap: var(--spacing-sm); flex-wrap: wrap; padding-top: var(--spacing-md); }
-    .resize-btn { padding: var(--spacing-sm) var(--spacing-md); background: var(--surface-card); border: 2px solid var(--border); border-radius: var(--radius-md); color: var(--text-primary); cursor: pointer; font-size: 0.85rem; transition: all 0.2s ease; }
-    .resize-btn:hover { border-color: var(--aged-bronze); background: rgba(184, 115, 51, 0.1); }
+    .platforms {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
 
-    .research-controls { display: flex; gap: var(--spacing-md); }
-    .research-input { flex: 1; padding: var(--spacing-md) var(--spacing-lg); background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius-md); color: var(--text-primary); font-size: 1rem; }
-    .research-btn { padding: var(--spacing-md) var(--spacing-xl); background: linear-gradient(135deg, var(--aged-bronze-dark), var(--aged-bronze-light)); color: var(--obsidian); border: none; border-radius: var(--radius-md); cursor: pointer; font-weight: 700; font-size: 1rem; transition: all 0.2s ease; }
-    .research-btn:hover { box-shadow: var(--shadow-glow-bronze); }
+    .platform {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--spacing-md);
+    }
 
-    .publish-platforms { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--spacing-md); }
-    .publish-platform { background: var(--surface-card); border: 2px solid var(--border); border-radius: var(--radius-md); padding: var(--spacing-lg); cursor: pointer; transition: all 0.2s ease; }
-    .publish-platform:hover { border-color: var(--aged-bronze); box-shadow: var(--shadow-md), var(--shadow-glow-bronze); }
-    .publish-platform h4 { color: var(--aged-bronze-light); margin-bottom: var(--spacing-sm); }
-    .publish-platform p { color: var(--text-secondary); font-size: 0.9rem; }
-    .publish-status { background: var(--surface-card); border: 2px solid var(--border); border-radius: var(--radius-md); padding: var(--spacing-lg); margin-top: var(--spacing-md); }
+    .platform-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--spacing-sm);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .platform-name { font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .platform-count { font-size: 0.7rem; color: var(--text-faint); }
+    .platform-count.over { color: var(--error); }
+    .platform-count.warn { color: var(--warning); }
+
+    .platform-text {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    /* Modules */
+    .modules {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      margin: 0 var(--spacing-lg) var(--spacing-md);
+    }
+
+    .module {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--spacing-lg);
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .module.active { display: flex; flex-direction: column; }
+
+    .module-header { margin-bottom: var(--spacing-xl); }
+    .module-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--bronze);
+      text-shadow: 0 0 12px var(--bronze-glow);
+      margin-bottom: var(--spacing-xs);
+    }
+    .module-subtitle { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* AI Module */
+    .ai-module { display: flex; flex-direction: column; gap: var(--spacing-lg); }
+
+    .ai-providers {
+      display: flex;
+      gap: var(--spacing-md);
+      flex-wrap: wrap;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .ai-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ai-btn:hover { border-color: var(--bronze); background: rgba(184,115,51,0.1); }
+    .ai-btn.active { border-color: var(--bronze); background: var(--bronze); color: var(--bg); }
+
+    .ai-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .ai-name { font-size: 0.85rem; font-weight: 600; }
+
+    .ai-prompt { display: flex; flex-direction: column; gap: var(--spacing-md); }
+    .ai-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+
+    .ai-input {
+      width: 100%;
+      min-height: 100px;
+      padding: var(--spacing-md);
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 1rem;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .ai-actions { display: flex; gap: var(--spacing-md); }
+
+    .ai-send {
+      background: linear-gradient(135deg, var(--bronze-dark), var(--bronze-light));
+      color: var(--bg);
+      border: none;
+      padding: var(--spacing-sm) var(--spacing-lg);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .ai-send:hover { box-shadow: 0 0 12px var(--bronze-glow); }
+
+    .ai-results { display: flex; flex-direction: column; gap: var(--spacing-lg); }
+
+    .ai-result {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--spacing-lg);
+    }
+
+    .ai-result-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .ai-result-name { font-weight: 600; color: var(--text); }
+    .ai-result-status { font-size: 0.75rem; color: var(--text-faint); margin-left: auto; }
+    .ai-result-status.loading { color: var(--bronze-light); }
+
+    .ai-result-content {
+      color: var(--text);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .ai-result-content.empty { color: var(--text-faint); font-style: italic; }
+
+    /* Media Module */
+    .media-module { display: flex; flex-direction: column; gap: var(--spacing-lg); }
+
+    .media-upload {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: var(--spacing-xl);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--bg-light);
+    }
+
+    .media-upload:hover,
+    .media-upload.dragover {
+      border-color: var(--bronze);
+      background: rgba(184,115,51,0.05);
+    }
+
+    .media-icon { font-size: 3rem; color: var(--text-faint); margin-bottom: var(--spacing-md); }
+    .media-text { color: var(--text-muted); margin-bottom: var(--spacing-md); }
+
+    .media-btn {
+      background: linear-gradient(135deg, var(--bronze-dark), var(--bronze-light));
+      color: var(--bg);
+      border: none;
+      padding: var(--spacing-sm) var(--spacing-lg);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .media-btn:hover { box-shadow: 0 0 12px var(--bronze-glow); }
+
+    .media-previews {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+    }
+
+    .media-preview {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--spacing-md);
+    }
+
+    .media-preview img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .media-name {
+      font-size: 0.85rem;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .media-resize {
+      display: flex;
+      gap: var(--spacing-sm);
+      flex-wrap: wrap;
+      margin-top: var(--spacing-lg);
+    }
+
+    .resize-btn {
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .resize-btn:hover { border-color: var(--bronze); background: rgba(184,115,51,0.1); }
+
+    /* Research Module */
+    .research-module { display: flex; flex-direction: column; gap: var(--spacing-lg); }
+
+    .research-inputs { display: flex; gap: var(--spacing-md); }
+
+    .research-input {
+      flex: 1;
+      padding: var(--spacing-md);
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .research-btn {
+      background: linear-gradient(135deg, var(--bronze-dark), var(--bronze-light));
+      color: var(--bg);
+      border: none;
+      padding: var(--spacing-md) var(--spacing-lg);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .research-btn:hover { box-shadow: 0 0 12px var(--bronze-glow); }
+
+    .research-results { display: flex; flex-direction: column; gap: var(--spacing-md); }
+
+    .research-result {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--spacing-lg);
+    }
+
+    .research-title { color: var(--bronze-light); margin-bottom: var(--spacing-sm); }
+    .research-snippet { color: var(--text-muted); line-height: 1.6; }
+
+    /* Publish Module */
+    .publish-module { display: flex; flex-direction: column; gap: var(--spacing-lg); }
+
+    .publish-platforms {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+    }
+
+    .publish-platform {
+      background: var(--bg-light);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--spacing-lg);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .publish-platform:hover { border-color: var(--bronze); background: rgba(184,115,51,0.05); }
+    .publish-platform.selected { border-color: var(--green); background: rgba(0,100,0,0.1); }
+    .publish-platform h4 { color: var(--text); margin-bottom: var(--spacing-xs); }
+    .publish-platform p { color: var(--text-muted); font-size: 0.85rem; }
+
+    .publish-status {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--spacing-lg);
+    }
+    .publish-status h4 { color: var(--bronze-light); margin-bottom: var(--spacing-sm); }
+    .publish-status p { color: var(--text-muted); }
+
+    /* Vault Module */
+    .vault-module { display: flex; flex-direction: column; gap: var(--spacing-lg); }
 
     .vault-controls { display: flex; gap: var(--spacing-md); }
-    .vault-input { flex: 1; padding: var(--spacing-md) var(--spacing-lg); background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius-md); color: var(--text-primary); font-size: 1rem; }
-    .vault-save-btn { padding: var(--spacing-md) var(--spacing-xl); background: linear-gradient(135deg, var(--aged-bronze-dark), var(--aged-bronze-light)); color: var(--obsidian); border: none; border-radius: var(--radius-md); cursor: pointer; font-weight: 700; font-size: 1rem; transition: all 0.2s ease; }
-    .vault-save-btn:hover { box-shadow: var(--shadow-glow-bronze); }
-    .vault-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--spacing-md); margin-top: var(--spacing-md); }
-    .vault-item { background: var(--surface-card); border: 2px solid var(--border); border-radius: var(--radius-md); padding: var(--spacing-md); cursor: pointer; transition: all 0.2s ease; }
-    .vault-item:hover { border-color: var(--aged-bronze); box-shadow: var(--shadow-md); }
 
+    .vault-input {
+      flex: 1;
+      padding: var(--spacing-md);
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .vault-save {
+      background: linear-gradient(135deg, var(--bronze-dark), var(--bronze-light));
+      color: var(--bg);
+      border: none;
+      padding: var(--spacing-md) var(--spacing-lg);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .vault-save:hover { box-shadow: 0 0 12px var(--bronze-glow); }
+
+    .vault-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: var(--spacing-md);
+    }
+
+    .vault-item {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--spacing-lg);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .vault-item:hover { border-color: var(--bronze); background: rgba(184,115,51,0.05); }
+    .vault-title { color: var(--text); font-weight: 600; margin-bottom: var(--spacing-xs); }
+    .vault-date { color: var(--text-faint); font-size: 0.8rem; }
+
+    /* Grammar Panel */
     .grammar-panel {
       position: fixed;
       right: 0;
       top: 0;
+      bottom: 0;
       width: 350px;
-      height: 100vh;
-      background: var(--surface);
-      border-left: 2px solid var(--aged-bronze);
-      display: none;
-      flex-direction: column;
+      background: var(--bg-dark);
+      border-left: 1px solid var(--border);
+      transform: translateX(100%);
+      transition: transform 0.3s;
       z-index: 200;
-      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
     }
-    .grammar-panel.active { display: flex; }
-    .grammar-panel-header { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md) var(--spacing-lg); border-bottom: 2px solid var(--aged-bronze); background: rgba(184, 115, 51, 0.05); }
-    .grammar-panel-title { font-size: 1.1rem; color: var(--aged-bronze-light); font-weight: 700; }
-    .grammar-panel-close { background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.5rem; padding: var(--spacing-xs); }
-    .grammar-panel-close:hover { color: var(--error); }
-    .grammar-panel-content { flex: 1; padding: var(--spacing-lg); overflow-y: auto; }
-    .grammar-stat { display: flex; align-items: center; gap: var(--spacing-md); padding: var(--spacing-md); background: var(--surface-card); border: 2px solid var(--border); border-radius: var(--radius-md); margin-bottom: var(--spacing-md); }
-    .grammar-stat-icon { font-size: 1.5rem; }
-    .grammar-stat-info { display: flex; flex-direction: column; }
-    .grammar-stat-label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-    .grammar-stat-value { font-size: 1.2rem; color: var(--text-primary); font-weight: 700; }
-    .grammar-stat-status { font-size: 0.8rem; color: var(--text-secondary); }
-    .grammar-actions { display: flex; gap: var(--spacing-md); margin-top: var(--spacing-lg); }
-    .grammar-action-btn { padding: var(--spacing-md) var(--spacing-xl); background: var(--surface-card); border: 2px solid var(--border); border-radius: var(--radius-md); color: var(--text-primary); cursor: pointer; font-weight: 700; transition: all 0.2s ease; }
-    .grammar-action-btn.primary { background: linear-gradient(135deg, var(--aged-bronze-dark), var(--aged-bronze-light)); color: var(--obsidian); border-color: var(--aged-bronze); }
-    .grammar-action-btn:hover { border-color: var(--aged-bronze); background: rgba(184, 115, 51, 0.1); }
 
+    .grammar-panel.active { transform: translateX(0); }
+
+    .grammar-header {
+      padding: var(--spacing-lg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .grammar-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--bronze);
+    }
+
+    .grammar-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: var(--spacing-xs);
+    }
+    .grammar-close:hover { color: var(--text); }
+
+    .grammar-content {
+      flex: 1;
+      padding: var(--spacing-lg);
+      overflow-y: auto;
+    }
+
+    .grammar-stat {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      padding: var(--spacing-md);
+      background: var(--bg-light);
+      border-radius: var(--radius);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .grammar-icon { font-size: 1.5rem; }
+    .grammar-info { flex: 1; }
+    .grammar-label { font-size: 0.85rem; color: var(--text-muted); }
+    .grammar-value { font-size: 1.2rem; font-weight: 700; color: var(--text); }
+    .grammar-status { font-size: 0.75rem; color: var(--text-faint); }
+
+    .grammar-actions {
+      display: flex;
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-lg);
+    }
+
+    .grammar-btn {
+      flex: 1;
+      padding: var(--spacing-md);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .grammar-btn.primary {
+      background: linear-gradient(135deg, var(--bronze-dark), var(--bronze-light));
+      color: var(--bg);
+      border: none;
+    }
+
+    .grammar-btn:not(.primary) {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .grammar-btn:hover:not(.primary) {
+      border-color: var(--bronze);
+      color: var(--text);
+    }
+
+    /* Bottom Nav */
     .bottom-nav {
-      background: var(--surface-dark);
-      border-top: 2px solid var(--aged-bronze);
+      background: var(--bg-dark);
+      border-top: 1px solid var(--bronze);
       padding: var(--spacing-md) var(--spacing-lg);
       display: flex;
       justify-content: center;
       gap: var(--spacing-lg);
       flex-wrap: wrap;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      bottom: 0;
+      z-index: 100;
+      box-shadow: 0 -2px 4px rgba(0,0,0,0.3);
     }
-    .nav-btn {
-      padding: var(--spacing-sm) var(--spacing-lg);
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--text-secondary);
-      cursor: pointer;
-      border-radius: var(--radius-md);
-      font-size: 1.4rem;
-      transition: all 0.2s ease;
-    }
-    .nav-btn:hover { background: var(--surface-light); color: var(--text-primary); border-color: var(--aged-bronze); }
-    .nav-btn.active { background: linear-gradient(135deg, var(--aged-bronze-dark), var(--aged-bronze-light)); color: var(--obsidian); border-color: var(--aged-bronze); box-shadow: var(--shadow-glow-bronze); }
 
+    .nav-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-xs);
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.2s;
+      border-radius: var(--radius);
+    }
+
+    .nav-btn:hover {
+      color: var(--text);
+      background: var(--bg-light);
+    }
+
+    .nav-btn.active {
+      color: var(--bronze-light);
+      background: rgba(184,115,51,0.1);
+    }
+
+    .nav-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    /* Modal */
     .modal {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
-      display: none;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 300;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s;
     }
-    .modal.active { display: flex; }
-    .modal-content { background: var(--surface); border: 2px solid var(--aged-bronze); border-radius: var(--radius-lg); max-width: 600px; width: 90%; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column; }
-    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-lg); border-bottom: 2px solid var(--aged-bronze); background: rgba(184, 115, 51, 0.05); }
-    .modal-title { font-size: 1.2rem; color: var(--aged-bronze-light); font-weight: 700; }
-    .modal-close { background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.5rem; padding: var(--spacing-xs); }
-    .modal-close:hover { color: var(--error); }
-    .modal-body { flex: 1; padding: var(--spacing-lg); overflow-y: auto; }
+
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.9);
+      transition: transform 0.2s;
+    }
+
+    .modal.active .modal-content { transform: scale(1); }
+
+    .modal-header {
+      padding: var(--spacing-lg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--bronze);
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: var(--spacing-xs);
+    }
+    .modal-close:hover { color: var(--text); }
+
+    .modal-body {
+      flex: 1;
+      padding: var(--spacing-lg);
+      overflow-y: auto;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .sidebar { width: 60px; }
+      .main { margin-left: 60px; }
+      .workspace { flex-direction: column; }
+      .editor-sec { border-right: none; border-bottom: 1px solid var(--border); }
+      .preview-sec { min-width: 100%; }
+      .platforms { grid-template-columns: repeat(2, 1fr); }
+      .grammar-panel { width: 300px; }
+    }
 
     @media (max-width: 768px) {
-      .sidebar { width: 50px; }
-      .platform-limits { display: none; }
-      .score-metrics { flex-direction: column; }
-      .preview-grid { grid-template-columns: 1fr; }
-      .workspace-container { flex-direction: column; }
-      .editor-section { border-right: none; border-bottom: 2px solid var(--aged-bronze); }
-      .bottom-nav { display: none; }
-      .grammar-panel { width: 100%; height: 60vh; }
+      .sidebar {
+        position: fixed;
+        left: -70px;
+        transition: left 0.3s;
+      }
+      .sidebar.open { left: 0; }
+      .main { margin-left: 0; }
+      .topbar { padding: var(--spacing-sm) var(--spacing-md); }
+      .logo { font-size: 1.2rem; }
+      .limits { display: none; }
+      .toolbar { padding: var(--spacing-sm) var(--spacing-md); gap: var(--spacing-sm); }
+      .tool-section { padding: var(--spacing-xs) var(--spacing-sm); }
+      .tool-label { display: none; }
+      .workspace { margin: 0 var(--spacing-sm) var(--spacing-sm); }
+      .modules { margin: 0 var(--spacing-sm) var(--spacing-sm); }
+      .score-card { margin: var(--spacing-sm) var(--spacing-md); flex-direction: column; }
+      .score-primary { min-width: 100%; }
+      .score-metrics { min-width: 100%; }
+      .bottom-nav { padding: var(--spacing-sm) var(--spacing-md); gap: var(--spacing-sm); }
+      .nav-btn { padding: var(--spacing-xs); font-size: 1.1rem; }
+      .nav-label { display: none; }
+      .platforms { grid-template-columns: 1fr; }
+      .ai-providers { flex-direction: column; }
+      .ai-btn { width: 100%; justify-content: center; }
+      .publish-platforms, .vault-items, .media-previews { grid-template-columns: 1fr; }
+      .grammar-panel { width: 100%; right: 0; left: 0; }
+      .modal-content { width: 95%; max-height: 90vh; }
     }
+
+    @media (max-width: 480px) {
+      .score-value { font-size: 3rem; }
+      .score-metrics { gap: var(--spacing-sm); }
+      .metric { padding: var(--spacing-xs); }
+      .metric-value { font-size: 0.95rem; }
+      .tool-section::after { display: none; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--bronze); }
+
+    /* Selection */
+    ::selection { background: var(--bronze); color: var(--bg); }
   </style>
 </head>
 <body>
-  <div class="app-container">
+  <div class="app">
+    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-logo">LB</div>
-      <button class="sidebar-btn active" data-section="create" title="Create">✏️</button>
-      <button class="sidebar-btn" data-section="ai" title="AI Hub">🤖</button>
-      <button class="sidebar-btn" data-section="media" title="Media">📷</button>
-      <button class="sidebar-btn" data-section="research" title="Research">🔍</button>
-      <button class="sidebar-btn" data-section="publish" title="Publish">📤</button>
-      <button class="sidebar-btn" data-section="vault" title="Vault">🗃️</button>
+      <button class="sidebar-btn active" data-section="create" title="Create">&#9998;</button>
+      <button class="sidebar-btn" data-section="ai" title="AI">&#129302;</button>
+      <button class="sidebar-btn" data-section="media" title="Media">&#128247;</button>
+      <button class="sidebar-btn" data-section="research" title="Research">&#128269;</button>
+      <button class="sidebar-btn" data-section="publish" title="Publish">&#128222;</button>
+      <button class="sidebar-btn" data-section="vault" title="Vault">&#128195;</button>
     </aside>
 
-    <header class="top-bar">
-      <div class="logo-section">
-        <div class="logo">LEGACYBRIDGE</div>
-        <span class="logo-alpha">ALPHA</span>
-      </div>
-      <div class="platform-limits">
-        <div class="platform-limit"><strong>LinkedIn</strong><small>3000</small></div>
-        <div class="platform-limit"><strong>Facebook</strong><small>63206</small></div>
-        <div class="platform-limit"><strong>Threads</strong><small>500</small></div>
-        <div class="platform-limit"><strong>X</strong><small>280</small></div>
-        <div class="platform-limit"><strong>Nextdoor</strong><small>Guidance</small></div>
-        <div class="platform-limit"><strong>Reddit</strong><small>Varies</small></div>
-      </div>
-      <div class="top-bar-actions">
-        <span class="save-status">Saved</span>
-        <button class="tips-btn">Tips</button>
-      </div>
-    </header>
+    <!-- Main -->
+    <div class="main">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="logo-section">
+          <div class="logo">LEGACYBRIDGE</div>
+          <span class="logo-alpha">ALPHA</span>
+        </div>
+        <div class="limits">
+          <div class="limit"><strong>LinkedIn</strong> 3000</div>
+          <div class="limit"><strong>Facebook</strong> 63206</div>
+          <div class="limit"><strong>Threads</strong> 500</div>
+          <div class="limit"><strong>X</strong> 280</div>
+          <div class="limit"><strong>Nextdoor</strong> <small>Guidance</small></div>
+          <div class="limit"><strong>Reddit</strong> <small>Varies</small></div>
+        </div>
+        <div class="actions">
+          <span class="save-status" id="saveStatus">Saved</span>
+          <button class="tips-btn" onclick="showTips()">Tips</button>
+        </div>
+      </header>
 
-    <div class="search-widget" id="searchWidget">
-      <input type="text" id="braveSearch" placeholder="Search with Brave..." class="search-input">
-      <button onclick="braveSearch()" class="search-btn">Search</button>
-      <div class="search-results" id="searchResults"></div>
+      <!-- Content -->
+      <div class="content">
+        <!-- Score Card -->
+        <div class="score-card">
+          <div class="score-primary">
+            <span class="score-label">Content Score</span>
+            <span class="score-value" id="contentScore">0</span>
+            <span class="score-status" id="scoreStatus">Calculating...</span>
+          </div>
+          <div class="score-metrics">
+            <div class="metric">
+              <span>&#128202;</span>
+              <span class="metric-value" id="charCount">0</span>
+              <span class="metric-label">Characters</span>
+            </div>
+            <div class="metric">
+              <span>&#128196;</span>
+              <span class="metric-value" id="wordCount">0</span>
+              <span class="metric-label">Words</span>
+            </div>
+            <div class="metric">
+              <span>&#9201;</span>
+              <span class="metric-value" id="readTime">0m</span>
+              <span class="metric-label">Read Time</span>
+            </div>
+            <div class="metric">
+              <span>&#127991;</span>
+              <span class="metric-value" id="hashtagCount">0</span>
+              <span class="metric-label">Hashtags</span>
+            </div>
+            <div class="metric">
+              <span>&#128522;</span>
+              <span class="metric-value" id="emojiCount">0</span>
+              <span class="metric-label">Emojis</span>
+            </div>
+          </div>
+          <div class="score-checks">
+            <div class="check" id="grammarCheck">&#10003; Grammar</div>
+            <div class="check" id="readabilityCheck">&#10003; Readability</div>
+            <div class="check" id="platformReadyCheck">&#10003; Platform Ready</div>
+            <div class="check" id="ctaCheck">&#10003; CTA</div>
+          </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="tool-section">
+            <span class="tool-label">Text</span>
+            <button class="tool-btn" onclick="format('bold')" title="Bold">B</button>
+            <button class="tool-btn" onclick="format('italic')" title="Italic">I</button>
+            <button class="tool-btn" onclick="format('underline')" title="Underline">U</button>
+            <button class="tool-btn" onclick="format('strikethrough')" title="Strikethrough">S</button>
+          </div>
+          <div class="tool-section">
+            <span class="tool-label">Structure</span>
+            <select class="tool-select" onchange="formatHeading(this)">
+              <option value="">Paragraph</option>
+              <option value="h1">H1</option>
+              <option value="h2">H2</option>
+              <option value="h3">H3</option>
+            </select>
+            <button class="tool-btn" onclick="format('quote')" title="Quote">"</button>
+            <button class="tool-btn" onclick="format('divider')" title="Divider">&#8212;</button>
+          </div>
+          <div class="tool-section">
+            <span class="tool-label">Lists</span>
+            <button class="tool-btn" onclick="formatList('bullet')" title="Bulleted">&#8226; List</button>
+            <button class="tool-btn" onclick="formatList('number')" title="Numbered">1. List</button>
+            <button class="tool-btn" onclick="formatList('check')" title="Checklist">&#9744; List</button>
+          </div>
+          <div class="tool-section">
+            <span class="tool-label">Align</span>
+            <button class="tool-btn" onclick="align('left')" title="Left">&#8801;&#8801;</button>
+            <button class="tool-btn" onclick="align('center')" title="Center">&#8801;&#8801;</button>
+            <button class="tool-btn" onclick="align('right')" title="Right">&#8801;&#8801;</button>
+          </div>
+          <div class="tool-section">
+            <span class="tool-label">Templates</span>
+            <select class="tool-select" onchange="applyTemplate(this)">
+              <option value="">Templates</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="facebook">Facebook</option>
+              <option value="threads">Threads</option>
+              <option value="educational">Educational</option>
+              <option value="authority">Authority</option>
+              <option value="cta">CTA</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Workspace -->
+        <div class="workspace">
+          <section class="editor-sec">
+            <div class="editor-header">
+              <span class="editor-title">Content Editor</span>
+            </div>
+            <div class="editor-content">
+              <textarea class="editor-input" id="editor" placeholder="Write once. Publish everywhere..." oninput="updateMetrics()"></textarea>
+            </div>
+          </section>
+          <section class="preview-sec">
+            <div class="preview-header">
+              <span class="preview-title">Platform Engine</span>
+              <button class="transform-btn" onclick="transformContent()">Transform</button>
+            </div>
+            <div class="preview-content">
+              <div class="platforms" id="platformPreviews">
+                <div class="platform">
+                  <div class="platform-header">
+                    <span class="platform-name">LinkedIn</span>
+                    <span class="platform-count" id="linkedinCount">0/3000</span>
+                  </div>
+                  <div class="platform-text" id="linkedinPreview"></div>
+                </div>
+                <div class="platform">
+                  <div class="platform-header">
+                    <span class="platform-name">Facebook</span>
+                    <span class="platform-count" id="facebookCount">0/63206</span>
+                  </div>
+                  <div class="platform-text" id="facebookPreview"></div>
+                </div>
+                <div class="platform">
+                  <div class="platform-header">
+                    <span class="platform-name">Threads</span>
+                    <span class="platform-count" id="threadsCount">0/500</span>
+                  </div>
+                  <div class="platform-text" id="threadsPreview"></div>
+                </div>
+                <div class="platform">
+                  <div class="platform-header">
+                    <span class="platform-name">X</span>
+                    <span class="platform-count" id="xCount">0/280</span>
+                  </div>
+                  <div class="platform-text" id="xPreview"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Modules -->
+        <div class="modules">
+          <div class="module active" id="createModule">
+            <div class="module-header">
+              <h2 class="module-title">Content Editor</h2>
+              <p class="module-subtitle">Write and optimize your content for multiple platforms</p>
+            </div>
+          </div>
+
+          <div class="module" id="aiModule">
+            <div class="module-header">
+              <h2 class="module-title">AI Comparison Hub</h2>
+              <p class="module-subtitle">Compare responses from multiple AI providers side by side</p>
+            </div>
+            <div class="ai-module">
+              <div class="ai-providers">
+                <button class="ai-btn active" data-provider="mistral" onclick="toggleAI('mistral')">
+                  <span class="ai-icon" style="background: #7B68EE;">M</span>
+                  <span class="ai-name">Mistral</span>
+                </button>
+                <button class="ai-btn active" data-provider="grok" onclick="toggleAI('grok')">
+                  <span class="ai-icon" style="background: #FF6B35;">G</span>
+                  <span class="ai-name">Grok</span>
+                </button>
+                <button class="ai-btn active" data-provider="gemini" onclick="toggleAI('gemini')">
+                  <span class="ai-icon" style="background: #4285F4;">G</span>
+                  <span class="ai-name">Gemini</span>
+                </button>
+                <button class="ai-btn active" data-provider="chatgpt" onclick="toggleAI('chatgpt')">
+                  <span class="ai-icon" style="background: #10A37F;">C</span>
+                  <span class="ai-name">ChatGPT</span>
+                </button>
+                <button class="ai-btn active" data-provider="claude" onclick="toggleAI('claude')">
+                  <span class="ai-icon" style="background: #F7931E;">C</span>
+                  <span class="ai-name">Claude</span>
+                </button>
+              </div>
+              <div class="ai-prompt">
+                <label class="ai-label">Enter your prompt:</label>
+                <textarea class="ai-input" id="aiPrompt" placeholder="What would you like the AI to generate?"></textarea>
+                <div class="ai-actions">
+                  <button class="ai-send" onclick="sendToAllAI()">Send to All</button>
+                  <button class="ai-send" onclick="clearAllAI()">Clear All</button>
+                </div>
+              </div>
+              <div class="ai-results" id="aiResults">
+                <p style="color: var(--text-muted);">Select AI providers and enter a prompt to see responses.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="module" id="mediaModule">
+            <div class="module-header">
+              <h2 class="module-title">Media Studio</h2>
+              <p class="module-subtitle">Upload, resize, and optimize images for each platform</p>
+            </div>
+            <div class="media-module">
+              <div class="media-upload" id="mediaUploadArea" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                <div class="media-icon">&#128247;</div>
+                <div class="media-text">Drop images here or click to browse</div>
+                <button class="media-btn" onclick="document.getElementById('mediaInput').click()">Select Images</button>
+                <input type="file" id="mediaInput" accept="image/*" multiple style="display: none;" onchange="handleMediaUpload(event)">
+              </div>
+              <div class="media-previews" id="mediaPreview"></div>
+              <div class="media-resize">
+                <span style="color: var(--text-muted); margin-right: var(--spacing-md);">Resize for platform:</span>
+                <button class="resize-btn" onclick="resizeForPlatform('linkedin')">LinkedIn (1200x627)</button>
+                <button class="resize-btn" onclick="resizeForPlatform('facebook')">Facebook (1200x630)</button>
+                <button class="resize-btn" onclick="resizeForPlatform('x')">X (1600x900)</button>
+                <button class="resize-btn" onclick="resizeForPlatform('instagram')">Instagram (1080x1080)</button>
+                <button class="resize-btn" onclick="resizeForPlatform('threads')">Threads (1080x1080)</button>
+                <button class="resize-btn" onclick="resizeForPlatform('reddit')">Reddit (1200x627)</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="module" id="researchModule">
+            <div class="module-header">
+              <h2 class="module-title">Research Center</h2>
+              <p class="module-subtitle">Search and gather information from multiple sources</p>
+            </div>
+            <div class="research-module">
+              <div class="research-inputs">
+                <input type="text" class="research-input" id="researchQuery" placeholder="Enter your research query...">
+                <button class="research-btn" onclick="performResearch()">Research</button>
+              </div>
+              <div style="margin: 0 var(--spacing-lg);">
+                <input type="text" class="research-input" id="braveSearch" placeholder="Search with Brave...">
+                <button class="research-btn" onclick="braveSearch()">Search</button>
+              </div>
+              <div class="research-results" id="researchResults">
+                <p style="color: var(--text-muted);">Enter a query to start researching.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="module" id="publishModule">
+            <div class="module-header">
+              <h2 class="module-title">Publish Hub</h2>
+              <p class="module-subtitle">Publish your content to multiple platforms</p>
+            </div>
+            <div class="publish-module">
+              <div class="publish-platforms" id="publishPlatforms">
+                <div class="publish-platform" onclick="selectPlatform('linkedin')">
+                  <h4>&#128237; LinkedIn</h4>
+                  <p>Professional network</p>
+                </div>
+                <div class="publish-platform" onclick="selectPlatform('facebook')">
+                  <h4>&#128241; Facebook</h4>
+                  <p>Social media platform</p>
+                </div>
+                <div class="publish-platform" onclick="selectPlatform('threads')">
+                  <h4>&#127953; Threads</h4>
+                  <p>Meta's social platform</p>
+                </div>
+                <div class="publish-platform" onclick="selectPlatform('x')">
+                  <h4>&#128267; X</h4>
+                  <p>Microblogging platform</p>
+                </div>
+                <div class="publish-platform" onclick="selectPlatform('instagram')">
+                  <h4>&#128247; Instagram</h4>
+                  <p>Photo and video sharing</p>
+                </div>
+                <div class="publish-platform" onclick="selectPlatform('reddit')">
+                  <h4>&#128167; Reddit</h4>
+                  <p>Community and discussion</p>
+                </div>
+                <div class="publish-platform" onclick="selectPlatform('nextdoor')">
+                  <h4>&#127968; Nextdoor</h4>
+                  <p>Local neighborhood platform</p>
+                </div>
+              </div>
+              <div class="publish-status" id="publishStatus">
+                <h4>Publish Status</h4>
+                <p>Select a platform to publish your content</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="module" id="vaultModule">
+            <div class="module-header">
+              <h2 class="module-title">Content Vault</h2>
+              <p class="module-subtitle">Save and manage your content snippets</p>
+            </div>
+            <div class="vault-module">
+              <div class="vault-controls">
+                <input type="text" id="vaultName" placeholder="Enter a name for this content..." class="vault-input">
+                <button class="vault-save" onclick="saveToVault()">Save Current Content</button>
+              </div>
+              <div class="vault-items" id="vaultItems">
+                <p style="color: var(--text-muted);">No saved content yet. Save your first piece to get started.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <nav class="bottom-nav">
+          <button class="nav-btn active" data-section="create">
+            <span>&#9998;</span>
+            <span class="nav-label">Create</span>
+          </button>
+          <button class="nav-btn" data-section="ai">
+            <span>&#129302;</span>
+            <span class="nav-label">AI</span>
+          </button>
+          <button class="nav-btn" data-section="media">
+            <span>&#128247;</span>
+            <span class="nav-label">Media</span>
+          </button>
+          <button class="nav-btn" data-section="research">
+            <span>&#128269;</span>
+            <span class="nav-label">Research</span>
+          </button>
+          <button class="nav-btn" data-section="publish">
+            <span>&#128222;</span>
+            <span class="nav-label">Publish</span>
+          </button>
+          <button class="nav-btn" data-section="vault">
+            <span>&#128195;</span>
+            <span class="nav-label">Vault</span>
+          </button>
+        </nav>
+      </div>
     </div>
 
-    <div class="main-content">
-      <div class="score-card" id="scoreCard">
-        <div class="score-primary">
-          <span class="score-label">Content Score</span>
-          <span class="score-value" id="contentScore">0</span>
-          <span class="score-status" id="scoreStatus">Calculating...</span>
-        </div>
-        <div class="score-metrics">
-          <div class="score-metric">
-            <span class="score-metric-icon">📊</span>
-            <span class="score-metric-value" id="charCount">0</span>
-            <span class="score-metric-label">Characters</span>
-          </div>
-          <div class="score-metric">
-            <span class="score-metric-icon">📝</span>
-            <span class="score-metric-value" id="wordCount">0</span>
-            <span class="score-metric-label">Words</span>
-          </div>
-          <div class="score-metric">
-            <span class="score-metric-icon">⏱️</span>
-            <span class="score-metric-value" id="readTime">0m</span>
-            <span class="score-metric-label">Read Time</span>
-          </div>
-          <div class="score-metric">
-            <span class="score-metric-icon">🏷️</span>
-            <span class="score-metric-value" id="hashtagCount">0</span>
-            <span class="score-metric-label">Hashtags</span>
-          </div>
-          <div class="score-metric">
-            <span class="score-metric-icon">😊</span>
-            <span class="score-metric-value" id="emojiCount">0</span>
-            <span class="score-metric-label">Emojis</span>
-          </div>
-        </div>
-        <div class="score-checkmarks">
-          <div class="score-checkmark" id="grammarCheck"><span>Grammar</span></div>
-          <div class="score-checkmark" id="readabilityCheck"><span>Readability</span></div>
-          <div class="score-checkmark" id="platformReadyCheck"><span>Platform Ready</span></div>
-          <div class="score-checkmark" id="ctaCheck"><span>CTA</span></div>
-        </div>
-        <div class="score-recommendations" id="recommendations"></div>
-      </div>
-
-      <div class="toolbar">
-        <div class="toolbar-section">
-          <span class="toolbar-section-label">Text</span>
-          <button class="toolbar-btn" onclick="format('bold')" title="Bold">B</button>
-          <button class="toolbar-btn" onclick="format('italic')" title="Italic">I</button>
-          <button class="toolbar-btn" onclick="format('underline')" title="Underline">U</button>
-          <button class="toolbar-btn" onclick="format('strikethrough')" title="Strikethrough">S</button>
-        </div>
-        <div class="toolbar-section">
-          <span class="toolbar-section-label">Structure</span>
-          <select class="toolbar-select" onchange="formatHeading(this)">
-            <option value="">Paragraph</option>
-            <option value="h1">H1</option>
-            <option value="h2">H2</option>
-            <option value="h3">H3</option>
-          </select>
-          <button class="toolbar-btn" onclick="format('quote')" title="Quote">"</button>
-          <button class="toolbar-btn" onclick="format('divider')" title="Divider">—</button>
-        </div>
-        <div class="toolbar-section">
-          <span class="toolbar-section-label">Lists</span>
-          <button class="toolbar-btn" onclick="formatList('bullet')" title="Bulleted">• List</button>
-          <button class="toolbar-btn" onclick="formatList('number')" title="Numbered">1. List</button>
-          <button class="toolbar-btn" onclick="formatList('check')" title="Checklist">☐ List</button>
-        </div>
-        <div class="toolbar-section">
-          <span class="toolbar-section-label">Align</span>
-          <button class="toolbar-btn" onclick="align('left')" title="Left">≡</button>
-          <button class="toolbar-btn" onclick="align('center')" title="Center">≡</button>
-          <button class="toolbar-btn" onclick="align('right')" title="Right">≡</button>
-        </div>
-        <div class="toolbar-section">
-          <span class="toolbar-section-label">Templates</span>
-          <select class="toolbar-select" onchange="applyTemplate(this)">
-            <option value="">Templates</option>
-            <option value="linkedin">LinkedIn</option>
-            <option value="facebook">Facebook</option>
-            <option value="threads">Threads</option>
-            <option value="educational">Educational</option>
-            <option value="authority">Authority</option>
-            <option value="cta">CTA</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="workspace-container">
-        <section class="editor-section">
-          <div class="editor-header">
-            <span class="editor-title">Content Editor</span>
-          </div>
-          <div class="editor-content">
-            <textarea class="editor-input" id="editor" placeholder="Write once. Publish everywhere..." oninput="updateMetrics()"></textarea>
-          </div>
-        </section>
-        <section class="preview-section">
-          <div class="preview-header">
-            <span class="preview-title">Platform Engine</span>
-            <div class="platform-engine">
-              <span class="platform-engine-icon">⚡</span>
-              <span class="platform-engine-label">Transform</span>
-            </div>
-          </div>
-          <div class="preview-content">
-            <div class="preview-grid" id="previewGrid">
-              <div class="platform-preview">
-                <div class="platform-preview-header">
-                  <span class="platform-preview-icon">💼</span>
-                  <span class="platform-preview-name">LinkedIn</span>
-                  <span class="platform-preview-charcount" id="liCharCount">0/3000</span>
-                </div>
-                <div class="platform-preview-content" id="liPreview"></div>
-              </div>
-              <div class="platform-preview">
-                <div class="platform-preview-header">
-                  <span class="platform-preview-icon">📘</span>
-                  <span class="platform-preview-name">Facebook</span>
-                  <span class="platform-preview-charcount" id="fbCharCount">0/63206</span>
-                </div>
-                <div class="platform-preview-content" id="fbPreview"></div>
-              </div>
-              <div class="platform-preview">
-                <div class="platform-preview-header">
-                  <span class="platform-preview-icon">🧵</span>
-                  <span class="platform-preview-name">Threads</span>
-                  <span class="platform-preview-charcount" id="threadsCharCount">0/500</span>
-                </div>
-                <div class="platform-preview-content" id="threadsPreview"></div>
-              </div>
-              <div class="platform-preview">
-                <div class="platform-preview-header">
-                  <span class="platform-preview-icon">🐦</span>
-                  <span class="platform-preview-name">X</span>
-                  <span class="platform-preview-charcount" id="xCharCount">0/280</span>
-                </div>
-                <div class="platform-preview-content" id="xPreview"></div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div class="module-sections-container">
-        <div class="module-section active" id="createModule"></div>
-        <div class="module-section" id="aiModule">
-          <div class="module-header">
-            <h2 class="module-title">AI Comparison Hub</h2>
-            <p class="module-subtitle">Compare responses from multiple AI providers side by side</p>
-          </div>
-          <div class="ai-providers-selector" id="aiProviders">
-            <button class="ai-provider-btn ai-provider-mistral active" data-ai="mistral" onclick="toggleAI(this)"><span class="ai-icon">🟣</span><span>Mistral</span></button>
-            <button class="ai-provider-btn ai-provider-grok" data-ai="grok" onclick="toggleAI(this)"><span class="ai-icon">🟠</span><span>Grok</span></button>
-            <button class="ai-provider-btn ai-provider-gemini" data-ai="gemini" onclick="toggleAI(this)"><span class="ai-icon">🔵</span><span>Gemini</span></button>
-            <button class="ai-provider-btn ai-provider-chatgpt" data-ai="chatgpt" onclick="toggleAI(this)"><span class="ai-icon">🟢</span><span>ChatGPT</span></button>
-            <button class="ai-provider-btn ai-provider-claude" data-ai="claude" onclick="toggleAI(this)"><span class="ai-icon">🟡</span><span>Claude</span></button>
-          </div>
-          <div class="ai-query-container">
-            <input type="text" id="aiQuery" placeholder="Enter your prompt or question..." class="ai-query-input" onkeypress="handleAIKeyPress(event)">
-            <button class="ai-send-btn" onclick="sendToAllAI()" id="sendAIBtn">Send to All</button>
-            <button class="ai-send-btn secondary" onclick="clearAIResults()">Clear All</button>
-          </div>
-          <div class="ai-results-container" id="aiResultsContainer"></div>
-        </div>
-        <div class="module-section" id="mediaModule">
-          <div class="module-header">
-            <h2 class="module-title">Media Studio</h2>
-            <p class="module-subtitle">Upload, resize, and optimize images for each platform</p>
-          </div>
-          <div class="media-module">
-            <div class="media-upload-area" id="mediaUploadArea" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
-              <div class="media-upload-icon">📷</div>
-              <div class="media-upload-text">Drop images here or click to browse</div>
-              <input type="file" id="mediaUpload" accept="image/*" multiple style="display: none;" onchange="handleMediaUpload(event)">
-              <button class="media-upload-btn" onclick="document.getElementById('mediaUpload').click()">Select Images</button>
-            </div>
-            <div class="media-preview" id="mediaPreview"></div>
-            <div class="media-resize-options">
-              <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: var(--spacing-sm);">Resize for platform:</p>
-              <button class="resize-btn" onclick="resizeForPlatform('linkedin')">LinkedIn (1200×627)</button>
-              <button class="resize-btn" onclick="resizeForPlatform('facebook')">Facebook (1200×630)</button>
-              <button class="resize-btn" onclick="resizeForPlatform('x')">X (1600×900)</button>
-              <button class="resize-btn" onclick="resizeForPlatform('instagram')">Instagram (1080×1080)</button>
-              <button class="resize-btn" onclick="resizeForPlatform('threads')">Threads (1080×1080)</button>
-              <button class="resize-btn" onclick="resizeForPlatform('reddit')">Reddit (1200×627)</button>
-            </div>
-          </div>
-        </div>
-        <div class="module-section" id="researchModule">
-          <div class="module-header">
-            <h2 class="module-title">Research Hub</h2>
-            <p class="module-subtitle">Search and gather information for your content</p>
-          </div>
-          <div class="research-module">
-            <div class="research-controls">
-              <input type="text" id="researchQuery" placeholder="Enter search query..." class="research-input">
-              <button class="research-btn" onclick="performResearch()">Search</button>
-              <button class="research-btn" onclick="clearResearch()">Clear</button>
-            </div>
-            <div class="research-results" id="researchResults"></div>
-          </div>
-        </div>
-        <div class="module-section" id="publishModule">
-          <div class="module-header">
-            <h2 class="module-title">Publish</h2>
-            <p class="module-subtitle">Publish your content to multiple platforms</p>
-          </div>
-          <div class="publish-module">
-            <div class="publish-platforms">
-              <div class="publish-platform" onclick="selectPlatform('linkedin')"><h4>💼 LinkedIn</h4><p>Professional network with 3000 character limit</p></div>
-              <div class="publish-platform" onclick="selectPlatform('facebook')"><h4>📘 Facebook</h4><p>Social platform with 63206 character limit</p></div>
-              <div class="publish-platform" onclick="selectPlatform('threads')"><h4>🧵 Threads</h4><p>Microblogging with 500 character limit</p></div>
-              <div class="publish-platform" onclick="selectPlatform('x')"><h4>🐦 X</h4><p>Short-form with 280 character limit</p></div>
-              <div class="publish-platform" onclick="selectPlatform('reddit')"><h4>🔴 Reddit</h4><p>Community discussions with varying limits</p></div>
-              <div class="publish-platform" onclick="selectPlatform('nextdoor')"><h4>🏠 Nextdoor</h4><p>Local neighborhood platform</p></div>
-            </div>
-            <div class="publish-status" id="publishStatus"><h4>Publish Status</h4><p>Select a platform to publish your content</p></div>
-          </div>
-        </div>
-        <div class="module-section" id="vaultModule">
-          <div class="module-header">
-            <h2 class="module-title">Content Vault</h2>
-            <p class="module-subtitle">Save and manage your content snippets</p>
-          </div>
-          <div class="vault-module">
-            <div class="vault-controls">
-              <input type="text" id="vaultName" placeholder="Enter a name for this content..." class="vault-input">
-              <button class="vault-save-btn" onclick="saveToVault()">Save Current Content</button>
-            </div>
-            <div class="vault-items" id="vaultItems"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <!-- Grammar Panel -->
     <div class="grammar-panel" id="grammarPanel">
-      <div class="grammar-panel-header">
-        <span class="grammar-panel-title">Grammar & Style</span>
-        <button class="grammar-panel-close" onclick="closeGrammarPanel()">×</button>
+      <div class="grammar-header">
+        <span class="grammar-title">Grammar & Style</span>
+        <button class="grammar-close" onclick="closeGrammarPanel()">&#10005;</button>
       </div>
-      <div class="grammar-panel-content">
-        <div class="grammar-stat"><div class="grammar-stat-icon">📝</div><div class="grammar-stat-info"><div class="grammar-stat-label">Grammar Issues</div><div class="grammar-stat-value" id="grammarIssues">0</div></div></div>
-        <div class="grammar-stat"><div class="grammar-stat-icon">🔤</div><div class="grammar-stat-info"><div class="grammar-stat-label">Spelling Issues</div><div class="grammar-stat-value" id="spellingIssues">0</div></div></div>
-        <div class="grammar-stat"><div class="grammar-stat-icon">📚</div><div class="grammar-stat-info"><div class="grammar-stat-label">Readability</div><div class="grammar-stat-value" id="readabilityGrade">Grade 0</div><div class="grammar-stat-status" id="readabilityStatus">Calculating...</div></div></div>
-        <div class="grammar-stat"><div class="grammar-stat-icon">🎯</div><div class="grammar-stat-info"><div class="grammar-stat-label">Call to Action</div><div class="grammar-stat-value" id="ctaStatus">Missing</div></div></div>
+      <div class="grammar-content">
+        <div class="grammar-stat">
+          <div class="grammar-icon">&#128196;</div>
+          <div class="grammar-info">
+            <div class="grammar-label">Grammar Issues</div>
+            <div class="grammar-value" id="grammarIssues">0</div>
+          </div>
+        </div>
+        <div class="grammar-stat">
+          <div class="grammar-icon">&#128218;</div>
+          <div class="grammar-info">
+            <div class="grammar-label">Spelling Issues</div>
+            <div class="grammar-value" id="spellingIssues">0</div>
+          </div>
+        </div>
+        <div class="grammar-stat">
+          <div class="grammar-icon">&#128218;</div>
+          <div class="grammar-info">
+            <div class="grammar-label">Readability</div>
+            <div class="grammar-value" id="readabilityGrade">Grade 0</div>
+            <div class="grammar-status" id="readabilityStatus">Calculating...</div>
+          </div>
+        </div>
+        <div class="grammar-stat">
+          <div class="grammar-icon">&#127919;</div>
+          <div class="grammar-info">
+            <div class="grammar-label">Call to Action</div>
+            <div class="grammar-value" id="ctaStatus">Missing</div>
+          </div>
+        </div>
         <div class="grammar-actions">
-          <button class="grammar-action-btn primary" onclick="fixAllIssues()">Fix All Issues</button>
-          <button class="grammar-action-btn" onclick="closeGrammarPanel()">Close</button>
+          <button class="grammar-btn primary" onclick="fixAllIssues()">Fix All Issues</button>
+          <button class="grammar-btn" onclick="closeGrammarPanel()">Close</button>
         </div>
       </div>
     </div>
 
-    <nav class="bottom-nav">
-      <button class="nav-btn active" data-section="create">✏️ Create</button>
-      <button class="nav-btn" data-section="ai">🤖 AI</button>
-      <button class="nav-btn" data-section="media">📷 Media</button>
-      <button class="nav-btn" data-section="research">🔍 Research</button>
-      <button class="nav-btn" data-section="publish">📤 Publish</button>
-      <button class="nav-btn" data-section="vault">🗃️ Vault</button>
-    </nav>
-  </div>
-
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <span class="modal-title" id="modalTitle">Modal Title</span>
-        <button class="modal-close" onclick="closeModal()">×</button>
+    <!-- Modal -->
+    <div class="modal" id="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="modal-title" id="modalTitle">Modal Title</span>
+          <button class="modal-close" onclick="closeModal()">&#10005;</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
       </div>
-      <div id="modalBody"></div>
     </div>
   </div>
 
   <script>
+    // State
     let content = '';
     let currentSection = 'create';
     let vaultItems = JSON.parse(localStorage.getItem('lbVault') || '[]');
-    let selectedAIProviders = ['mistral', 'grok', 'gemini', 'chatgpt', 'claude'];
+    let selectedAI = ['mistral', 'grok', 'gemini', 'chatgpt', 'claude'];
     let aiResponses = {};
+    let currentPublishPlatform = null;
 
+    // Platform limits
+    const platformLimits = {
+      linkedin: 3000, facebook: 63206, threads: 500, x: 280,
+      instagram: 2200, reddit: 40000, nextdoor: 5000
+    };
+
+    // AI Providers
     const aiProviders = {
-      mistral: { name: 'Mistral', icon: '🟣' },
-      grok: { name: 'Grok', icon: '🟠' },
-      gemini: { name: 'Gemini', icon: '🔵' },
-      chatgpt: { name: 'ChatGPT', icon: '🟢' },
-      claude: { name: 'Claude', icon: '🟡' }
+      mistral: { name: 'Mistral', color: '#7B68EE' },
+      grok: { name: 'Grok', color: '#FF6B35' },
+      gemini: { name: 'Gemini', color: '#4285F4' },
+      chatgpt: { name: 'ChatGPT', color: '#10A37F' },
+      claude: { name: 'Claude', color: '#F7931E' }
     };
 
+    // Platforms
     const platforms = {
-      linkedin: { name: 'LinkedIn', charLimit: 3000, icon: '💼', optimize: (t) => t.replace(/\n\n+/g, '\n\n') + (t.endsWith('\n\n') ? '' : '\n\n') },
-      facebook: { name: 'Facebook', charLimit: 63206, icon: '📘', optimize: (t) => t.replace(/\n\n+/g, '\n\n') },
-      threads: { name: 'Threads', charLimit: 500, icon: '🧵', optimize: (t) => { let r = t.replace(/\n/g, '\n\n'); return r.length > 500 ? r.substring(0, 497) + '...' : r; } },
-      x: { name: 'X', charLimit: 280, icon: '🐦', optimize: (t) => { let r = t.replace(/\s+/g, ' ').trim().replace(/\n/g, ' '); return r.length > 280 ? r.substring(0, 277) + '...' : r; } },
-      reddit: { name: 'Reddit', charLimit: 0, icon: '🔴', optimize: (t) => t.replace(/\n/g, '\n\n') },
-      nextdoor: { name: 'Nextdoor', charLimit: 0, icon: '🏠', optimize: (t) => t.replace(/\n\n+/g, '\n\n') }
+      linkedin: { name: 'LinkedIn', limit: 3000 },
+      facebook: { name: 'Facebook', limit: 63206 },
+      threads: { name: 'Threads', limit: 500 },
+      x: { name: 'X', limit: 280 },
+      instagram: { name: 'Instagram', limit: 2200 },
+      reddit: { name: 'Reddit', limit: 40000 },
+      nextdoor: { name: 'Nextdoor', limit: 5000 }
     };
 
-    const templates = {
-      linkedin: { content: 'Professional insight:\n\nAs a [your expertise] with [X] years of experience, I\'ve learned that [key insight].\n\nHere\'s how this applies to [industry/topic]:\n\n1. [First point]\n2. [Second point]\n3. [Third point]\n\nWhat are your thoughts? #Leadership #Industry #Career' },
-      facebook: { content: 'Engaging post:\n\nDid you know that [interesting fact]?\n\nThis is why [explanation] matters for [audience].\n\n💡 Pro tip: [actionable advice]\n\nDrop a 🔥 in the comments if you agree! #Community #Tips #Engagement' },
-      threads: { content: 'Hot take:\n\n[Controversial but true statement]\n\nHere\'s my perspective:\n\n[Brief explanation - max 2-3 sentences]\n\n#Thread #Opinion #Discussion' },
-      educational: { content: 'Did you know?\n\n[Fact/Statistic]\n\nThis is important because:\n- [Reason 1]\n- [Reason 2]\n- [Reason 3]\n\nLearn more: [Link]\n\n#Education #Learning #Knowledge' },
-      authority: { content: 'The truth about [topic]:\n\nMyth: [Common misconception]\nReality: [Actual truth]\n\nAs someone who [your credibility], I can tell you that [key insight].\n\nThe data shows:\n[Statistic or evidence]\n\n#Expert #Authority #Truth' },
-      cta: { content: 'Ready to [desired action]?\n\nHere\'s what you need to know:\n\n✅ [Benefit 1]\n✅ [Benefit 2]\n✅ [Benefit 3]\n\n[Clear call to action - e.g., \'Download now\' or \'Sign up today\']\n\n[Link]\n\n#CTA #Action #Results' }
-    };
-
-    function calculateReadability(text) {
-      if (!text || text.trim() === '') return { grade: 0, level: 'N/A' };
-      const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
-      const words = text.split(/\s+/).filter(w => w.length > 0);
-      const syllables = text.toLowerCase().split(/[^aeiouy]+/).filter(s => s.length > 0).length;
-      if (sentences.length === 0 || words.length === 0) return { grade: 0, level: 'N/A' };
-      const avgSentenceLength = words.length / sentences.length;
-      const avgSyllablesPerWord = syllables / words.length;
-      const grade = Math.max(1, Math.min(12, Math.round(0.39 * avgSentenceLength + 11.8 * avgSyllablesPerWord - 15.59)));
-      const levelNames = ['Very Easy', 'Easy', 'Moderate', 'Standard', 'Slightly Complex', 'Complex', 'Advanced', 'College', 'Graduate', 'Expert', 'Scholar', 'Academic'];
-      return { grade: grade, level: levelNames[Math.min(grade - 1, levelNames.length - 1)] || 'Advanced' };
-    }
-
-    function countEmojis(text) {
-      const emojiRegex = /([\u2700-\u27BF]|[\uE000-\uF8FF]|[\u2000-\u26FF]|[\u2B00-\u2BFF]|[\uD800-\uDBFF][\uDC00-\uDFFF])/g;
-      const matches = text.match(emojiRegex);
-      return matches ? matches.length : 0;
-    }
-
-    function updateMetrics() {
-      const t = document.getElementById('editor').value;
-      content = t;
-      localStorage.setItem('lbContent', content);
-      const chars = t.length;
-      const words = t.trim() === '' ? 0 : t.trim().split(/\s+/).length;
-      const readTime = Math.max(1, Math.ceil(words / 200));
-      const hashtags = (t.match(/#[\w-]+/g) || []).length;
-      const emojis = countEmojis(t);
-      const cta = t.toLowerCase().includes('call to action') || t.toLowerCase().includes('cta') || t.toLowerCase().includes('click here') || t.toLowerCase().includes('learn more') || t.toLowerCase().includes('sign up') || t.toLowerCase().includes('download') || t.toLowerCase().includes('get started') || t.toLowerCase().includes('join now') ? 'Yes' : 'No';
-      const readability = calculateReadability(t);
-      document.getElementById('charCount').textContent = chars.toLocaleString();
-      document.getElementById('wordCount').textContent = words.toLocaleString();
-      document.getElementById('readTime').textContent = readTime + 'm';
-      document.getElementById('hashtagCount').textContent = hashtags;
-      document.getElementById('emojiCount').textContent = emojis;
-      updatePlatformPreviews(t);
-      const score = calculateContentScore(chars, words, hashtags, emojis, cta, readability.grade);
-      document.getElementById('contentScore').textContent = score;
-      document.getElementById('scoreStatus').textContent = getScoreStatus(score);
-      updateCheckmarks(t, score, readability.grade, cta);
-      updateGrammarPanel(t, readability);
-      document.querySelector('.save-status').textContent = 'Saved just now';
-      setTimeout(() => { document.querySelector('.save-status').textContent = 'Saved'; }, 2000);
-    }
-
-    function calculateContentScore(chars, words, hashtags, emojis, cta, readabilityGrade) {
-      let score = 50;
-      if (chars >= 100 && chars <= 3000) score += 10; else if (chars > 50) score += 5;
-      if (words >= 50 && words <= 500) score += 10; else if (words > 20) score += 5;
-      if (hashtags >= 1 && hashtags <= 3) score += 10; else if (hashtags > 0) score += 5;
-      if (emojis >= 1 && emojis <= 5) score += 10; else if (emojis > 0) score += 5;
-      if (cta === 'Yes') score += 10;
-      if (readabilityGrade >= 1 && readabilityGrade <= 8) score += 15; else if (readabilityGrade <= 12) score += 10;
-      return Math.min(100, Math.max(0, Math.round(score)));
-    }
-
-    function getScoreStatus(score) {
-      if (score >= 90) return 'Excellent';
-      if (score >= 80) return 'Great';
-      if (score >= 70) return 'Good';
-      if (score >= 60) return 'Fair';
-      if (score >= 50) return 'Needs Work';
-      return 'Poor';
-    }
-
-    function updateCheckmarks(text, score, readabilityGrade, cta) {
-      document.getElementById('grammarCheck').classList.toggle('complete', !checkGrammarIssues(text));
-      document.getElementById('grammarCheck').classList.toggle('incomplete', checkGrammarIssues(text));
-      document.getElementById('readabilityCheck').classList.toggle('complete', readabilityGrade >= 1 && readabilityGrade <= 12);
-      document.getElementById('readabilityCheck').classList.toggle('incomplete', readabilityGrade < 1 || readabilityGrade > 12);
-      const chars = text.length;
-      document.getElementById('platformReadyCheck').classList.toggle('complete', chars > 0 && chars <= 3000);
-      document.getElementById('platformReadyCheck').classList.toggle('incomplete', !(chars > 0 && chars <= 3000));
-      document.getElementById('ctaCheck').classList.toggle('complete', cta === 'Yes');
-      document.getElementById('ctaCheck').classList.toggle('incomplete', cta === 'No');
-      generateRecommendations(text, score, readabilityGrade, cta);
-    }
-
-    function checkGrammarIssues(text) {
-      if (text.includes('  ')) return true;
-      return false;
-    }
-
-    function generateRecommendations(text, score, readabilityGrade, cta) {
-      const rec = [];
-      if (text.trim() === '') rec.push('Start by writing your content in the editor above.');
-      if (score < 70) rec.push('Improve your content score by adding more substance.');
-      if (readabilityGrade > 8) rec.push('Simplify your language for better readability.');
-      if (cta === 'No') rec.push('Add a clear call to action to engage your audience.');
-      if ((text.match(/#[\w-]+/g) || []).length === 0) rec.push('Consider adding relevant hashtags for discoverability.');
-      document.getElementById('recommendations').innerHTML = rec.length > 0 ? '<div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: var(--spacing-md);">' + rec.map(r => '• ' + r).join('<br>') + '</div>' : '';
-    }
-
-    function updateGrammarPanel(text, readability) {
-      document.getElementById('grammarIssues').textContent = checkGrammarIssues(text) ? 'Issues found' : '0';
-      document.getElementById('spellingIssues').textContent = '0';
-      document.getElementById('readabilityGrade').textContent = 'Grade ' + readability.grade;
-      document.getElementById('readabilityStatus').textContent = readability.level;
-      document.getElementById('ctaStatus').textContent = cta === 'Yes' ? 'Present' : 'Missing';
-    }
-
-    function updatePlatformPreviews(text) {
-      for (const [key, platform] of Object.entries(platforms)) {
-        const preview = document.getElementById(key + 'Preview');
-        const charCount = document.getElementById(key + 'CharCount');
-        if (preview && charCount) {
-          const optimized = platform.optimize(text);
-          preview.textContent = optimized;
-          charCount.textContent = optimized.length + '/' + (platform.charLimit > 0 ? platform.charLimit : '∞');
-        }
+    // Initialize
+    function init() {
+      const saved = localStorage.getItem('lbContent');
+      if (saved) {
+        document.getElementById('editor').value = saved;
+        content = saved;
+        updateMetrics();
       }
+      document.getElementById('editor').addEventListener('input', updateMetrics);
+      document.querySelectorAll('.sidebar-btn,.nav-btn').forEach(btn => {
+        btn.addEventListener('click', function() { switchSection(this); });
+      });
+      document.getElementById('braveSearch').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') braveSearch();
+      });
+      document.getElementById('modal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+      });
+      loadVault();
+      updatePlatformPreviews('');
     }
 
+    // Switch Section
+    function switchSection(btn) {
+      const section = btn.getAttribute('data-section');
+      currentSection = section;
+      document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+      document.getElementById(section + 'Module').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Update Metrics
+    function updateMetrics() {
+      const text = document.getElementById('editor').value;
+      content = text;
+
+      const charCount = text.length;
+      document.getElementById('charCount').textContent = charCount.toLocaleString();
+
+      const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+      document.getElementById('wordCount').textContent = wordCount.toLocaleString();
+
+      const readTime = Math.max(1, Math.ceil(wordCount / 200));
+      document.getElementById('readTime').textContent = readTime + 'm';
+
+      const hashtagCount = (text.match(/#\w+/g) || []).length;
+      document.getElementById('hashtagCount').textContent = hashtagCount;
+
+      const emojiCount = (text.match(/[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}]/gu) || []).length;
+      document.getElementById('emojiCount').textContent = emojiCount;
+
+      let score = 0;
+      if (charCount > 0) score += 20;
+      if (wordCount > 50) score += 20;
+      if (hashtagCount > 0) score += 20;
+      if (emojiCount > 0) score += 20;
+      if (text.includes('CTA') || text.includes('call to action') || text.includes('click') || text.includes('visit')) score += 20;
+      document.getElementById('contentScore').textContent = score;
+
+      if (score >= 80) {
+        document.getElementById('scoreStatus').textContent = 'Excellent';
+        document.getElementById('scoreStatus').style.color = 'var(--success)';
+      } else if (score >= 60) {
+        document.getElementById('scoreStatus').textContent = 'Good';
+        document.getElementById('scoreStatus').style.color = 'var(--bronze-light)';
+      } else if (score >= 40) {
+        document.getElementById('scoreStatus').textContent = 'Fair';
+        document.getElementById('scoreStatus').style.color = 'var(--warning)';
+      } else {
+        document.getElementById('scoreStatus').textContent = 'Needs Work';
+        document.getElementById('scoreStatus').style.color = 'var(--error)';
+      }
+
+      updateCheckmarks(text);
+      updatePlatformPreviews(text);
+      localStorage.setItem('lbContent', text);
+      document.getElementById('saveStatus').textContent = 'Saved';
+    }
+
+    // Update Checkmarks
+    function updateCheckmarks(text) {
+      const hasGrammar = true;
+      const hasReadability = true;
+      const isPlatformReady = text.length > 0;
+      const hasCTA = text.includes('CTA') || text.includes('call to action') || text.includes('click') || text.includes('visit');
+      document.getElementById('grammarCheck').style.opacity = hasGrammar ? '1' : '0.5';
+      document.getElementById('readabilityCheck').style.opacity = hasReadability ? '1' : '0.5';
+      document.getElementById('platformReadyCheck').style.opacity = isPlatformReady ? '1' : '0.5';
+      document.getElementById('ctaCheck').style.opacity = hasCTA ? '1' : '0.5';
+    }
+
+    // Update Platform Previews
+    function updatePlatformPreviews(text) {
+      ['linkedin', 'facebook', 'threads', 'x'].forEach(platform => {
+        const previewEl = document.getElementById(platform + 'Preview');
+        const countEl = document.getElementById(platform + 'Count');
+        if (previewEl && countEl) {
+          const limit = platformLimits[platform];
+          const charCount = text.length;
+          const displayText = charCount > limit ? text.substring(0, limit) + '...' : text;
+          previewEl.textContent = displayText;
+          countEl.textContent = charCount + '/' + limit;
+          countEl.className = 'platform-count';
+          if (charCount > limit) countEl.classList.add('over');
+          else if (charCount > limit * 0.9) countEl.classList.add('warn');
+        }
+      });
+    }
+
+    // Format Text
     function format(command) {
       const editor = document.getElementById('editor');
       const start = editor.selectionStart;
       const end = editor.selectionEnd;
       const selectedText = editor.value.substring(start, end);
-      let newText = '';
+      let newText;
       switch(command) {
         case 'bold': newText = '**' + selectedText + '**'; break;
         case 'italic': newText = '*' + selectedText + '*'; break;
         case 'underline': newText = '<u>' + selectedText + '</u>'; break;
         case 'strikethrough': newText = '~~' + selectedText + '~~'; break;
-        case 'quote': newText = '> ' + selectedText.split('\n').join('\n> '); break;
-        case 'divider': newText = '\n\n---\n\n'; editor.selectionStart = editor.selectionEnd = start; break;
+        case 'quote': newText = '> ' + selectedText; break;
+        case 'divider':
+          editor.setRangeText('\n\n---\n\n', start, end, 'end');
+          updateMetrics();
+          return;
+        default: return;
       }
-      if (newText) {
-        editor.value = editor.value.substring(0, start) + newText + editor.value.substring(end);
-        editor.selectionStart = start;
-        editor.selectionEnd = start + newText.length;
-        editor.focus();
-        updateMetrics();
-      }
-    }
-
-    function formatHeading(select) {
-      const value = select.value;
-      if (!value) return;
-      const editor = document.getElementById('editor');
-      const start = editor.selectionStart;
-      const end = editor.selectionEnd;
-      const selectedText = editor.value.substring(start, end);
-      const prefix = '#'.repeat(parseInt(value.substring(1)) || 1) + ' ';
-      editor.value = editor.value.substring(0, start) + prefix + selectedText + editor.value.substring(end);
-      select.value = '';
+      editor.setRangeText(newText, start, end, 'end');
       updateMetrics();
     }
 
+    // Format List
     function formatList(type) {
       const editor = document.getElementById('editor');
       const start = editor.selectionStart;
       const end = editor.selectionEnd;
       const selectedText = editor.value.substring(start, end);
-      let newText = '';
-      const lines = selectedText.split('\n').filter(l => l.trim().length > 0);
+      if (selectedText.trim() === '') return;
+      let prefix;
       switch(type) {
-        case 'bullet': newText = lines.map(l => '- ' + l.trim()).join('\n'); break;
-        case 'number': newText = lines.map((l, i) => (i + 1) + '. ' + l.trim()).join('\n'); break;
-        case 'check': newText = lines.map(l => '- [ ] ' + l.trim()).join('\n'); break;
+        case 'bullet': prefix = '- '; break;
+        case 'number': prefix = '1. '; break;
+        case 'check': prefix = '- [ ] '; break;
+        default: return;
       }
-      editor.value = editor.value.substring(0, start) + newText + editor.value.substring(end);
+      const lines = selectedText.split('\n');
+      const formattedLines = lines.map(line => prefix + line).join('\n');
+      editor.setRangeText(formattedLines, start, end, 'end');
       updateMetrics();
     }
 
-    function align(alignment) {
+    // Align Text
+    function align(direction) {
       const editor = document.getElementById('editor');
       const start = editor.selectionStart;
       const end = editor.selectionEnd;
-      const lines = editor.value.substring(start, end).split('\n');
-      const aligned = lines.map(line => {
-        const trimmed = line.trim();
-        if (trimmed.length === 0) return line;
-        switch(alignment) {
-          case 'left': return trimmed;
-          case 'center': return ' '.repeat(Math.max(0, (80 - trimmed.length) / 2)) + trimmed;
-          case 'right': return ' '.repeat(Math.max(0, 80 - trimmed.length)) + trimmed;
-        }
-        return line;
-      }).join('\n');
-      editor.value = editor.value.substring(0, start) + aligned + editor.value.substring(end);
+      const selectedText = editor.value.substring(start, end);
+      if (selectedText.trim() === '') return;
+      let alignedText;
+      switch(direction) {
+        case 'left': alignedText = selectedText.replace(/^\s*/gm, ''); break;
+        case 'center':
+          alignedText = selectedText.split('\n').map(line => line.trim().padStart((80 + line.trim().length) / 2)).join('\n');
+          break;
+        case 'right':
+          alignedText = selectedText.split('\n').map(line => line.trim().padStart(80)).join('\n');
+          break;
+        default: return;
+      }
+      editor.setRangeText(alignedText, start, end, 'end');
       updateMetrics();
     }
 
-    function applyTemplate(select) {
-      const value = select.value;
-      if (!value) return;
+    // Format Heading
+    function formatHeading(selectElement) {
+      const heading = selectElement.value;
+      if (heading === '') return;
       const editor = document.getElementById('editor');
-      const template = templates[value];
-      if (template) {
-        editor.value = template.content;
-        select.value = '';
-        updateMetrics();
+      const start = editor.selectionStart;
+      const lineStart = editor.value.substring(0, start).lastIndexOf('\n') + 1;
+      const lineEnd = editor.value.indexOf('\n', start);
+      const lineText = editor.value.substring(lineStart, lineEnd === -1 ? editor.value.length : lineEnd);
+      let newLineText;
+      switch(heading) {
+        case 'h1': newLineText = '# ' + lineText.replace(/^#\s*/, ''); break;
+        case 'h2': newLineText = '## ' + lineText.replace(/^##\s*/, ''); break;
+        case 'h3': newLineText = '### ' + lineText.replace(/^###\s*/, ''); break;
+        default: newLineText = lineText.replace(/^#+\s*/, '');
+      }
+      editor.setRangeText(newLineText, lineStart, lineEnd === -1 ? editor.value.length : lineEnd, 'end');
+      selectElement.value = '';
+      updateMetrics();
+    }
+
+    // Apply Template
+    function applyTemplate(selectElement) {
+      const template = selectElement.value;
+      if (template === '') return;
+      const editor = document.getElementById('editor');
+      let templateText = '';
+      switch(template) {
+        case 'linkedin':
+          templateText = 'Professional post template\n\n[Hook]\n\n[Value proposition]\n\n[Call to action]\n\n#hashtag1 #hashtag2';
+          break;
+        case 'facebook':
+          templateText = 'Engaging Facebook post\n\n[Attention grabber]\n\n[Story/content]\n\n[Question/CTA]\n\n#hashtag1 #hashtag2 #hashtag3';
+          break;
+        case 'threads':
+          templateText = 'Threads post\n\n[Hook]\n\n[Thread 1/5]\n\n[Thread 2/5]\n\n[Thread 3/5]\n\n[Thread 4/5]\n\n[Thread 5/5 with CTA]';
+          break;
+        case 'educational':
+          templateText = 'Educational Content\n\nDid you know?\n\n[Fact/insight]\n\n[Explanation]\n\n[Relevance]\n\n[Source/CTA]';
+          break;
+        case 'authority':
+          templateText = 'Authority Building\n\nAs a [your role] with [X] years of experience...\n\n[Insight 1]\n\n[Insight 2]\n\n[Insight 3]\n\n[Expert advice/CTA]';
+          break;
+        case 'cta':
+          templateText = 'Call to Action\n\nReady to [action]?\n\n[Benefit 1]\n\n[Benefit 2]\n\n[Benefit 3]\n\n[Clear CTA with link]';
+          break;
+      }
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      editor.setRangeText(templateText, start, end, 'end');
+      selectElement.value = '';
+      updateMetrics();
+    }
+
+    // Transform Content
+    function transformContent() {
+      const text = document.getElementById('editor').value;
+      if (text.trim() === '') {
+        alert('Please enter some content to transform.');
+        return;
+      }
+      alert('Content transformation would be implemented here.');
+    }
+
+    // AI Module
+    function toggleAI(provider) {
+      const btn = document.querySelector(`[data-provider="${provider}"]`);
+      if (btn) btn.classList.toggle('active');
+    }
+
+    function sendToAllAI() {
+      const prompt = document.getElementById('aiPrompt').value;
+      if (prompt.trim() === '') {
+        alert('Please enter a prompt.');
+        return;
+      }
+      const activeProviders = [];
+      document.querySelectorAll('.ai-btn.active').forEach(btn => {
+        activeProviders.push(btn.getAttribute('data-provider'));
+      });
+      if (activeProviders.length === 0) {
+        alert('Please select at least one AI provider.');
+        return;
+      }
+      const resultsContainer = document.getElementById('aiResults');
+      resultsContainer.innerHTML = '';
+      activeProviders.forEach(provider => {
+        const resultDiv = document.createElement('div');
+        resultDiv.className = 'ai-result';
+        resultDiv.innerHTML = `
+          <div class="ai-result-header">
+            <span class="ai-result-icon" style="background: ${aiProviders[provider].color}; padding: 2px 6px; border-radius: 50%; color: white;">${aiProviders[provider].icon}</span>
+            <span class="ai-result-name">${aiProviders[provider].name}</span>
+            <span class="ai-result-status loading">Processing...</span>
+          </div>
+          <div class="ai-result-content empty">Generating response...</div>
+          <div class="ai-result-meta"><span>&#9201; Just now</span></div>
+        `;
+        resultsContainer.appendChild(resultDiv);
+        setTimeout(() => {
+          const contentDiv = resultDiv.querySelector('.ai-result-content');
+          const statusDiv = resultDiv.querySelector('.ai-result-status');
+          if (contentDiv) {
+            contentDiv.classList.remove('empty');
+            contentDiv.textContent = 'Simulated response from ' + aiProviders[provider].name + '. This demonstrates how actual AI responses would appear once API integration is implemented.';
+          }
+          if (statusDiv) {
+            statusDiv.classList.remove('loading');
+            statusDiv.textContent = 'Complete';
+          }
+        }, 1500);
+      });
+    }
+
+    function clearAllAI() {
+      document.getElementById('aiPrompt').value = '';
+      document.getElementById('aiResults').innerHTML = '<p style="color: var(--text-muted);">Select AI providers and enter a prompt to see responses.</p>';
+      document.querySelectorAll('.ai-btn').forEach(btn => btn.classList.remove('active'));
+    }
+
+    // Media Module
+    function handleDrop(e) {
+      e.preventDefault();
+      document.getElementById('mediaUploadArea').classList.remove('dragover');
+      if (e.dataTransfer.files.length > 0) {
+        handleMediaUpload({ target: { files: e.dataTransfer.files } });
       }
     }
-
-    function switchSection(btn) {
-      const section = btn.dataset.section;
-      currentSection = section;
-      document.querySelectorAll('.sidebar-btn,.nav-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.module-section').forEach(m => m.classList.remove('active'));
-      const module = document.getElementById(section + 'Module');
-      if (module) module.classList.add('active');
-      const searchWidget = document.getElementById('searchWidget');
-      if (section === 'research') searchWidget.classList.add('active');
-      else searchWidget.classList.remove('active');
+    function handleDragOver(e) {
+      e.preventDefault();
+      document.getElementById('mediaUploadArea').classList.add('dragover');
+    }
+    function handleDragLeave(e) {
+      e.preventDefault();
+      document.getElementById('mediaUploadArea').classList.remove('dragover');
+    }
+    function handleMediaUpload(event) {
+      const files = event.target.files;
+      const previewContainer = document.getElementById('mediaPreview');
+      if (files.length === 0) return;
+      previewContainer.innerHTML = '';
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const preview = document.createElement('div');
+          preview.className = 'media-preview';
+          preview.innerHTML = `
+            <img src="${e.target.result}" alt="${file.name}">
+            <div class="media-name">${file.name}</div>
+          `;
+          previewContainer.appendChild(preview);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    function resizeForPlatform(platform) {
+      alert('Resize for ' + platform.toUpperCase() + ' would be implemented here.');
     }
 
+    // Research Module
+    function performResearch() {
+      const query = document.getElementById('researchQuery').value;
+      if (!query) return;
+      const resultsContainer = document.getElementById('researchResults');
+      resultsContainer.innerHTML = '<p style="color: var(--text-muted);">Searching for: ' + query + '</p>';
+      setTimeout(() => {
+        resultsContainer.innerHTML = `
+          <div class="research-result">
+            <div class="research-title">${query}</div>
+            <div class="research-snippet">Research results for "${query}" would appear here. In a production environment, this would connect to search APIs or knowledge bases.</div>
+          </div>
+        `;
+      }, 1000);
+    }
     function braveSearch() {
       const query = document.getElementById('braveSearch').value;
       if (!query) return;
-      window.open(`https://search.brave.com/search?q=${encodeURIComponent(query)}`, '_blank');
-      document.getElementById('searchResults').innerHTML = '<p style="color: var(--text-secondary);">Opening Brave Search...</p>';
-    }
-
-    function toggleAI(btn) { btn.classList.toggle('active'); }
-    function handleAIKeyPress(e) { if (e.key === 'Enter') sendToAllAI(); }
-
-    function sendToAllAI() {
-      const query = document.getElementById('aiQuery').value;
-      if (!query) return;
-      document.getElementById('sendAIBtn').disabled = true;
-      document.getElementById('sendAIBtn').textContent = 'Sending...';
-      document.getElementById('aiResultsContainer').innerHTML = '<p style="color: var(--text-secondary);">Generating responses...</p>';
-      selectedAIProviders.forEach(provider => {
-        const resultCard = document.createElement('div');
-        resultCard.className = 'ai-result-card';
-        resultCard.innerHTML = `<div class="ai-result-header"><span class="ai-result-icon">${aiProviders[provider].icon}</span><span class="ai-result-name">${aiProviders[provider].name}</span><span class="ai-result-status loading">Processing...</span></div><div class="ai-result-content empty">Waiting for response...</div><div class="ai-result-meta"><span>🕒 Just now</span></div>`;
-        document.getElementById('aiResultsContainer').appendChild(resultCard);
-      });
+      const resultsContainer = document.getElementById('researchResults');
+      resultsContainer.innerHTML = '<p style="color: var(--text-muted);">Searching Brave for: ' + query + '</p>';
       setTimeout(() => {
-        document.getElementById('sendAIBtn').disabled = false;
-        document.getElementById('sendAIBtn').textContent = 'Send to All';
-        document.querySelectorAll('.ai-result-status.loading').forEach(el => { el.className = 'ai-result-status'; el.textContent = 'Complete'; });
-        document.querySelectorAll('.ai-result-content.empty').forEach(el => { el.className = 'ai-result-content'; el.textContent = 'Simulated response from ' + el.closest('.ai-result-card').querySelector('.ai-result-name').textContent + '.'; });
-      }, 2000);
+        resultsContainer.innerHTML += `
+          <div class="research-result">
+            <div class="research-title">Brave Search: ${query}</div>
+            <div class="research-snippet">Brave search results would appear here. Integration with Brave Search API would provide privacy-focused search results.</div>
+          </div>
+        `;
+      }, 1000);
     }
 
-    function clearAIResults() {
-      document.getElementById('aiResultsContainer').innerHTML = '';
-      document.getElementById('aiQuery').value = '';
+    // Publish Module
+    function selectPlatform(platform) {
+      currentPublishPlatform = platform;
+      document.querySelectorAll('.publish-platform').forEach(p => p.classList.remove('selected'));
+      document.querySelector(`[onclick="selectPlatform('${platform}')"]`).classList.add('selected');
+      document.getElementById('publishStatus').innerHTML = '<h4>Publish Status</h4><p>Ready to publish to ' + platforms[platform].name + '</p>';
     }
 
-    function handleDrop(e) { e.preventDefault(); document.getElementById('mediaUploadArea').classList.remove('dragover'); if (e.dataTransfer.files.length > 0) handleMediaUpload({ target: { files: e.dataTransfer.files } }); }
-    function handleDragOver(e) { e.preventDefault(); document.getElementById('mediaUploadArea').classList.add('dragover'); }
-    function handleDragLeave(e) { e.preventDefault(); document.getElementById('mediaUploadArea').classList.remove('dragover'); }
-
-    function handleMediaUpload(event) {
-      const files = event.target.files;
-      const preview = document.getElementById('mediaPreview');
-      preview.innerHTML = '';
-      for (let i = 0; i < files.length; i++) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const item = document.createElement('div');
-          item.className = 'media-preview-item';
-          item.innerHTML = `<img src="${e.target.result}" alt="Uploaded image">`;
-          preview.appendChild(item);
-        };
-        reader.readAsDataURL(files[i]);
-      }
-    }
-
-    function resizeForPlatform(platform) { alert('Resize for ' + platform + ' would be implemented here.'); }
-    function performResearch() { const query = document.getElementById('researchQuery').value; if (!query) return; document.getElementById('researchResults').innerHTML = '<p style="color: var(--text-secondary);">Searching for: ' + query + '</p>'; }
-    function clearResearch() { document.getElementById('researchResults').innerHTML = ''; document.getElementById('researchQuery').value = ''; }
-    function selectPlatform(platform) { currentPublishPlatform = platform; document.getElementById('publishStatus').innerHTML = '<h4>Publish Status</h4><p>Ready to publish to ' + platforms[platform].name + '</p>'; }
-
+    // Vault Module
     function saveToVault() {
       const name = document.getElementById('vaultName').value || 'Untitled - ' + new Date().toLocaleDateString();
       const content = document.getElementById('editor').value;
-      if (!content.trim()) return;
-      vaultItems.push({ id: Date.now().toString(), name: name, content: content, date: new Date().toISOString() });
+      if (content.trim() === '') {
+        alert('Please enter some content to save.');
+        return;
+      }
+      const newItem = {
+        id: Date.now().toString(),
+        name: name,
+        content: content,
+        date: new Date().toISOString()
+      };
+      vaultItems.push(newItem);
       localStorage.setItem('lbVault', JSON.stringify(vaultItems));
-      loadVault();
       document.getElementById('vaultName').value = '';
+      loadVault();
+      alert('Content saved to vault!');
     }
-
     function loadVault() {
       const container = document.getElementById('vaultItems');
-      container.innerHTML = vaultItems.map(item => `<div class="vault-item" onclick="loadFromVault('${item.id}')"><div class="vault-item-title">${item.name}</div><div class="vault-item-date">${new Date(item.date).toLocaleDateString()}</div></div>`).join('');
+      if (vaultItems.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-muted);">No saved content yet. Save your first piece to get started.</p>';
+        return;
+      }
+      container.innerHTML = vaultItems.map(item => `
+        <div class="vault-item" onclick="loadFromVault('${item.id}')">
+          <div class="vault-title">${item.name}</div>
+          <div class="vault-date">${new Date(item.date).toLocaleDateString()}</div>
+        </div>
+      `).join('');
     }
-
     function loadFromVault(id) {
       const item = vaultItems.find(i => i.id === id);
-      if (item) { document.getElementById('editor').value = item.content; updateMetrics(); switchSection(document.querySelector('[data-section="create"]')); }
+      if (item) {
+        document.getElementById('editor').value = item.content;
+        updateMetrics();
+        switchSection(document.querySelector('[data-section="create"]'));
+      }
     }
 
-    function closeGrammarPanel() { document.getElementById('grammarPanel').classList.remove('active'); }
-    function fixAllIssues() { alert('Grammar fix would be implemented here.'); }
-    function openModal(title, content) { document.getElementById('modalTitle').textContent = title; document.getElementById('modalBody').innerHTML = content; document.getElementById('modal').classList.add('active'); }
-    function closeModal() { document.getElementById('modal').classList.remove('active'); }
-
-    function init() {
-      const saved = localStorage.getItem('lbContent');
-      if (saved) { document.getElementById('editor').value = saved; content = saved; updateMetrics(); }
-      document.getElementById('editor').addEventListener('input', updateMetrics);
-      document.querySelectorAll('.sidebar-btn,.nav-btn').forEach(btn => { btn.addEventListener('click', function() { switchSection(this); }); });
-      document.getElementById('braveSearch').addEventListener('keypress', function(e) { if (e.key === 'Enter') braveSearch(); });
-      document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
-      loadVault();
-      updatePlatformPreviews('');
+    // Grammar Panel
+    function closeGrammarPanel() {
+      document.getElementById('grammarPanel').classList.remove('active');
+    }
+    function fixAllIssues() {
+      alert('Grammar fix would be implemented here.');
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    // Modal
+    function openModal(title, content) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalBody').innerHTML = content;
+      document.getElementById('modal').classList.add('active');
+    }
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+    }
+    function showTips() {
+      openModal('Tips', `
+        <ul style="color: var(--text); line-height: 1.8;">
+          <li><strong>Content Score:</strong> Aim for 80+ for optimal engagement</li>
+          <li><strong>Character Limits:</strong> Stay within platform limits shown in the top bar</li>
+          <li><strong>Hashtags:</strong> Use 3-5 relevant hashtags for maximum reach</li>
+          <li><strong>Emojis:</strong> 1-3 emojis can increase engagement by 25%</li>
+          <li><strong>CTA:</strong> Always include a clear call-to-action</li>
+          <li><strong>Save:</strong> Content auto-saves to browser storage</li>
+          <li><strong>Vault:</strong> Save multiple versions for different platforms</li>
+        </ul>
+      `);
+    }
+
+    // Keyboard Shortcuts
     document.addEventListener('keydown', function(e) {
       if ((e.ctrlKey || e.metaKey) && e.key === 'b') { e.preventDefault(); format('bold'); }
       if ((e.ctrlKey || e.metaKey) && e.key === 'i') { e.preventDefault(); format('italic'); }
       if ((e.ctrlKey || e.metaKey) && e.key === 'u') { e.preventDefault(); format('underline'); }
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); localStorage.setItem('lbContent', document.getElementById('editor').value); document.querySelector('.save-status').textContent = 'Saved just now'; }
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        localStorage.setItem('lbContent', document.getElementById('editor').value);
+        document.getElementById('saveStatus').textContent = 'Saved just now';
+      }
     });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>
-
